@@ -170,6 +170,7 @@
     <Image Include="PlayerSheet_64_64_PNG_DXT5_1.DDS" />
     <Image Include="Player_Defaul_64_64_PNG_DXT5_1.DDS" />
     <Image Include="Spritesheet_64_64.DDS" />
+    <Image Include="Spritesheet_64_64_Flipped.DDS" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

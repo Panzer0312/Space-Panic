@@ -131,10 +131,6 @@ public:
 
         InitCallbacks();
 
-        //InitCamera();
-
-        //InitMesh();
-
         InitShaders();
 
         InitSpriteBatch();
@@ -153,9 +149,6 @@ public:
 
     void RenderSceneCB()
     {
-       // if (m_mobileCamera) {
-       //     m_pGameCamera->OnRender();
-       // }
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -289,18 +282,6 @@ private:
         m_texTech.SetTextureUnit(0);
     }
 
-/*
-    void InitMesh()
-    {
-        m_pMesh = new BasicMesh();
-
-        m_pMesh->LoadMesh("../Content/fs_quad.obj");
-
-        m_pTexture = new Texture(GL_TEXTURE_2D, "../Content/craftpix.net.Cartoon_Forest_BG_01.png");
-        m_pTexture->Load();
-    }
-    */
-
     void InitSpriteBatch()
     {
         unsigned int NumSpritesX = 6;
@@ -310,10 +291,7 @@ private:
 
     GLFWwindow* window = NULL;
     SpriteTechnique m_texTech;
-  //  BasicCamera* m_pGameCamera = NULL;
-  //  bool m_mobileCamera = false;
-  //  BasicMesh* m_pMesh = NULL;
-   // Texture* m_pTexture = NULL;
+
     SpriteBatch* m_pSpriteBatch = NULL;
     long long m_prevTime = 0;
 
@@ -346,39 +324,6 @@ static void MouseButtonCallback(GLFWwindow* window, int Button, int Action, int 
     app->MouseCB(Button, Action, (int)x, (int)y);
 }
 
-
-/*
-int main(int argc, char** argv)
-{
-    app = new Tutorial33();
-
-    app->Init();
-
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    glFrontFace(GL_CW);
-    glCullFace(GL_BACK);
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
-
-    GLint num;
-    glGetIntegerv(GL_MAX_UNIFORM_BLOCK_SIZE, &num);
-    printf("%d\n", num);
-    glGetIntegerv(GL_MAX_VERTEX_UNIFORM_BLOCKS, &num);
-    printf("%d\n", num);
-    glGetIntegerv(GL_MAX_VERTEX_UNIFORM_COMPONENTS, &num);
-    printf("%d\n", num);
-    glGetIntegerv(GL_MAX_UNIFORM_BUFFER_BINDINGS, &num);
-    printf("%d\n", num);
-    //    exit(0);
-    app->Run();
-
-    delete app;
-
-    return 0;
-}
-*/
-//----------------------------------------------------------------------------------
-
 //changes the window resolution if a new monitor is dis/connected
 void monitor_callback(GLFWmonitor* monitor, int event);
 void RenderScene();
@@ -390,9 +335,6 @@ const unsigned int SCREEN_HEIGHT = 920;
 
 GLFWwindow* window = NULL;
 SpriteTechnique m_texTech;
-//  BasicCamera* m_pGameCamera = NULL;
-//  bool m_mobileCamera = false;
-//  BasicMesh* m_pMesh = NULL;
 Texture* m_pTexture = NULL;
 SpriteBatch* m_pSpriteBatch = NULL;
 long long m_prevTime = 0;
@@ -401,6 +343,8 @@ int anim_row = 7;
 int anim_col = 0;
 int anim_pixelX = 0;
 
+unsigned int NumSpritesX = 16;
+unsigned int NumSpritesY = 4;
 
 //the core function to run this game
 int main(int argc, char* argv[])
@@ -434,9 +378,7 @@ int main(int argc, char* argv[])
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    unsigned int NumSpritesX = 16;
-    unsigned int NumSpritesY = 4;
-    m_pSpriteBatch = new SpriteBatch("Spritesheet_64_64.DDS", NumSpritesX, NumSpritesY, WINDOW_WIDTH, WINDOW_HEIGHT);
+    m_pSpriteBatch = new SpriteBatch("Spritesheet_64_64_Flipped.DDS", NumSpritesX, NumSpritesY, WINDOW_WIDTH, WINDOW_HEIGHT);
     if (!m_texTech.Init()) {
         printf("Error initializing the texture technique\n");
         exit(1);
@@ -486,74 +428,48 @@ void monitor_callback(GLFWmonitor* monitor, int event)
 
 void RenderScene()
 {
-    // if (m_mobileCamera) {
-    //     m_pGameCamera->OnRender();
-    // }
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     std::vector<SpriteBatch::SpriteInfo> Sprites;
-    Sprites.resize(120);
+    Sprites.resize(100);
 
-  /*  Sprites[0].PixelX = 64;
+    /*
+    Sprites[0].PixelX = 64;
     Sprites[0].PixelY = 64;
-    Sprites[0].SpriteRow = 0;
-    Sprites[0].SpriteCol = 0;
+    Sprites[0].SpriteCol = 15; //x
+    Sprites[0].SpriteRow = 1; //y
     Sprites[0].SpriteWidth = 64;
 
-    Sprites[1].PixelX = 500;
-    Sprites[1].PixelY = 40;
-    Sprites[1].SpriteRow = 10;
-    Sprites[1].SpriteCol = 5;
-    Sprites[1].SpriteWidth = 60;
-
-    Sprites[2].PixelX = 750;
-    Sprites[2].PixelY = 0;
-    Sprites[2].SpriteRow = anim_row;
-    Sprites[2].SpriteCol = 5;
-    Sprites[2].SpriteWidth = 60;
-
-    Sprites[3].PixelX = 100;
-    Sprites[3].PixelY = 80;
-    Sprites[3].SpriteRow = 15;
-    Sprites[3].SpriteCol = 1;
-    Sprites[3].SpriteWidth = 64;
-
-    Sprites[4].PixelX = 875 + 73;
-    Sprites[4].PixelY = 0;
-    Sprites[4].SpriteRow = 14;
-    Sprites[4].SpriteCol = 14;
-    Sprites[4].SpriteWidth = 64;
+    
     */
 
-    for (int h = 0; h < 15; h++) {
-        Sprites[h].PixelX = h*64;
-        Sprites[h].PixelY = 0;
-        Sprites[h].SpriteRow = h;
-        Sprites[h].SpriteCol = 0;
-        Sprites[h].SpriteWidth = 64;
+
+    for (int i = 0; i < 15; i++) {
+        if (i % 2 == 0) {
+            Sprites[i].PixelX = 48 * (i + 1);
+            Sprites[i].PixelY = 64;
+            Sprites[i].SpriteCol = 15; //x
+            Sprites[i].SpriteRow = 1; //y
+            Sprites[i].SpriteWidth = 64;
+        }
+        else {
+            Sprites[i].PixelX = 48 * (i + 1);
+            Sprites[i].PixelY = 64;
+            Sprites[i].SpriteCol = 14; //x
+            Sprites[i].SpriteRow = 1; //y
+            Sprites[i].SpriteWidth = 64;
+        }
+
     }
-    for (int h = 0; h < 15; h++) {
-        Sprites[h+16].PixelX = h * 64;
-        Sprites[h + 16].PixelY = 64;
-        Sprites[h + 16].SpriteRow = h;
-        Sprites[h + 16].SpriteCol = 1;
-        Sprites[h + 16].SpriteWidth = 64;
-    }
-    for (int h = 0; h < 15; h++) {
-        Sprites[h + 32].PixelX = h * 64;
-        Sprites[h + 32].PixelY = 128;
-        Sprites[h + 32].SpriteRow = h;
-        Sprites[h + 32].SpriteCol = 2;
-        Sprites[h + 32].SpriteWidth = 64;
-    }
-    for (int h = 0; h < 15; h++) {
-        Sprites[h+48].PixelX = h * 64;
-        Sprites[h + 48].PixelY = 194;
-        Sprites[h + 48].SpriteRow = h;
-        Sprites[h + 48].SpriteCol = 3;
-        Sprites[h + 48].SpriteWidth = 64;
-    }
+
+    
+    int i = 17;
+    Sprites[i].PixelX = 48;
+    Sprites[i].PixelY = 96;
+    Sprites[i].SpriteCol = 0; //x
+    Sprites[i].SpriteRow = 3; //y
+    Sprites[i].SpriteWidth = 96;
 
     double CurTime = glfwGetTime();
 
@@ -572,12 +488,11 @@ void RenderScene()
             anim_pixelX = 0;
         }
     }
-
+    Sprites[57].PixelX += 64;
     m_pSpriteBatch->Render(Sprites);
     //m_pSpriteBatch->RenderAll();
 
     m_texTech.Enable();
- //   m_pTexture->Bind(GL_TEXTURE0);
-    //  m_pMesh->Render();
+
 
 }
