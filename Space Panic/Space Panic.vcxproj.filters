@@ -30,12 +30,6 @@
     <ClCompile Include="game.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="texture.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="resourceManager.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="GameController.cpp">
       <Filter>Quelldateien\Controller</Filter>
     </ClCompile>
@@ -63,12 +57,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="texture.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="resourceManager.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="GameController.h">

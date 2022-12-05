@@ -1,5 +1,5 @@
 #include "game.h"
-
+/*
 //player input function
 void keyboardInput(GLFWwindow* window, float* x_direction, float* y_direction);
 
@@ -90,3 +90,5 @@ void keyboardInput(GLFWwindow* window, float* x_direction, float* y_direction)
 		glfwTerminate();
 	}
 }
+
+*/

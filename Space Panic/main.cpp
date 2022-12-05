@@ -85,7 +85,6 @@ int main(int argc, char* argv[])
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-
     glfwTerminate();
     exit(0);
     return 0;
@@ -111,7 +110,6 @@ void RenderScene()
 {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     std::vector<SpriteBatch::SpriteInfo> Sprites;
     Sprites.resize(100);
 
@@ -121,10 +119,7 @@ void RenderScene()
     Sprites[0].SpriteCol = 15; //x
     Sprites[0].SpriteRow = 1; //y
     Sprites[0].SpriteWidth = 64;
-
-    
     */
-
 
     for (int i = 0; i < 15; i++) {
         if (i % 2 == 0) {
@@ -141,10 +136,8 @@ void RenderScene()
             Sprites[i].SpriteRow = 1; //y
             Sprites[i].SpriteWidth = 64;
         }
-
     }
 
-    
     int i = 17;
     Sprites[i].PixelX = 48;
     Sprites[i].PixelY = 90;
@@ -153,7 +146,7 @@ void RenderScene()
     Sprites[i].SpriteWidth = 96;
 
     double CurTime = glfwGetTime();
-
+/*
     if ((CurTime - m_prevTime) > 100) {
         anim_row--;
 
@@ -162,14 +155,13 @@ void RenderScene()
         }
 
         m_prevTime = CurTime;
-
         anim_pixelX += 4;
 
         if (anim_pixelX == 1000) {
             anim_pixelX = 0;
         }
     }
-    Sprites[57].PixelX += 64;
+    */
     m_pSpriteBatch->Render(Sprites);
     //m_pSpriteBatch->RenderAll();
 

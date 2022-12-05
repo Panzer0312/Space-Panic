@@ -1,7 +1,6 @@
 #pragma once
-#include "texture.h"
-#include "resourceManager.h"
-
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 // Represents the current state of the game
 enum GameState {
     GAME_ACTIVE,

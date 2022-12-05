@@ -145,12 +145,10 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="QuadArray.cpp" />
-    <ClCompile Include="resourceManager.cpp" />
     <ClCompile Include="SpriteBatch.cpp" />
     <ClCompile Include="SpriteTechnique.cpp" />
     <ClCompile Include="Technique.cpp" />
     <ClCompile Include="Textur.cpp" />
-    <ClCompile Include="texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -159,12 +157,10 @@
     <ClInclude Include="GameView.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="QuadArray.h" />
-    <ClInclude Include="resourceManager.h" />
     <ClInclude Include="SpriteBatch.h" />
     <ClInclude Include="SpriteTechnique.h" />
     <ClInclude Include="Technique.h" />
     <ClInclude Include="Textur.h" />
-    <ClInclude Include="texture.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="PlayerSheet_64_64_PNG_DXT5_1.DDS" />
