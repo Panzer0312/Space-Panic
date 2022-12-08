@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="GameModel.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameView.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="game.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="GameController.h" />
     <ClInclude Include="GameModel.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameView.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="QuadArray.h" />

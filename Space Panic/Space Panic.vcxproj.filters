@@ -40,19 +40,22 @@
       <Filter>Quelldateien\View</Filter>
     </ClCompile>
     <ClCompile Include="QuadArray.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteTechnique.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="Technique.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\View</Filter>
     </ClCompile>
     <ClCompile Include="SpriteBatch.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\View</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteTechnique.cpp">
+      <Filter>Quelldateien\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Technique.cpp">
+      <Filter>Quelldateien\View</Filter>
     </ClCompile>
     <ClCompile Include="Textur.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\View</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Quelldateien\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +87,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Textur.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
