@@ -36,12 +36,12 @@ bool SpriteTechnique::Init()
         "   TexCoords0 = BaseTexCoords +(TexWidthHeight);\n"
         "}\0";
     fShaderC =
-        "#version 410 core\n"
+        "#version 440 core\n"
         "layout(location = 0) out vec4 FragColor;\n"
         "uniform sampler2D gSampler;\n"
         "in vec2 TexCoords0;\n"
         "void main(){\n"
-        "    FragColor = texture2D(gSampler, TexCoords0.xy);\n"
+        "    FragColor = texture(gSampler, TexCoords0.xy);\n"
         "    if (FragColor == vec4(0.0)) {\n"
         "       discard;\n"
         "    }\n"

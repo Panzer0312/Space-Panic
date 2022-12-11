@@ -1,19 +1,24 @@
 #pragma once
 #include "math.h"
+#include <string>
 class GameObject
 {
 public:
 	GameObject();
-	GameObject(int ID, Vector2f pos,float speed, objectType type);
+	GameObject(int objSpriteID, std::string objName, Vector2f objPos, float objSpeed, objectType objType);
+	void setPos(Vector2f pos);
+//	void changeSprite(int width, Vector2i pos);
 	int getID();
 	Vector2f getPos();
-	void setPos(Vector2f v);
 	objectType getType();
 	float getSpeed();
+	std::string getName();
 private:
 	objectType type;
-	Vector2f position;
+	Vector2f pos;
 	float speed;
-	int ID;
+	int spriteID;
+	std::string name;
+
 };
 

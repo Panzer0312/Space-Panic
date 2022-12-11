@@ -1,34 +1,31 @@
 #include "GameObject.h"
+//USE FOR ENEMY ETC STORAGE
+
 
 GameObject::GameObject()
 {
-	ID = -1;
-	speed = 0;
-	type =  BRICK;
 }
 
-GameObject::GameObject(int newID, Vector2f pos, float s, objectType ot)
-{
-	ID = newID;
-	position = pos;
-	speed = s;
-	type = ot;
+GameObject::GameObject(int objSpriteID, std::string objName, Vector2f objPos, float objSpeed, objectType objType){
+	spriteID = objSpriteID;
+	name = objName;
+	pos = objPos;
+	speed = objSpeed;
+	type = objType;
 }
 
+void GameObject::setPos(Vector2f position) {
+	pos = position;
+}
 
 int GameObject::getID()
 {
-	return ID;
+	return spriteID;
 }
 
 Vector2f GameObject::getPos()
 {
-	return position;
-}
-
-void GameObject::setPos(Vector2f v)
-{
-	position = v;
+	return pos;
 }
 
 objectType GameObject::getType()
@@ -39,4 +36,9 @@ objectType GameObject::getType()
 float GameObject::getSpeed()
 {
 	return speed;
+}
+
+std::string GameObject::getName()
+{
+	return name;
 }

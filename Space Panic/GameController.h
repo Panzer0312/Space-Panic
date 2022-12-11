@@ -1,4 +1,3 @@
-#pragma once
 #include "GameModel.h"
 #include "GameView.h"
 #include <iostream>
@@ -8,14 +7,17 @@
 class GameController
 {
 public:
+	GameController(GameModel* model, GameView * view);
+	int init();
+	void game();
+	void movePlayer(Vector2f pos);
 	~GameController();
-	GameController(GameModel* model, GameView* view);
+	void moveObject(Vector2f dir, std::string name);
 	void keyboardInput(GLFWwindow* window);
 
 private:
 	void moveObject(Vector2f pos, int id);
+
 	GameModel* m;
 	GameView* v;
 };
-
-
