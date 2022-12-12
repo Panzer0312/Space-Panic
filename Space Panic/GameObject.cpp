@@ -12,6 +12,7 @@ GameObject::GameObject(int objSpriteID, std::string objName, Vector2f objPos, fl
 	pos = objPos;
 	speed = objSpeed;
 	type = objType;
+	//animate = false;
 }
 
 void GameObject::setPos(Vector2f position) {
@@ -42,3 +43,28 @@ std::string GameObject::getName()
 {
 	return name;
 }
+
+/*
+bool GameObject::isAnimated()
+{
+	return animate;
+}
+
+void GameObject::setAnimated(bool a)
+{
+	animate = a;
+}
+
+std::vector<Vector2i> GameObject::getAnimations() {
+	return animations;
+}
+
+
+float GameObject::getAnimationSpeed() {
+	return animationSpeed;
+}
+
+void GameObject::setAnimationSpeed(float newSpeed) {
+	animationSpeed = newSpeed;
+}
+*/

@@ -76,13 +76,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Daniel\source\repos\Panzer0312\lib\glfw-3.3.8.bin.WIN32\include;C:\Users\Daniel\source\repos\Panzer0312\lib\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glfw-3.3.8.bin.WIN32\include;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glew-2.1.0\include;C:\Users\Daniel\source\repos\Panzer0312\lib\glfw-3.3.8.bin.WIN32\include;C:\Users\Daniel\source\repos\Panzer0312\lib\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glew32.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\Daniel\source\repos\Panzer0312\lib\glfw-3.3.8.bin.WIN32\lib-vc2022;C:\Users\Daniel\source\repos\Panzer0312\lib\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Daniel\source\repos\Panzer0312\lib\glfw-3.3.8.bin.WIN32\lib-vc2022;C:\Users\Daniel\source\repos\Panzer0312\lib\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories);D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glew-2.1.0\lib\Release\Win32;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glfw-3.3.8.bin.WIN32\lib-vc2022</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -93,7 +93,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glfw-3.3.8.bin.WIN32\include;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glfw-3.3.8.bin.WIN32\include;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glew-2.1.0\include;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glfw-3.3.8.bin.WIN32\include;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -101,7 +101,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glew32.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glfw-3.3.8.bin.WIN32\lib-vc2022;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glfw-3.3.8.bin.WIN32\lib-vc2022;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories);D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glew-2.1.0\lib\Release\Win32;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glfw-3.3.8.bin.WIN32\lib-vc2022</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -110,13 +110,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glfw-3.3.8.bin.WIN32\include;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glfw-3.3.8.bin.WIN32\include;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glew-2.1.0\include;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glfw-3.3.8.bin.WIN32\include;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glew32.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glfw-3.3.8.bin.WIN32\lib-vc2022;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glfw-3.3.8.bin.WIN32\lib-vc2022;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories);D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glew-2.1.0\lib\Release\Win32;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glfw-3.3.8.bin.WIN32\lib-vc2022</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -127,7 +127,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glfw-3.3.8.bin.WIN32\include;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glfw-3.3.8.bin.WIN32\include;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glew-2.1.0\include;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glfw-3.3.8.bin.WIN32\include;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,7 +135,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glew32.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glfw-3.3.8.bin.WIN32\lib-vc2022;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glfw-3.3.8.bin.WIN32\lib-vc2022;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories);D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glew-2.1.0\lib\Release\Win32;D:\HSKA\WS 2022\Projektarbeit GameProgramming\OpenGL\glfw-3.3.8.bin.WIN32\lib-vc2022</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -145,6 +145,7 @@
     <ClCompile Include="GameView.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="ObjectAnimation.cpp" />
     <ClCompile Include="QuadArray.cpp" />
     <ClCompile Include="SpriteBatch.cpp" />
     <ClCompile Include="SpriteTechnique.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameView.h" />
     <ClInclude Include="Math.h" />
+    <ClInclude Include="ObjectAnimation.h" />
     <ClInclude Include="QuadArray.h" />
     <ClInclude Include="SpriteBatch.h" />
     <ClInclude Include="SpriteTechnique.h" />

@@ -8,6 +8,7 @@ GameModel::GameModel()
 {
 	spriteCount = 0;
 	objectsCount = 0;
+	animationsCount = 0;
 }
 
 int GameModel::addSprite(Vector2f pos, Vector2i spritesheetPos, int width)
@@ -28,6 +29,14 @@ int GameModel::addObject(Vector2f pos, Vector2i spritesheetPos, int width, std::
 	Objects.resize(objectsCount);
 	Objects[objectsCount-1] = GameObject(spriteID, name, pos, speed, type);
 	return objectsCount - 1;
+}
+
+int GameModel::addAnimation(std::string name, float speed, std::vector<Vector2i> animSprites)
+{
+	animationsCount++;
+	Animations.resize(animationsCount);
+	Animations[animationsCount - 1] = ObjectAnimation(name,speed,animationsCount-1, animSprites);
+	return animationsCount - 1;
 }
 
 void GameModel::changeSpritePos(int sprite, Vector2f pos) {
@@ -83,6 +92,11 @@ SpriteBatch::SpriteInfo GameModel::getSprite(int i)
 }
 
 
+std::vector <ObjectAnimation> GameModel::getAnimations()
+{
+	return Animations;
+}
+
 int GameModel::findObject(std::string name)
 {
 	for (int i = 0; i < Objects.size();i++ ) {
@@ -94,6 +108,20 @@ int GameModel::findObject(std::string name)
 	return -1;
 }
 
+int GameModel::findAnimation(std::string name)
+{
+	for (int i = 0; i < Animations.size(); i++) {
+		if (Animations[i].getName() == name) {
+			return i;
+		}
+	}
+	printf("Animation %s not found!!", name);
+	return -1;
+}
+void GameModel::changeAnimCounter(int id)
+{
+	Animations[id].addCount();
+}
 /*GameObject GameModel::getObject(int id)
 {
 	for (auto&i : Sprites) {

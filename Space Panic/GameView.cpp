@@ -61,7 +61,7 @@ int GameView::initializeView() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
-    //Muss ins Model!!
+    
     m_pSpriteBatch = new SpriteBatch("Spritesheet_64_64_Flipped.DDS", NumSpritesX, NumSpritesY, WINDOW_WIDTH, WINDOW_HEIGHT);
     if (!m_texTech.Init()) {
         printf("initializing the texture technique\n");
