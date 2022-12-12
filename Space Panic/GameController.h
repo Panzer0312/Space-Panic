@@ -10,9 +10,9 @@ public:
 	GameController(GameModel* model, GameView * view);
 	int init();
 	void game();
-	void movePlayer(Vector2f pos);
 	~GameController();
 	void moveObject(Vector2f dir, std::string name);
+	bool generateStage(const std::string& fileName);
 	void keyboardInput(GLFWwindow* window);
 
 private:

@@ -28,7 +28,7 @@ int GameController::init() {
 //	m->addObject(pos, t+Vector2i(1,0), 64, "player", 10, PLAYER);
 //	m->addObject(pos+ Vector2f(200,200), t + Vector2i(1, 0), 64, "player", 10, PLAYER);
 
-/*
+
 	m->addSprite(pos,t,64);
 
 	t = Vector2i(14, 3);
@@ -40,7 +40,7 @@ int GameController::init() {
 	pos = Vector2f(170, 160);
 
 	m->addSprite(pos, t, 64);
-	*/
+	
 	game();
 	return i;
 }
@@ -54,12 +54,6 @@ void GameController::game() {
 	exit(0);
 }
 
-
-void GameController::movePlayer(Vector2f pos) {
-
-}
-
-
 void GameController::moveObject(Vector2f dir, std::string name)
 {
 	int objID = m->findObject(name);
@@ -69,6 +63,11 @@ void GameController::moveObject(Vector2f dir, std::string name)
 		m->changeObjPos(objID, newPos);
 	}
 	printf("Pos: (%f|%f)\n",newPos.x,newPos.y);
+}
+
+
+bool GameController::generateStage(const std::string &fileName) {
+	return false;
 }
 
 void GameController::keyboardInput(GLFWwindow* window)
