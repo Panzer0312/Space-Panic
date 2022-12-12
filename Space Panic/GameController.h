@@ -16,7 +16,7 @@ private:
 	void game();
 	bool generateStage(const std::string& fileName);
 	void keyboardInput(GLFWwindow* window);
-	void moveObject(Vector2f dir, std::string name, std::string animation);
+	void moveObject(Vector2i dir, std::string name, std::string animation);
 	void animateObject(GameObject objID, std::string animation);
 	GameModel* m;
 	GameView* v;

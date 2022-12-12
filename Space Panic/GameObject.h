@@ -14,7 +14,10 @@ public:
 	Vector2f getPos();
 	objectType getType();
 	float getSpeed();
-	std::string getName(); 
+	std::string getName();
+	Vector2i getFacing();
+	void setFacing(Vector2i dir);
+
 //	bool isAnimated();
 //	void setAnimated(bool a);
 
@@ -26,6 +29,6 @@ private:
 	int spriteID;
 	std::string name;
 	bool animate;
-
+	Vector2i facing;
 };
 

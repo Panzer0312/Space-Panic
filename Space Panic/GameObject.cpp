@@ -12,6 +12,7 @@ GameObject::GameObject(int objSpriteID, std::string objName, Vector2f objPos, fl
 	pos = objPos;
 	speed = objSpeed;
 	type = objType;
+	facing = Vector2i(0, 0);
 	//animate = false;
 }
 
@@ -42,6 +43,16 @@ float GameObject::getSpeed()
 std::string GameObject::getName()
 {
 	return name;
+}
+
+Vector2i GameObject::getFacing()
+{
+	return facing;
+}
+
+void GameObject::setFacing(Vector2i dir)
+{
+	facing = dir;
 }
 
 /*

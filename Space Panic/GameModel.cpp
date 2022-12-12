@@ -118,6 +118,10 @@ int GameModel::findAnimation(std::string name)
 	printf("Animation %s not found!!", name);
 	return -1;
 }
+void GameModel::changeObjectFacing(int obj,Vector2i dir)
+{
+	Objects[obj].setFacing(dir);
+}
 void GameModel::changeAnimCounter(int id)
 {
 	Animations[id].addCount();

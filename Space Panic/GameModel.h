@@ -25,6 +25,7 @@ public:
 	std::vector <ObjectAnimation> getAnimations();
 	int findObject(std::string name);
 	int findAnimation(std::string name);
+	void changeObjectFacing(int obj,Vector2i dir);
 	void changeAnimCounter(int id);
 
 private:
