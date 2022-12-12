@@ -7,6 +7,7 @@ class GameModel
 	std::vector<GameObject> objects;
 
 public:
+	GameModel();
 	~GameModel();
 	GameObject getObject(int id);
 	void addObject(GameObject obj);

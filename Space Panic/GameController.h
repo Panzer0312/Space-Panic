@@ -8,6 +8,7 @@
 class GameController
 {
 public:
+	GameController();
 	~GameController();
 	GameController(GameModel* model, GameView* view);
 	void keyboardInput(GLFWwindow* window);

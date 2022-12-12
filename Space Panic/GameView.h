@@ -1,11 +1,11 @@
 #pragma once
-#include "GameController.h"
 //Everything UI related
 class GameView
 {
 public:
+	GameView();
 	~GameView();
-	int initialize(GameController &g);
-	void Render();
+	int initialize();
+
 };
 

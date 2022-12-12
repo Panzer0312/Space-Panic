@@ -30,11 +30,15 @@ unsigned int NumSpritesY = 4;
 GLFWwindow* window;
 
 
+GameView::~GameView()
+{
+}
+
 GameView::GameView()
 {
 }
 
-int GameView::initialize(GameController &g) {
+int GameView::initialize() {
     //init glfw library
     if (!glfwInit()) {
         return -1;
@@ -56,7 +60,7 @@ int GameView::initialize(GameController &g) {
     //make windwo's context current
     glfwMakeContextCurrent(window);
     glewInit();
-
+    
     // OpenGL configuration
     glfwSetMonitorCallback(monitor_callback);
     glEnable(GL_BLEND);

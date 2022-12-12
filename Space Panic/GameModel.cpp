@@ -19,6 +19,6 @@ void GameModel::addObject(GameObject obj)
 	objects.push_back(obj);
 }
 
-Model::~GameModel()
+GameModel::~GameModel()
 {
 }

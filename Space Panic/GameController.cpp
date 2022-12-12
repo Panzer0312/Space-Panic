@@ -8,7 +8,7 @@ GameController::GameController(GameModel* model, GameView* view)
 {
 	m = model;
 	v = view;
-	v->initialize(*this);
+	v->initialize();
 }
 
 void GameController::moveObject(Vector2f dir, int id)
