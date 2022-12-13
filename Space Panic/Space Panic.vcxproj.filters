@@ -113,4 +113,9 @@
       <Filter>Ressourcendateien</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Map1.txt">
+      <Filter>Ressourcendateien</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

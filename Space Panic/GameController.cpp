@@ -1,5 +1,8 @@
 #include "GameController.h"
+#include <fstream>
 const Vector2f boundaries = Vector2f(1800, 1000);
+std::string map1 = "Map1.txt";
+
 
 GameController::~GameController()
 {
@@ -44,20 +47,17 @@ int GameController::init() {
 	Vector2f posi = Vector2f(0, 0);
 
 	//load test Map
-	std::string temp2 = "bbbbbbbbbblbbbbbbbbblbbbbbbblbbbbbbbbbb";
-	std::string temp1 = "bbbbbbbbbblbbbbbbbbbbbbbbbbblbbbbbbbbbb";
-	std::string temp3 = "##########l#################l##########";
-	std::string temp4 = "##########l#########l#######l##########";
-	loadLine(temp3, 0, 48);
-	loadLine(temp3, 1, 48);
-	loadLine(temp3, 2, 48);
-	loadLine(temp1, 3, 48);
-	loadLine(temp4, 4, 48);
-	loadLine(temp4, 5, 48);
-	loadLine(temp4, 6, 48);
-	loadLine(temp2, 7, 48);
-	loadLine(temp4, 8, 48);
-	loadLine(temp3, 9, 48);
+	printf("loading map...");
+	std::ifstream mapFile(map1);
+	std::string content;
+	std::vector<std::string> mapLines;
+	while (mapFile >> content) {
+		mapLines.insert(mapLines.begin(),content);
+	}
+	for (int i = 0; i < mapLines.size(); i++) {
+		printf("%s", content);
+		loadLine(mapLines[i], i, 48);
+	}
 
 
 	game();
