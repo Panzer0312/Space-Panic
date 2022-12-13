@@ -18,6 +18,10 @@ private:
 	void keyboardInput(GLFWwindow* window);
 	void moveObject(Vector2i dir, std::string name, std::string animation);
 	void animateObject(GameObject objID, std::string animation);
+	void loadLine(std::string in, int stage, int spacing);
+	bool checkWalk(Vector2f currPos, Vector2f nextPos, Vector2i dir, GameObject object);
+	bool onStage(Vector2f pos);
+	int maxStages;
 	GameModel* m;
 	GameView* v;
 };

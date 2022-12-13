@@ -30,5 +30,6 @@ private:
 	std::string name;
 	bool animate;
 	Vector2i facing;
+
 };
 

@@ -9,8 +9,8 @@ SpriteBatch::SpriteBatch(const char* pFilename, unsigned int NumSpritesX, unsign
     m_windowHeight = (float)WindowHeight;
     m_windowAR = m_windowHeight / m_windowWidth;
 
-    unsigned int NumSprites = NumSpritesX * NumSpritesY;
-    m_pQuads = new QuadArray(NumSprites);
+    
+    m_pQuads = new QuadArray(maxNumSprites);
 
     InitSpriteSheet();
 

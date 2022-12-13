@@ -1,5 +1,4 @@
 #include "GameController.h"
-
 const Vector2f boundaries = Vector2f(1800, 1000);
 
 GameController::~GameController()
@@ -10,6 +9,8 @@ GameController::GameController(GameModel *model,GameView *view)
 {
 	m = model;
 	v = view;
+
+	maxStages = 10;
 }
 
 
@@ -31,30 +32,33 @@ int GameController::init() {
 	m->addAnimation("Player_Left", 10, playerLeft);
 	m->addAnimation("Player_Down", 10, playerDown);
 	m->addAnimation("Player_Up", 10, playerUp);
-	m->addAnimation("Player_Shovel_Left", 10, playerShovelLeft);
-	m->addAnimation("Player_Shovel_Right", 10, playerShovelRight);
+	m->addAnimation("Player_Shovel_Left", 20, playerShovelLeft);
+	m->addAnimation("Player_Shovel_Right", 20, playerShovelRight);
 
 	Vector2i t = Vector2i(0, 3);
-	Vector2f pos = Vector2f(10, 10);
+	Vector2f pos = Vector2f(1, 1);
 	//init Player
-	m->addObject(pos, t, 128, "player", 10, PLAYER);
 
+	m->addObject(pos, t, 64, "player", 5, PLAYER);
 
-	/*
-	m->addSprite(pos,t,64);
+	Vector2f posi = Vector2f(0, 0);
 
-	t = Vector2i(14, 3);
-	pos = Vector2f(100, 150);
+	//load test Map
+	std::string temp2 = "bbbbbbbbbblbbbbbbbbblbbbbbbblbbbbbbbbbb";
+	std::string temp1 = "bbbbbbbbbblbbbbbbbbbbbbbbbbblbbbbbbbbbb";
+	std::string temp3 = "##########l#################l##########";
+	std::string temp4 = "##########l#########l#######l##########";
+	loadLine(temp3, 0, 48);
+	loadLine(temp3, 1, 48);
+	loadLine(temp3, 2, 48);
+	loadLine(temp1, 3, 48);
+	loadLine(temp4, 4, 48);
+	loadLine(temp4, 5, 48);
+	loadLine(temp4, 6, 48);
+	loadLine(temp2, 7, 48);
+	loadLine(temp4, 8, 48);
+	loadLine(temp3, 9, 48);
 
-	m->addSprite(pos, t, 64);
-
-	t = Vector2i(15, 3);
-	pos = Vector2f(170, 160);
-
-	m->addSprite(pos, t, 64);
-*/	
-
-	
 
 	game();
 	return i;
@@ -79,12 +83,97 @@ void GameController::moveObject(Vector2i dir, std::string name, std::string anim
 	m->changeObjectFacing(objID, dir);
 	animateObject(obj, animation);
 
-	if (newPos < boundaries && newPos > Vector2f(0, 0)) {
-		m->changeObjPos(objID, newPos);
+	if (newPos < boundaries && newPos > Vector2f(-1, -1)){
+		if (checkWalk(currPos,newPos, dir, obj)) {
+			m->changeObjPos(objID, newPos);
+		}
 	}
 	printf("Pos: (%f|%f)\n",newPos.x,newPos.y);
 }
 
+//classic = 22 stages with 24 tiles
+void GameController::loadLine(std::string in, int stage, int spacing) {
+	int x = 0;
+	
+	for (char c : in) {
+		switch (c) {
+		case 'e':
+			//enemy
+			break;
+		case 'b':
+			//brick
+			if (x % 2) {
+				m->addObject(Vector2f(x*spacing, 26*stage), Vector2i(15, 1), 64, "brick" + std::to_string(x),0,BRICK);
+			}
+			else {
+				m->addObject(Vector2f(x*spacing, 26*stage), Vector2i(14, 1), 64, "brick" + std::to_string(x), 0, BRICK);
+			}
+			break;
+		case 'l':
+			//ladder
+			m->addObject(Vector2f(x * spacing, 26 * stage), Vector2i(0, 0), 64, "ladder" + std::to_string(x), 0, LADDER);
+			break;
+		case '#':
+			//nothing
+			break;
+		}
+		x++;
+	}
+
+}
+
+bool GameController::checkWalk(Vector2f currPos, Vector2f nextPos,Vector2i dir, GameObject object) {
+	bool out = false;
+	if (dir == Vector2i(0, 1)) {//standing in front of ladder for y movement
+		int id = m->getObjectAtPos(LADDER, nextPos);
+		if (id != -1) {
+			out = true;
+		}
+	}else if (dir == Vector2i(0, -1)) {
+		int id = m->getObjectAtPos(LADDER, nextPos);
+		int test = m->getObjectAtPos(BRICK, nextPos -Vector2f(5,5)); //to correct slight offset of getObjectAtPos
+		if (id != -1 && test == -1) {
+			out = true;
+		}
+	}else{	//standing on brick or y <= 1 for x movement
+		int id = m->getObjectAtPos(LADDER, currPos);
+		int diff = int(nextPos.y) % 104;
+		int times = nextPos.y / 104;
+		if (id != -1) {
+			if (diff < 20) {
+				m->changeObjPos(m->findObject(object.getName()), Vector2f(nextPos.x, times * 104));
+				out = false;
+			}
+			else if (diff >90) {
+				m->changeObjPos(m->findObject(object.getName()), Vector2f(nextPos.x, (times+1) * 104));
+				out = false;
+			}
+		}
+		else {
+			out = true;
+		}
+	/*	else if (diff < 20) { //for easier stairs
+			m->changeObjPos(m->findObject(object.getName()), nextPos-Vector2f(0, int(nextPos.y) - diff));
+			out = false;
+		}
+		else if (int(nextPos.y) % 102 > 90) {
+			out = false;
+		}
+	*/
+	}
+	return out;
+}
+
+bool GameController::onStage(Vector2f pos) {
+	float calcYPos = 0;
+	for (int i = 0; i < maxStages; i++) {
+		calcYPos = i * (4 * 26);
+		if (pos.y + 20 > calcYPos && pos.y - 10 < calcYPos) {
+			return true;
+		}
+	}
+	return false;
+}
 
 void GameController::animateObject(GameObject obj, std::string animation) {
 
@@ -100,7 +189,7 @@ bool GameController::generateStage(const std::string &fileName) {
 void GameController::keyboardInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-		//std::cout << "UP" << std::endl;
+		std::cout << "UP" << std::endl;
 		moveObject(Vector2i(0, 1),"player", "Player_Up");
 	}
 	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
@@ -108,7 +197,7 @@ void GameController::keyboardInput(GLFWwindow* window)
 		moveObject(Vector2i(-1, 0), "player", "Player_Left");
 	}
 	else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-		//std::cout << "DOWN" << std::endl;
+		std::cout << "DOWN" << std::endl;
 		moveObject(Vector2i(0, -1), "player", "Player_Down");
 	}
 	else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {

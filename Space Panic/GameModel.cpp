@@ -23,6 +23,22 @@ int GameModel::addSprite(Vector2f pos, Vector2i spritesheetPos, int width)
 	return spriteCount - 1;
 }
 
+int GameModel::addMultipleSpriteX(Vector2f start, int count, float spacing, Vector2i spritesheetPos, int width)
+{
+	Sprites.resize(spriteCount + count);
+	for (int i = 0; i < count; i++) {
+		spriteCount++;
+		Sprites[spriteCount - 1].PixelX = start.x + (i * spacing);
+		Sprites[spriteCount - 1].PixelY = start.y;
+		Sprites[spriteCount - 1].SpriteCol = spritesheetPos.x; //x
+		Sprites[spriteCount - 1].SpriteRow = spritesheetPos.y; //y
+		Sprites[spriteCount - 1].SpriteWidth = width;
+
+	}
+
+	return spriteCount - 1;
+}
+
 int GameModel::addObject(Vector2f pos, Vector2i spritesheetPos, int width, std::string name, int speed, objectType type) {
 	int spriteID = addSprite(pos,spritesheetPos,width);
 	objectsCount++;
@@ -79,6 +95,19 @@ std::vector<SpriteBatch::SpriteInfo> GameModel::getSprites()
 std::vector<GameObject> GameModel::getObjects()
 {
 	return Objects;
+}
+
+int GameModel::getObjectAtPos(objectType type, Vector2f pos){
+
+	for (GameObject o : Objects) {
+		if (o.getType() == type) {
+			if (o.getPos()+Vector2f(20,20)>pos && o.getPos() - Vector2f(0, 10) < pos) {
+				printf("ladder at %f , %f", o.getPos().x, o.getPos().y);
+				return o.getID();
+			}
+		}
+	}
+	return  -1;
 }
 
 

@@ -33,12 +33,12 @@ private:
     void ScreenPosToNDC(float mouse_x, float mouse_y, float& ndc_x, float& ndc_y);
 
     // constructor params
+    int maxNumSprites = 1000;
     const char* m_pFilename = NULL;
     float m_numSpritesX = 0.0f;
     float m_numSpritesY = 0.0f;
     float m_windowWidth = 0.0f;
     float m_windowHeight = 0.0f;
-
     // internal params
     float m_spriteAspectRatio = 0.0f;   // height/width of the sprite in the sprite sheet
     float m_texUSize = 0.0f;  // Sprite size in tex space - U

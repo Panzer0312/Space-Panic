@@ -18,7 +18,7 @@ bool SpriteTechnique::Init()
         "#version 330 core\n"
         "layout (location = 0) in vec2 Position;\n"
         "layout (location = 1) in uint QuadID;\n"
-        "#define MAX_QUADS 100\n"
+        "#define MAX_QUADS 500\n"
         "uniform QuadInfo {\n"
         "   vec2 BasePos[MAX_QUADS];\n"
         "   vec2 WidthHeight[MAX_QUADS];\n"

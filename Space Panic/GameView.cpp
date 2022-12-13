@@ -113,42 +113,9 @@ void GameView::RenderScene(std::vector<SpriteBatch::SpriteInfo> Sprites)
 {
     glClearColor(0.2f, 0.3f, 0.3f, 0.5f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
-    /*
-    Sprites[0].PixelX = 64;
-    Sprites[0].PixelY = 64;
-    Sprites[0].SpriteCol = 15; //x
-    Sprites[0].SpriteRow = 1; //y
-    Sprites[0].SpriteWidth = 64;
-    */
-   /* int count = 0;
-    for (int y = 0; y < NumSpritesY; y++) {
-        for (int x = 0; x<NumSpritesX; x++){
-            Sprites[count].PixelX = 64 * (x + 1);
-            Sprites[count].PixelY = 64*(y+1);
-            Sprites[count].SpriteCol = x; //y
-            Sprites[count].SpriteRow = y; //x
-            Sprites[count].SpriteWidth = 64;
-            count++;
-        }
-    }
-    */
-    
-/*
-    int i = 0;
-    Sprites[i].PixelX = 64;
-    Sprites[i].PixelY = 64;
-    Sprites[i].SpriteCol = 15; //x
-    Sprites[i].SpriteRow = 3; //y
-    Sprites[i].SpriteWidth = 64;
-
-    */
-
+    Sprites.resize(500);
     double CurTime = glfwGetTime();
     m_pSpriteBatch->Render(Sprites);
-    //m_pSpriteBatch->RenderAll();
-
     m_texTech.Enable();
     glfwSwapBuffers(window);
     glfwPollEvents();

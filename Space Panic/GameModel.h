@@ -10,6 +10,7 @@ public:
 	~GameModel();
 	GameModel();
 	int addSprite(Vector2f pos, Vector2i spritesheetPos, int width);
+	int addMultipleSpriteX(Vector2f start,int count, float spacing, Vector2i spritesheetPos, int width);
 	int addObject(Vector2f pos, Vector2i spritesheetPos, int width, std::string name, int speed, objectType type);
 //	int addObject(Vector2f pos, Vector2i spritesheetPos, int width, std::string name, int speed, objectType type, std::vector<Vector2i> animationsArray, float animSpeed);
 	int addAnimation(std::string name, float speed, std::vector<Vector2i> animSprites);
@@ -19,7 +20,8 @@ public:
 	void deleteSprite(int sprite);
 	void deleteObject(int objectPos);
 	std::vector<SpriteBatch::SpriteInfo> getSprites();
-	std::vector<GameObject> getObjects();
+	std::vector<GameObject> getObjects();	
+	int getObjectAtPos(objectType type, Vector2f pos);
 	SpriteBatch::SpriteInfo getSprite(int i);
 
 	std::vector <ObjectAnimation> getAnimations();
