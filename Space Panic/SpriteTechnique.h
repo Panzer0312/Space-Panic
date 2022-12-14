@@ -7,21 +7,21 @@
 class SpriteTechnique : public Technique
 {
 public:
-
+    /**  Constructor */
     SpriteTechnique();
-
+    /** Initialize the Shaders */
     virtual bool Init();
-
+    /** binds texture unit with data buffer */
     void SetTextureUnit(unsigned int TextureUnit);
-
+    /** update Quad Info */
     void SetQuad(int Index,
         float NDCX, float NDCY, float Width, float Height,    // tile base position and dimensions
         float u, float v, float TexWidth, float TexHeight);   // texture coordinates
-
+    /** Update the program */
     void UpdateProgram();
 
 private:
-
+    /**  Creates a uniform block for efficient rendering  */
     void ConfigUniformBlock();
 
     struct {

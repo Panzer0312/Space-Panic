@@ -4,13 +4,18 @@
 #include <vector>
 #include "SpriteBatch.h"
 #include "Math.h"
-//Everything UI related
+
+//A game class for everything logic related
 class GameView
 {
 public:
+	/** Constructor for a new GameView */
 	GameView();
+	/** Creates everything within a new window */
 	int initializeView();
+	/** Renders a given Vector of Sprites */
 	void RenderScene(std::vector<SpriteBatch::SpriteInfo> Sprites);
+
 	GLFWwindow* window;
 };
 

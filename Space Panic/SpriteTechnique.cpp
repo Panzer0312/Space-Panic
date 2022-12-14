@@ -6,11 +6,18 @@
 
 const char* vShaderC;
 const char* fShaderC;
-
+/**
+ * .
+ * Constructor
+ */
 SpriteTechnique::SpriteTechnique()
 {
 }
-
+/**
+ * Initializes the Shaders.
+ * 
+ * \return sucess
+ */
 bool SpriteTechnique::Init()
 {
     // shaders
@@ -74,7 +81,11 @@ bool SpriteTechnique::Init()
     return true;
 }
 
-
+/**
+ * .
+ * Creates a uniform block for efficient rendering (large amounts of data directly into gpu :D)
+ * similar to vertex buffers
+ */
 void SpriteTechnique::ConfigUniformBlock()
 {
     GLuint BlockIndex = glGetUniformBlockIndex(m_shaderProg, "QuadInfo");
@@ -108,12 +119,16 @@ void SpriteTechnique::ConfigUniformBlock()
     printf("Uniform buffer %d\n", m_uniformBuffer);
 }
 
-
+/**
+ * .
+ * binds texture unit with data buffer
+ * \param TextureUnit Unit to bind to
+ */
 void SpriteTechnique::SetTextureUnit(unsigned int TextureUnit)
 {
     glUniform1i(m_samplerLoc, TextureUnit);
 }
-
+/** update quad Info */
 void SpriteTechnique::SetQuad(int Index,
     float NDCX, float NDCY, float Width, float Height,
     float u, float v, float TexWidth, float TexHeight)
@@ -133,7 +148,10 @@ void SpriteTechnique::SetQuad(int Index,
     pTexWidthHeight[Index].y = TexHeight;
 }
 
-
+/**
+ * .
+ * Updates the Buffers
+ */
 void SpriteTechnique::UpdateProgram()
 {
     glBindBuffer(GL_UNIFORM_BUFFER, m_uniformBuffer);

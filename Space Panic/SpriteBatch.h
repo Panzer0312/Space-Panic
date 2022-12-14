@@ -7,7 +7,7 @@
 class SpriteBatch
 {
 public:
-
+    /** Sprites structure */
     struct SpriteInfo {
         unsigned int PixelX = 0;
         unsigned int PixelY = 0;
@@ -15,21 +15,21 @@ public:
         unsigned int SpriteCol = 0;    // Sprite location in the sprite sheet - col
         unsigned int SpriteWidth = 0;
     };
-
+    /** constructor for a new SpriteBatch with a SpriteSheet */
     SpriteBatch(const char* pFilename, unsigned int NumSpritesX, unsigned int NumSpritesY, unsigned int WindowWidth, unsigned int WindowHeight);
-
+    /** Render given Sprites from Spritesheet */
     void Render(const std::vector<SpriteInfo>& sprites);
-
+    /** Renders the whole spritesheet */
     void RenderAll();
 
 private:
-
+    /** Intializes the Spritesheet */
     void InitSpriteSheet();
-
+    /** Initializes the SpriteTechnique */
     void InitSpriteTech();
-
+    /** Initializes the SpriteInfo */
     void CalcSpriteInfo();
-
+    /** Calculates Texturekoords to Screenkoords */
     void ScreenPosToNDC(float mouse_x, float mouse_y, float& ndc_x, float& ndc_y);
 
     // constructor params

@@ -5,9 +5,6 @@
 //changes the window resolution if a new monitor is dis/connected
 void monitor_callback(GLFWmonitor* monitor, int event);
 
-//Vector2i t = Vector2i(15, 3);
-//Vector2f pos = Vector2f(10, 10);
-
 // The Width of the screen
 const unsigned int SCREEN_WIDTH = 1080;
 // The height of the screen
@@ -18,17 +15,24 @@ Texture* m_pTexture = NULL;
 SpriteBatch* m_pSpriteBatch = NULL;
 long long m_prevTime = 0;
 
-
+//SpriteSheet
 unsigned int NumSpritesX = 16;
 unsigned int NumSpritesY = 4;
 
-
-
+/**
+ * .
+ * Constructor for GameView
+ */
 GameView::GameView()
 {
     window = NULL;
 }
 
+/**
+ * .
+ * creates a window and inits OpenGL libraries
+ * \return sucess
+ */
 int GameView::initializeView() {
     //init glfw library
     if (!glfwInit()) {
@@ -57,24 +61,23 @@ int GameView::initializeView() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-
-    
     m_pSpriteBatch = new SpriteBatch("Spritesheet_64_64_Flipped.DDS", NumSpritesX, NumSpritesY, WINDOW_WIDTH, WINDOW_HEIGHT);
     if (!m_texTech.Init()) {
         printf("initializing the texture technique\n");
         exit(1);
     }
 
-
     m_texTech.Enable();
     m_texTech.SetTextureUnit(0);
 
-    // deltaTime variables
-    float deltaTime = 0.0f;
-    float lastFrame = 0.0f;
+    return 0;
 }
-
-//changes the window resolution if a new monitor is dis/connected
+/**
+ * .
+ * Changes the window resolution if a new monitor is dis/connected
+ * \param monitor Connected Monitor
+ * \param event GLFW_CONNECTED/DISCONNECTED
+ */
 void monitor_callback(GLFWmonitor* monitor, int event)
 {
     if (event == GLFW_CONNECTED)
@@ -89,7 +92,11 @@ void monitor_callback(GLFWmonitor* monitor, int event)
         // The monitor is disconnected
     }
 }
-
+/**
+ * .
+ * 
+ * \param Sprites Vector of Sprites to render
+ */
 void GameView::RenderScene(std::vector<SpriteBatch::SpriteInfo> Sprites)
 {
     glClearColor(0.2f, 0.3f, 0.3f, 0.5f);

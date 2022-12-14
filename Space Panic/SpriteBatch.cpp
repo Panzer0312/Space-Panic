@@ -1,5 +1,14 @@
 #include "SpriteBatch.h"
 
+/**
+ * .
+ * Constructor and initiator
+ * \param pFilename Spritesheet dir
+ * \param NumSpritesX Count of Sprites in x axes
+ * \param NumSpritesY Count of Sprites in y axes
+ * \param WindowWidth Width of the window
+ * \param WindowHeight Height of the window
+ */
 SpriteBatch::SpriteBatch(const char* pFilename, unsigned int NumSpritesX, unsigned int NumSpritesY, unsigned int WindowWidth, unsigned int WindowHeight)
 {
     m_pFilename = pFilename;
@@ -19,7 +28,10 @@ SpriteBatch::SpriteBatch(const char* pFilename, unsigned int NumSpritesX, unsign
     CalcSpriteInfo();
 }
 
-
+/**
+ * .
+ * Creates Texture from input pFilename
+ */
 void SpriteBatch::InitSpriteSheet()
 {
     m_pSpriteSheet = new Texture(GL_TEXTURE_2D, m_pFilename);
@@ -29,7 +41,10 @@ void SpriteBatch::InitSpriteSheet()
     }
 }
 
-
+/**
+ * .
+ * Initiates SpriteTexhnique and enables it
+ */
 void SpriteBatch::InitSpriteTech()
 {
     if (!m_spriteTech.Init()) {
@@ -41,7 +56,10 @@ void SpriteBatch::InitSpriteTech()
     m_spriteTech.SetTextureUnit(GL_TEXTURE0);
 }
 
-
+/**
+ * .
+ * Calculate the Indexes of each Sprite in Spritesheet 
+ */
 void SpriteBatch::CalcSpriteInfo()
 {
     int ImageWidth, ImageHeight;
@@ -77,14 +95,18 @@ void SpriteBatch::CalcSpriteInfo()
     m_tileHeightNDC = m_ndcPixelY * m_tileHeightInPixels;
 }
 
-
+/** Screen coords to Normalized Device Coordinates (Texture coords) */
 void SpriteBatch::ScreenPosToNDC(float mouse_x, float mouse_y, float& ndc_x, float& ndc_y)
 {
     ndc_x = (2.0f * mouse_x) / m_windowWidth - 1.0f;
     ndc_y = (2.0f * mouse_y) / m_windowHeight - 1.0f;
 }
 
-
+/**
+ * .
+ * Renders Vector of given Sprites
+ * \param sprites input vector to draw
+ */
 void SpriteBatch::Render(const std::vector<SpriteInfo>& sprites)
 {
     m_spriteTech.Enable();
@@ -114,7 +136,10 @@ void SpriteBatch::Render(const std::vector<SpriteInfo>& sprites)
     m_pQuads->Render((int)sprites.size());
 }
 
-
+/**
+ * .
+ * Renders whole Spritesheet without initializing any GameObjects etc.
+ */
 void SpriteBatch::RenderAll()
 {
     m_spriteTech.Enable();

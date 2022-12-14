@@ -7,6 +7,11 @@
 
 #define NUM_VERTICES 6
 
+/**
+ * .
+ * Constructor to create a new QuadArray
+ * \param MaxNumQuads the maximum of Quads it should be able to use
+ */
 QuadArray::QuadArray(unsigned int MaxNumQuads)
 {
     m_maxNumQuads = MaxNumQuads;
@@ -25,13 +30,19 @@ QuadArray::QuadArray(unsigned int MaxNumQuads)
     glBindVertexArray(0);
 }
 
-
+/**
+ * .
+ * Destructor
+ */
 QuadArray::~QuadArray()
 {
 
 }
 
-
+/**
+ * .
+ * Creates a new Vertex Buffer Object
+ */
 void QuadArray::CreateVertexBuffer()
 {
     Vector2f vertices[] = { Vector2f(0.0f, 0.0f),   // bottom left
@@ -56,7 +67,10 @@ void QuadArray::CreateVertexBuffer()
     glVertexAttribPointer(POSITION_LOCATION, 2, GL_FLOAT, GL_FALSE, 0, 0);
 }
 
-
+/**
+ * .
+ * sets a running Index in the QuadIDBuffer
+ */
 void QuadArray::CreateQuadIDBuffer()
 {
     std::vector<GLuint> quad_id_vec;
@@ -74,7 +88,11 @@ void QuadArray::CreateQuadIDBuffer()
     glVertexAttribIPointer(PRIM_ID_LOCATION, 1, GL_UNSIGNED_INT, 0, 0);
 }
 
-
+/**
+ * .
+ * Rendering the Quads
+ * \param NumQuads Number of Quads to render
+ */
 void QuadArray::Render(unsigned int NumQuads)
 {
     if (NumQuads == 0) {

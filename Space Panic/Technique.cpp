@@ -2,18 +2,23 @@
 #include <string.h>
 
 #include "Technique.h"
-
+/**
+ * .
+ * Constructor for a new Technique
+ */
 Technique::Technique()
 {
     m_shaderProg = 0;
 }
 
-
+/**
+ * .
+ * Delete the intermediate shader objects that have been added to the program
+ * The list will only contain something if shaders were compiled but the object itself
+ * was destroyed prior to linking.
+ */
 Technique::~Technique()
 {
-    // Delete the intermediate shader objects that have been added to the program
-    // The list will only contain something if shaders were compiled but the object itself
-    // was destroyed prior to linking.
     for (ShaderObjList::iterator it = m_shaderObjList.begin(); it != m_shaderObjList.end(); it++)
     {
         glDeleteShader(*it);
@@ -26,7 +31,7 @@ Technique::~Technique()
     }
 }
 
-
+/** Initializes Technique */
 bool Technique::Init()
 {
     m_shaderProg = glCreateProgram();
@@ -39,7 +44,13 @@ bool Technique::Init()
     return true;
 }
 
-
+/**
+ * .
+ * Function to initialize different Shader
+ * \param ShaderType Type of Shader
+ * \param code Code from shader written in GLSL
+ * \return sucess
+ */
 bool Technique::initShader(GLenum ShaderType, const char* code)
 {
     GLuint ShaderObj = glCreateShader(ShaderType);
@@ -65,9 +76,12 @@ bool Technique::initShader(GLenum ShaderType, const char* code)
 
     return true;
 }
-
-// After all the shaders have been added to the program call this function
-// to link and validate the program.
+/**
+ * .
+ * After all the shaders have been added to the program call this function
+ * to link and validate the program.
+ * \return sucess
+ */
 bool Technique::Finalize()
 {
     GLint Success = 0;
@@ -99,13 +113,21 @@ bool Technique::Finalize()
     return true;
 }
 
-
+/**
+ * .
+ * Tell OpenGL to use Shaderprogram
+ */
 void Technique::Enable()
 {
     glUseProgram(m_shaderProg);
 }
 
-
+/**
+ * .
+ *  
+ * \param pUniformName
+ * \return uniform location as a variable within a program object
+ */
 GLint Technique::GetUniformLocation(const char* pUniformName)
 {
     GLuint Location = glGetUniformLocation(m_shaderProg, pUniformName);

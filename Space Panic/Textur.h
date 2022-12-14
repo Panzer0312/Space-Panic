@@ -6,20 +6,15 @@
 class Texture
 {
 public:
+    /** Initializes a new Texure */
     Texture(GLenum TextureTarget, const std::string& FileName);
-
-    Texture(GLenum TextureTarget);
-
-    // Should be called once to load the texture
+    /** Should be called once to load the SpriteSheet */
     bool Load();
-
+    /** Loads a given File into this Texture Object */
     void Load(const std::string& Filename);
-
-    void LoadRaw(int Width, int Height, int BPP, unsigned char* pData);
-
-    // Must be called at least once for the specific texture unit
+    /** Must be called at least once for the specific texture unit */
     void Bind(GLenum TextureUnit);
-
+    /** writes TextureSizes to given variables*/
     void GetImageSize(int& ImageWidth, int& ImageHeight)
     {
         ImageWidth = m_imageWidth;
@@ -27,6 +22,7 @@ public:
     }
 
 private:
+    /** Loads Texture from Compressed Image Data */
     void LoadInternal(void* image_data);
 
     std::string m_fileName;

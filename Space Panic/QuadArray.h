@@ -5,15 +5,17 @@
 class QuadArray
 {
 public:
+    /** Constructor to set the max number of quads that can be used */
     QuadArray(unsigned int MaxNumQuads);
-
+    /** Destuctor */
     ~QuadArray();
-
+    /** Render the given number of quads  */
     void Render(unsigned int NumQuads = 0);
 
 private:
-
+    /** Creates a new vertexBuffer Object */
     void CreateVertexBuffer();
+    /** creates a new QuadIDBoffer Object */
     void CreateQuadIDBuffer();
 
     enum BUFFER_TYPE {
