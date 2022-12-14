@@ -24,27 +24,12 @@ int GameController::init() {
 
 
 	//init Animations
-	std::vector<Vector2i> playerRight{ Vector2i(0,3),Vector2i(1,3) };
-	std::vector<Vector2i> playerLeft{ Vector2i(15,3),Vector2i(14,3) };
-	std::vector<Vector2i> playerDown{ Vector2i(5,3)};
-	std::vector<Vector2i> playerUp{ Vector2i(4,3),Vector2i(11,3) };
-	std::vector<Vector2i> playerShovelLeft{ Vector2i(12,3),Vector2i(13,3) };
-	std::vector<Vector2i> playerShovelRight{ Vector2i(3,3),Vector2i(2,3) };
-
-	m->addAnimation("Player_Right", 10, playerRight);
-	m->addAnimation("Player_Left", 10, playerLeft);
-	m->addAnimation("Player_Down", 10, playerDown);
-	m->addAnimation("Player_Up", 10, playerUp);
-	m->addAnimation("Player_Shovel_Left", 20, playerShovelLeft);
-	m->addAnimation("Player_Shovel_Right", 20, playerShovelRight);
-
-	Vector2i t = Vector2i(0, 3);
-	Vector2f pos = Vector2f(1, 1);
-	//init Player
-
-	m->addObject(pos, t, 64, "player", 5, PLAYER);
-
-	Vector2f posi = Vector2f(0, 0);
+	m->addAnimation("Player_Right", 10, std::vector<Vector2i>{Vector2i(0, 3), Vector2i(1, 3)});
+	m->addAnimation("Player_Left", 10, std::vector<Vector2i>{Vector2i(15, 3), Vector2i(14, 3)});
+	m->addAnimation("Player_Down", 10, std::vector<Vector2i>{Vector2i(5, 3)});
+	m->addAnimation("Player_Up", 10, std::vector<Vector2i>{Vector2i(4, 3), Vector2i(11, 3)});
+	m->addAnimation("Player_Shovel_Left", 20, std::vector<Vector2i>{Vector2i(12, 3), Vector2i(13, 3)});
+	m->addAnimation("Player_Shovel_Right", 20, std::vector<Vector2i>{ Vector2i(3, 3), Vector2i(2, 3)});
 
 	//load test Map
 	printf("loading map...");
@@ -55,16 +40,19 @@ int GameController::init() {
 		mapLines.insert(mapLines.begin(),content);
 	}
 	for (int i = 0; i < mapLines.size(); i++) {
-		printf("%s", content);
 		loadLine(mapLines[i], i, 48);
 	}
-
+	printf("loading complete...");
+	printf("initializing player");
+	//init Player
+	m->addObject(Vector2f(1, 1), Vector2i(0, 3), 64, "player", 5, PLAYER);
 
 	game();
 	return i;
 }
 
 void GameController::game() {
+	printf("starting gameLoop");
 	while (!glfwWindowShouldClose(v->window)) {
 		keyboardInput(v->window);
 		v->RenderScene(m->getSprites());

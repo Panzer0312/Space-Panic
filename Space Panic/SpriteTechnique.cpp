@@ -114,7 +114,6 @@ void SpriteTechnique::SetTextureUnit(unsigned int TextureUnit)
     glUniform1i(m_samplerLoc, TextureUnit);
 }
 
-
 void SpriteTechnique::SetQuad(int Index,
     float NDCX, float NDCY, float Width, float Height,
     float u, float v, float TexWidth, float TexHeight)

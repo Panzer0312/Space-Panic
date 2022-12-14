@@ -1,16 +1,23 @@
 #include "GameModel.h"
 
-GameModel::~GameModel()
-{
-}
-
+/**
+ * . 
+ * 
+ * Constructor for the GameModel Class
+ * Sets all counters to 0
+ */
 GameModel::GameModel()
 {
 	spriteCount = 0;
 	objectsCount = 0;
 	animationsCount = 0;
 }
-
+/**
+ * \param pos Position where the Sprite will be drawn at
+ * \param spritesheetPos Index which sprite from Spritesheet should be drawn
+ * \param width Size of the Sprite
+ * \return 
+ */
 int GameModel::addSprite(Vector2f pos, Vector2i spritesheetPos, int width)
 {
 	spriteCount++;
@@ -23,22 +30,17 @@ int GameModel::addSprite(Vector2f pos, Vector2i spritesheetPos, int width)
 	return spriteCount - 1;
 }
 
-int GameModel::addMultipleSpriteX(Vector2f start, int count, float spacing, Vector2i spritesheetPos, int width)
-{
-	Sprites.resize(spriteCount + count);
-	for (int i = 0; i < count; i++) {
-		spriteCount++;
-		Sprites[spriteCount - 1].PixelX = start.x + (i * spacing);
-		Sprites[spriteCount - 1].PixelY = start.y;
-		Sprites[spriteCount - 1].SpriteCol = spritesheetPos.x; //x
-		Sprites[spriteCount - 1].SpriteRow = spritesheetPos.y; //y
-		Sprites[spriteCount - 1].SpriteWidth = width;
-
-	}
-
-	return spriteCount - 1;
-}
-
+/**
+ * .
+ * 
+ * \param pos Position where the GameObject's Sprite will be drawn at
+ * \param spritesheetPos Index which sprite from Spritesheet should be drawn
+ * \param width Sets the Size of the Sprite
+ * \param name Name of the Object to find it through findObject()
+ * \param speed How fast the Object should be moved 
+ * \param type The objectType (BRICK,ENEMY,LADDER,PLAYER)
+ * \return 
+ */
 int GameModel::addObject(Vector2f pos, Vector2i spritesheetPos, int width, std::string name, int speed, objectType type) {
 	int spriteID = addSprite(pos,spritesheetPos,width);
 	objectsCount++;
@@ -47,6 +49,14 @@ int GameModel::addObject(Vector2f pos, Vector2i spritesheetPos, int width, std::
 	return objectsCount - 1;
 }
 
+/**
+ * .
+ * 
+ * \param name Name of the Animation to find it through findAnimation()
+ * \param speed How fast the Animation should be played (the higher the number, the slower the animation)
+ * \param animSprites The different Sprite sequence for the animation
+ * \return 
+ */
 int GameModel::addAnimation(std::string name, float speed, std::vector<Vector2i> animSprites)
 {
 	animationsCount++;
@@ -55,29 +65,56 @@ int GameModel::addAnimation(std::string name, float speed, std::vector<Vector2i>
 	return animationsCount - 1;
 }
 
+/**
+ * .
+ * 
+ * \param sprite Specific Sprite in the Sprites vector
+ * \param pos Vector2f where the specific Sprite should be moved to
+ */
 void GameModel::changeSpritePos(int sprite, Vector2f pos) {
 	Sprites[sprite].PixelX = pos.x;
 	Sprites[sprite].PixelY = pos.y;
 }
 
+/**
+ * .
+ * 
+ * \param sprite Specific Sprite in the Sprites vector
+ * \param pos Vector2i index to which other Sprite on the Spritesheet the Sprite should be changed
+ */
 void GameModel::changeSpriteSheet(int sprite, Vector2i pos) {
 	Sprites[sprite].SpriteCol = pos.x;
 	Sprites[sprite].SpriteRow = pos.y;
 }
 
+/**
+ * .
+ * 
+ * \param object Specific GameObject in the Objects vector
+ * \param pos Vector2f where the specific GameObject should be moved to
+ */
 void GameModel::changeObjPos(int object, Vector2f pos) {
 	int spritePos = Objects[object].getID();
 	changeSpritePos(spritePos, pos);
 	Objects[object].setPos(pos);
 }
 
-
+/**
+ * .
+ * 
+ * \param sprite Deletes the specific Sprite in Sprites at the given position, sets the Sprite counter to spriteCount-1 and resizes the Vector
+ */
 void GameModel::deleteSprite(int sprite) {
 	Sprites.erase(Sprites.begin() + sprite);
 	spriteCount--;
 	Sprites.resize(spriteCount);
 }
 
+/**
+ * .
+ * 
+ * \param objectPos Deletes the specific Object in Objects at the given position, sets the Object counter to objectsCount-1 and resizes the Vector
+ */
 void GameModel::deleteObject(int objectPos) {
 	deleteSprite(Objects[objectPos].getID());
 	Objects.erase(Objects.begin() + objectPos);
@@ -85,18 +122,33 @@ void GameModel::deleteObject(int objectPos) {
 	Objects.resize(objectsCount);
 }
 
-
+/**
+ * .
+ * 
+ * \return All instantiated Sprites in the Vector
+ */
 std::vector<SpriteBatch::SpriteInfo> GameModel::getSprites()
 {
 	return Sprites;
 }
 
-
+/**
+ * .
+ * 
+ * \return All instantiated Objects in the Vector
+ */
 std::vector<GameObject> GameModel::getObjects()
 {
 	return Objects;
 }
 
+/**
+ * .
+ * 
+ * \param type Which type the Object to return has to be
+ * \param pos Position where the GameObject in Objects has to be
+ * \return The ID of the found GameObject or -1
+ */
 int GameModel::getObjectAtPos(objectType type, Vector2f pos){
 
 	for (GameObject o : Objects) {
@@ -110,7 +162,12 @@ int GameModel::getObjectAtPos(objectType type, Vector2f pos){
 	return  -1;
 }
 
-
+/**
+ * .
+ * 
+ * \param i Sprite in Sprites at given position
+ * \return the found sprite or a dummy Sprite
+ */
 SpriteBatch::SpriteInfo GameModel::getSprite(int i)
 {
 	if (i < Sprites.size()) {
@@ -120,12 +177,22 @@ SpriteBatch::SpriteInfo GameModel::getSprite(int i)
 	return SpriteBatch::SpriteInfo();
 }
 
-
+/**
+ * .
+ * 
+ * \return the vcector with all instantiated ObjectAnimations
+ */
 std::vector <ObjectAnimation> GameModel::getAnimations()
 {
 	return Animations;
 }
 
+/**
+ * .
+ * 
+ * \param name The name of the GameObject you are looking for
+ * \return The position of the found GameObject in the vector Objects or -1
+ */
 int GameModel::findObject(std::string name)
 {
 	for (int i = 0; i < Objects.size();i++ ) {
@@ -137,6 +204,12 @@ int GameModel::findObject(std::string name)
 	return -1;
 }
 
+/**
+ * .
+ * 
+ * \param name The name of the ObjectAnimation you are looking for
+ * \return The position of the found ObjectAnimation in the vector Animations or -1
+ */
 int GameModel::findAnimation(std::string name)
 {
 	for (int i = 0; i < Animations.size(); i++) {
@@ -147,26 +220,24 @@ int GameModel::findAnimation(std::string name)
 	printf("Animation %s not found!!", name);
 	return -1;
 }
+
+/**
+ * Used for animation like digging
+ * 
+ * \param obj The GameObject which facing Positon should be changed
+ * \param dir The Vector2i where the Object is facing now
+ */
 void GameModel::changeObjectFacing(int obj,Vector2i dir)
 {
 	Objects[obj].setFacing(dir);
 }
+
+/**
+ * Used to animate a Gameobject by changing the counter returning the different indexes of the Spritesheet positions 
+ * 
+ * \param id Calls the function addCount of Object at given positon ID
+ */
 void GameModel::changeAnimCounter(int id)
 {
 	Animations[id].addCount();
 }
-/*GameObject GameModel::getObject(int id)
-{
-	for (auto&i : Sprites) {
-		if (i.getID() == id) {
-			return i;
-		}
-	}
-	return GameObject();
-}
-
-void GameModel::addObject(GameObject obj)
-{
-	objects.push_back(obj);
-}
-*/
