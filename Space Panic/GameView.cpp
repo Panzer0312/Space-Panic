@@ -77,22 +77,6 @@ int GameView::initializeView() {
     float lastFrame = 0.0f;
 }
 
-//void GameView::RenderView() {
- //   std::vector<SpriteBatch::SpriteInfo> Sprites;
- //   Sprites.resize(10);
-
-    //loop until user closes the window
-
-    // calculate delta time
-//    float currentFrame = glfwGetTime();
-//  deltaTime = currentFrame - lastFrame;
-//  lastFrame = currentFrame;
-
-
-//    RenderScene(Sprites);
-//}
-
-
 //changes the window resolution if a new monitor is dis/connected
 void monitor_callback(GLFWmonitor* monitor, int event)
 {

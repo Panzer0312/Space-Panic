@@ -144,7 +144,6 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameView.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="game.cpp" />
     <ClCompile Include="ObjectAnimation.cpp" />
     <ClCompile Include="QuadArray.cpp" />
     <ClCompile Include="SpriteBatch.cpp" />
@@ -153,7 +152,6 @@
     <ClCompile Include="Textur.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="game.h" />
     <ClInclude Include="GameController.h" />
     <ClInclude Include="GameModel.h" />
     <ClInclude Include="GameObject.h" />
