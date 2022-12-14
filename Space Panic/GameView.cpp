@@ -26,10 +26,7 @@ unsigned int NumSpritesY = 4;
 
 GameView::GameView()
 {
-}
-
-GameView::~GameView()
-{
+    window = NULL;
 }
 
 int GameView::initializeView() {

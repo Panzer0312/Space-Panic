@@ -9,10 +9,8 @@ class GameView
 {
 public:
 	GameView();
-	~GameView();
 	int initializeView();
 	void RenderScene(std::vector<SpriteBatch::SpriteInfo> Sprites);
-
 	GLFWwindow* window;
 };
 

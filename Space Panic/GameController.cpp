@@ -3,25 +3,25 @@
 const Vector2f boundaries = Vector2f(1800, 1000);
 std::string map1 = "Map1.txt";
 
-
-GameController::~GameController()
-{
-}
-
+/**
+ * .
+ * 
+ * \param model Model to save every Game Information
+ * \param view View to render Model inforamtion and change it with the implemented Controller Logic
+ */
 GameController::GameController(GameModel *model,GameView *view)
 {
 	m = model;
 	v = view;
-
-	maxStages = 10;
 }
 
-
+/**
+ * .
+ * 
+ * \return View got initiaized sucessfull?
+ */
 int GameController::init() {
 	int i = v->initializeView();
-	//glfwSetKeyCallback(v->window,keyboardInput);
-	//MB INIT SPRITESHEET IN MODEL
-
 
 	//init Animations
 	m->addAnimation("Player_Right", 10, std::vector<Vector2i>{Vector2i(0, 3), Vector2i(1, 3)});
@@ -44,13 +44,19 @@ int GameController::init() {
 	}
 	printf("loading complete...");
 	printf("initializing player");
+
 	//init Player
 	m->addObject(Vector2f(1, 1), Vector2i(0, 3), 64, "player", 5, PLAYER);
 
+	//start game loop
 	game();
 	return i;
 }
 
+/**
+ * .
+ *  Game Loop to get Input and Render everything
+ */
 void GameController::game() {
 	printf("starting gameLoop");
 	while (!glfwWindowShouldClose(v->window)) {
@@ -61,6 +67,13 @@ void GameController::game() {
 	exit(0);
 }
 
+/**
+ * .
+ * 
+ * \param dir Direction to move to
+ * \param name Name of the Object
+ * \param animation Animation to play while moving the Object
+ */
 void GameController::moveObject(Vector2i dir, std::string name, std::string animation)
 {
 	int objID = m->findObject(name);
@@ -79,10 +92,16 @@ void GameController::moveObject(Vector2i dir, std::string name, std::string anim
 	printf("Pos: (%f|%f)\n",newPos.x,newPos.y);
 }
 
-//classic = 22 stages with 24 tiles
+/**
+ * .
+ * 
+ * \param in String to instantiate GameObjects from
+ * \param stage on which y position (y * 26) to place the objects
+ * \param spacing How much space should be left between the GameObjects
+ */
 void GameController::loadLine(std::string in, int stage, int spacing) {
-	int x = 0;
-	
+	//classic = 22 stages with 24 tiles
+	int x = 0;	
 	for (char c : in) {
 		switch (c) {
 		case 'e':
@@ -110,6 +129,15 @@ void GameController::loadLine(std::string in, int stage, int spacing) {
 
 }
 
+/**
+ * .
+ * 
+ * \param currPos Current Postion of the GameObject
+ * \param nextPos Position where the Object should be moved to
+ * \param dir Direction in which the Object should be moved to
+ * \param object The GameObject which should be moved
+ * \return The Object is able to move
+ */
 bool GameController::checkWalk(Vector2f currPos, Vector2f nextPos,Vector2i dir, GameObject object) {
 	bool out = false;
 	if (dir == Vector2i(0, 1)) {//standing in front of ladder for y movement
@@ -140,29 +168,16 @@ bool GameController::checkWalk(Vector2f currPos, Vector2f nextPos,Vector2i dir, 
 		else {
 			out = true;
 		}
-	/*	else if (diff < 20) { //for easier stairs
-			m->changeObjPos(m->findObject(object.getName()), nextPos-Vector2f(0, int(nextPos.y) - diff));
-			out = false;
-		}
-		else if (int(nextPos.y) % 102 > 90) {
-			out = false;
-		}
-	*/
 	}
 	return out;
 }
 
-bool GameController::onStage(Vector2f pos) {
-	float calcYPos = 0;
-	for (int i = 0; i < maxStages; i++) {
-		calcYPos = i * (4 * 26);
-		if (pos.y + 20 > calcYPos && pos.y - 10 < calcYPos) {
-			return true;
-		}
-	}
-	return false;
-}
-
+/**
+ * .
+ * 
+ * \param obj Object to change the sprite
+ * \param animation Name of the ObjectAnimation
+ */
 void GameController::animateObject(GameObject obj, std::string animation) {
 
 	int animID = m->findAnimation(animation);
@@ -170,10 +185,11 @@ void GameController::animateObject(GameObject obj, std::string animation) {
 	m->changeAnimCounter(animID);
 }
 
-bool GameController::generateStage(const std::string &fileName) {
-	return false;
-}
-
+/**
+ * .
+ * Player Input
+ * \param window From which Window should be the Input
+ */
 void GameController::keyboardInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {

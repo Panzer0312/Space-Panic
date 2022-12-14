@@ -3,25 +3,30 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-//Everything logic related
+
+//A game class for everything logic related
 class GameController
 {
 public:
+	/** Constructor fo GameController Class */
 	GameController(GameModel* model, GameView * view);
+	/** Initialize every ObjectAnimation,GameObject,Sprite etc. and then start the game loop */
+	/** Also loads a Map from a .txt file (l = Ladder| e = Enemy| b = Brick|# = Nothing) */
 	int init();
-	~GameController();
-
 private:
-
+	/** Starts the game loop */
 	void game();
-	bool generateStage(const std::string& fileName);
+	/** Defines the keyboardinput and tries to move the player accordingly */
 	void keyboardInput(GLFWwindow* window);
+	/** Logic for Object movement */
 	void moveObject(Vector2i dir, std::string name, std::string animation);
+	/** Changes Sprite of a given GameObject based on the Animation reference   */
 	void animateObject(GameObject objID, std::string animation);
+	/** Instantiates a string with map-information at stage (defines y-axes) */
 	void loadLine(std::string in, int stage, int spacing);
+	/** Collision check if object is allowed to move in that direction */
 	bool checkWalk(Vector2f currPos, Vector2f nextPos, Vector2i dir, GameObject object);
-	bool onStage(Vector2f pos);
-	int maxStages;
+
 	GameModel* m;
 	GameView* v;
 };
