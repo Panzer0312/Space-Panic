@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "Technique.h"
-#define SPRITE_TECH_MAX_QUADS 500
+#define SPRITE_TECH_MAX_QUADS 1000
 
 class SpriteTechnique : public Technique
 {

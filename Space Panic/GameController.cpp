@@ -2,6 +2,8 @@
 #include <fstream>
 const Vector2f boundaries = Vector2f(1800, 1000);
 std::string map1 = "Map1.txt";
+int y_Spacing = 32;
+int y_correction = 13;
 
 /**
  * .
@@ -40,13 +42,13 @@ int GameController::init() {
 		mapLines.insert(mapLines.begin(),content);
 	}
 	for (int i = 0; i < mapLines.size(); i++) {
-		loadLine(mapLines[i], i, 48);
+		loadLine(mapLines[i], i, 79);
 	}
 	printf("loading complete...");
 	printf("initializing player");
 
 	//init Player
-	m->addObject(Vector2f(1, 1), Vector2i(0, 3), 64, "player", 5, PLAYER);
+	m->addObject(Vector2f(1, 1), Vector2i(0, 3), 120, "player", 5, PLAYER);
 
 	//start game loop
 	game();
@@ -58,9 +60,13 @@ int GameController::init() {
  *  Game Loop to get Input and Render everything
  */
 void GameController::game() {
+	int p = m->findObject("player");
 	printf("starting gameLoop");
 	while (!glfwWindowShouldClose(v->window)) {
 		keyboardInput(v->window);
+		if (checkEnemyCollision(p)) {
+			m->changeSpriteSheet(p, Vector2i(0, 1));
+		}
 		v->RenderScene(m->getSprites());
 	}
 	glfwTerminate();
@@ -100,25 +106,32 @@ void GameController::moveObject(Vector2i dir, std::string name, std::string anim
  * \param spacing How much space should be left between the GameObjects
  */
 void GameController::loadLine(std::string in, int stage, int spacing) {
-	//classic = 22 stages with 24 tiles
+	//classic = 5 stages with 24 tiles
 	int x = 0;	
+
 	for (char c : in) {
 		switch (c) {
 		case 'e':
 			//enemy
+			if (x % 2) {
+				m->addObject(Vector2f(x * spacing, y_Spacing * stage), Vector2i(0, 1), 120, "enemy" + std::to_string(x), 0, ENEMY);
+			}
+			else {
+				m->addObject(Vector2f(x * spacing, y_Spacing * stage), Vector2i(7, 1), 120, "enemy" + std::to_string(x), 0, ENEMY);
+			}
 			break;
 		case 'b':
 			//brick
 			if (x % 2) {
-				m->addObject(Vector2f(x*spacing, 26*stage), Vector2i(15, 1), 64, "brick" + std::to_string(x),0,BRICK);
+				m->addObject(Vector2f(x*spacing, y_Spacing *stage- y_correction), Vector2i(15, 1), 108, "brick" + std::to_string(x),0,BRICK);
 			}
 			else {
-				m->addObject(Vector2f(x*spacing, 26*stage), Vector2i(14, 1), 64, "brick" + std::to_string(x), 0, BRICK);
+				m->addObject(Vector2f(x*spacing, y_Spacing *stage- y_correction), Vector2i(14, 1), 108, "brick" + std::to_string(x), 0, BRICK);
 			}
 			break;
 		case 'l':
 			//ladder
-			m->addObject(Vector2f(x * spacing, 26 * stage), Vector2i(0, 0), 64, "ladder" + std::to_string(x), 0, LADDER);
+			m->addObject(Vector2f(x * spacing+15, y_Spacing * stage), Vector2i(0, 0), 80, "ladder" + std::to_string(x), 0, LADDER);
 			break;
 		case '#':
 			//nothing
@@ -153,15 +166,15 @@ bool GameController::checkWalk(Vector2f currPos, Vector2f nextPos,Vector2i dir, 
 		}
 	}else{	//standing on brick or y <= 1 for x movement
 		int id = m->getObjectAtPos(LADDER, currPos);
-		int diff = int(nextPos.y) % 104;
-		int times = nextPos.y / 104;
+		int diff = int(nextPos.y) % 160;
+		int times = nextPos.y / 160;
 		if (id != -1) {
-			if (diff < 20) {
-				m->changeObjPos(m->findObject(object.getName()), Vector2f(nextPos.x, times * 104));
+			if (diff < 40) {
+				m->changeObjPos(m->findObject(object.getName()), Vector2f(nextPos.x, times * 160));
 				out = false;
 			}
-			else if (diff >90) {
-				m->changeObjPos(m->findObject(object.getName()), Vector2f(nextPos.x, (times+1) * 104));
+			else if (diff >135) {
+				m->changeObjPos(m->findObject(object.getName()), Vector2f(nextPos.x, (times+1) * 160));
 				out = false;
 			}
 		}
@@ -170,6 +183,16 @@ bool GameController::checkWalk(Vector2f currPos, Vector2f nextPos,Vector2i dir, 
 		}
 	}
 	return out;
+}
+
+bool GameController::checkEnemyCollision(int player) {
+	Vector2f pos = m->getObjects()[player].getPos();
+	int i = m->getCollisionAtPos(ENEMY, pos);
+	if (i != -1) {
+		printf("collided with enemy!!!");
+		return true;
+	}
+	return false;
 }
 
 /**

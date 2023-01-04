@@ -165,10 +165,9 @@
     <ClInclude Include="Textur.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="PlayerSheet_64_64_PNG_DXT5_1.DDS" />
-    <Image Include="Player_Defaul_64_64_PNG_DXT5_1.DDS" />
     <Image Include="Spritesheet_64_64.DDS" />
     <Image Include="Spritesheet_64_64_Flipped.DDS" />
+    <Image Include="Spritesheet_64_64_Flipped_v2.DDS" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Map1.txt" />

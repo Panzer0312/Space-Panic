@@ -31,6 +31,7 @@ public:
 	std::vector<GameObject> getObjects();
 	/** Returns a GameObject from Type objectType at a given Position */
 	int getObjectAtPos(objectType type, Vector2f pos);
+	int getCollisionAtPos(objectType type, Vector2f pos);
 	/** Returns the sprite at a given position in the vector Sprites */
 	SpriteBatch::SpriteInfo getSprite(int i);
 	/** Returns the vector with all instantiated ObjectAnimations */

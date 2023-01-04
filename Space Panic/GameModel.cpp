@@ -153,14 +153,28 @@ int GameModel::getObjectAtPos(objectType type, Vector2f pos){
 
 	for (GameObject o : Objects) {
 		if (o.getType() == type) {
-			if (o.getPos()+Vector2f(20,20)>pos && o.getPos() - Vector2f(0, 10) < pos) {
-				printf("ladder at %f , %f", o.getPos().x, o.getPos().y);
+			if (o.getPos()+Vector2f(0,20)>pos && o.getPos() - Vector2f(25, 20) < pos) {
+				printf("object at %f , %f", o.getPos().x, o.getPos().y);
 				return o.getID();
 			}
 		}
 	}
 	return  -1;
 }
+
+int GameModel::getCollisionAtPos(objectType type, Vector2f pos) {
+
+	for (GameObject o : Objects) {
+		if (o.getType() == type) {
+			if (o.getPos() + Vector2f(80, 1) > pos && o.getPos() - Vector2f(80, 1) < pos) {
+				printf("collided at %f , %f", o.getPos().x, o.getPos().y);
+				return o.getID();
+			}
+		}
+	}
+	return  -1;
+}
+
 
 /**
  * .

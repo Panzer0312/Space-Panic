@@ -6,9 +6,9 @@
 void monitor_callback(GLFWmonitor* monitor, int event);
 
 // The Width of the screen
-const unsigned int SCREEN_WIDTH = 1080;
+const unsigned int SCREEN_WIDTH = 804;
 // The height of the screen
-const unsigned int SCREEN_HEIGHT = 920;
+const unsigned int SCREEN_HEIGHT = 804;
 
 SpriteTechnique m_texTech;
 Texture* m_pTexture = NULL;
@@ -30,7 +30,7 @@ GameView::GameView()
 
 /**
  * .
- * creates a window and inits OpenGL libraries
+ * creates a window and inits OpenGL libraries. 
  * \return sucess
  */
 int GameView::initializeView() {
@@ -61,7 +61,7 @@ int GameView::initializeView() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    m_pSpriteBatch = new SpriteBatch("Spritesheet_64_64_Flipped.DDS", NumSpritesX, NumSpritesY, WINDOW_WIDTH, WINDOW_HEIGHT);
+    m_pSpriteBatch = new SpriteBatch("Spritesheet_64_64_Flipped_v2.DDS", NumSpritesX, NumSpritesY, WINDOW_WIDTH, WINDOW_HEIGHT);
     if (!m_texTech.Init()) {
         printf("initializing the texture technique\n");
         exit(1);
@@ -99,7 +99,7 @@ void monitor_callback(GLFWmonitor* monitor, int event)
  */
 void GameView::RenderScene(std::vector<SpriteBatch::SpriteInfo> Sprites)
 {
-    glClearColor(0.2f, 0.3f, 0.3f, 0.5f);
+    glClearColor(0, 0, 0, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     Sprites.resize(500);
     double CurTime = glfwGetTime();

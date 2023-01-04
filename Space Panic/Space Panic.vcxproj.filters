@@ -94,16 +94,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Player_Defaul_64_64_PNG_DXT5_1.DDS">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="PlayerSheet_64_64_PNG_DXT5_1.DDS">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
     <Image Include="Spritesheet_64_64.DDS">
       <Filter>Ressourcendateien</Filter>
     </Image>
     <Image Include="Spritesheet_64_64_Flipped.DDS">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="Spritesheet_64_64_Flipped_v2.DDS">
       <Filter>Ressourcendateien</Filter>
     </Image>
   </ItemGroup>

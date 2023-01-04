@@ -26,6 +26,8 @@ private:
 	void loadLine(std::string in, int stage, int spacing);
 	/** Collision check if object is allowed to move in that direction */
 	bool checkWalk(Vector2f currPos, Vector2f nextPos, Vector2i dir, GameObject object);
+	/** Checks if enemy collides with player */
+	bool checkEnemyCollision(int player);
 
 	GameModel* m;
 	GameView* v;

@@ -10,7 +10,7 @@
 /**
  * .
  * Constructor to create a new QuadArray
- * \param MaxNumQuads the maximum of Quads it should be able to use
+ * \param MaxNumQuads the maximum of Quads that should be used
  */
 QuadArray::QuadArray(unsigned int MaxNumQuads)
 {
@@ -19,7 +19,7 @@ QuadArray::QuadArray(unsigned int MaxNumQuads)
     glGenVertexArrays(1, &m_VAO);
 
     glBindVertexArray(m_VAO);
-    //MAYBE WRONG
+    
     glGenBuffers(sizeof(m_Buffers)/sizeof(m_Buffers[0]), m_Buffers);
 
     CreateVertexBuffer();
