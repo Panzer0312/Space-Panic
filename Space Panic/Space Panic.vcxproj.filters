@@ -55,7 +55,7 @@
       <Filter>Quelldateien\Model</Filter>
     </ClCompile>
     <ClCompile Include="ObjectAnimation.cpp">
-      <Filter>Quelldateien\Model</Filter>
+      <Filter>Quelldateien\View</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +106,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Map1.txt">
+      <Filter>Ressourcendateien</Filter>
+    </Text>
+    <Text Include="Animations.txt">
       <Filter>Ressourcendateien</Filter>
     </Text>
   </ItemGroup>

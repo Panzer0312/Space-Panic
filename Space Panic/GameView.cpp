@@ -1,4 +1,5 @@
 #include "GameView.h"
+#include <fstream>
 #define WINDOW_WIDTH  1920
 #define WINDOW_HEIGHT 1080
 
@@ -19,6 +20,8 @@ long long m_prevTime = 0;
 unsigned int NumSpritesX = 16;
 unsigned int NumSpritesY = 4;
 
+std::string animationsFile = "Animations.txt";
+
 /**
  * .
  * Constructor for GameView
@@ -26,6 +29,7 @@ unsigned int NumSpritesY = 4;
 GameView::GameView()
 {
     window = NULL;
+    animationsCount = 0;
 }
 
 /**
@@ -66,7 +70,7 @@ int GameView::initializeView() {
         printf("initializing the texture technique\n");
         exit(1);
     }
-
+    initAnimations();
     m_texTech.Enable();
     m_texTech.SetTextureUnit(0);
 
@@ -107,4 +111,70 @@ void GameView::RenderScene(std::vector<SpriteBatch::SpriteInfo> Sprites)
     m_texTech.Enable();
     glfwSwapBuffers(window);
     glfwPollEvents();
+}
+
+void GameView::initAnimations(){
+    //Vector2i|Vector2i|....|Vector2i#TimeToNextAnimation#AnimationName
+    //BSP: 14,1|2,0#20#Brick_2_Change
+    printf("\nloading Animations...");
+    std::ifstream animationsF(animationsFile);
+    std::string content;
+    std::vector<std::string> AnimationLines;
+    while (animationsF >> content) {
+        AnimationLines.insert(AnimationLines.begin(), content);
+    }
+    for (int i = 0; i < AnimationLines.size(); i++) {
+        std::string line = AnimationLines[i];
+        std::vector<std::string> info;
+        std::vector<Vector2i> animations;
+        size_t pos,vecPos = 0;
+        std::string token;
+        while ((pos = line.find("#")) != std::string::npos) {
+            token = line.substr(0, pos);
+            info.push_back(token);
+            line.erase(0, pos + 1);
+        }
+        pos = 0;
+        line = info[0];
+        while ((pos = line.find("|")) != std::string::npos) {
+            token = line.substr(0, pos);
+            vecPos = line.find(",");
+            int x = stoi(line.substr(0, vecPos));
+            int y = stoi(line.substr(vecPos +1, pos));
+            animations.push_back(Vector2i(x, y));
+            line.erase(0, pos + 1);
+        }
+        
+        addAnimation(info[2],stoi(info[1]),animations);
+    }
+
+}
+
+/**
+ * .
+ *
+ * \param name Name of the Animation to find it through findAnimation()
+ * \param speed How fast the Animation should be played (the higher the number, the slower the animation)
+ * \param animSprites The different Sprite sequence for the animation
+ * \return
+ */
+int GameView::addAnimation(std::string name, float speed, std::vector<Vector2i> animSprites)
+{
+    animationsCount++;
+    Animations.resize(animationsCount);
+    Animations[animationsCount - 1] = ObjectAnimation(name, speed, animSprites);
+    return animationsCount - 1;
+}
+
+Vector2i GameView::nextAnimation(int*currAnim,int*counter, std::string name)
+{
+    Vector2i temp;
+    for (int i = 0; i < Animations.size(); i++) {
+        if (Animations[i].getName() == name) {
+            temp = Animations[i].getNextAnimation(currAnim, counter);
+            return temp;
+        }
+    }
+    printf("\nAnimation %s not found!!", name.c_str());
+    return temp;
 }

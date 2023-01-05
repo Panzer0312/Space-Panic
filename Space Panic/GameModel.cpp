@@ -10,7 +10,6 @@ GameModel::GameModel()
 {
 	spriteCount = 0;
 	objectsCount = 0;
-	animationsCount = 0;
 }
 /**
  * \param pos Position where the Sprite will be drawn at
@@ -47,22 +46,6 @@ int GameModel::addObject(Vector2f pos, Vector2i spritesheetPos, int width, std::
 	Objects.resize(objectsCount);
 	Objects[objectsCount-1] = GameObject(spriteID, name, pos, speed, type);
 	return objectsCount - 1;
-}
-
-/**
- * .
- * 
- * \param name Name of the Animation to find it through findAnimation()
- * \param speed How fast the Animation should be played (the higher the number, the slower the animation)
- * \param animSprites The different Sprite sequence for the animation
- * \return 
- */
-int GameModel::addAnimation(std::string name, float speed, std::vector<Vector2i> animSprites)
-{
-	animationsCount++;
-	Animations.resize(animationsCount);
-	Animations[animationsCount - 1] = ObjectAnimation(name,speed,animationsCount-1, animSprites);
-	return animationsCount - 1;
 }
 
 /**
@@ -142,39 +125,6 @@ std::vector<GameObject> GameModel::getObjects()
 	return Objects;
 }
 
-/**
- * .
- * 
- * \param type Which type the Object to return has to be
- * \param pos Position where the GameObject in Objects has to be
- * \return The ID of the found GameObject or -1
- */
-int GameModel::getObjectAtPos(objectType type, Vector2f pos){
-
-	for (GameObject o : Objects) {
-		if (o.getType() == type) {
-			if (o.getPos()+Vector2f(0,20)>pos && o.getPos() - Vector2f(25, 20) < pos) {
-				printf("object at %f , %f", o.getPos().x, o.getPos().y);
-				return o.getID();
-			}
-		}
-	}
-	return  -1;
-}
-
-int GameModel::getCollisionAtPos(objectType type, Vector2f pos) {
-
-	for (GameObject o : Objects) {
-		if (o.getType() == type) {
-			if (o.getPos() + Vector2f(80, 1) > pos && o.getPos() - Vector2f(80, 1) < pos) {
-				printf("collided at %f , %f", o.getPos().x, o.getPos().y);
-				return o.getID();
-			}
-		}
-	}
-	return  -1;
-}
-
 
 /**
  * .
@@ -189,16 +139,6 @@ SpriteBatch::SpriteInfo GameModel::getSprite(int i)
 	}
 	printf("Sprite %i not found!!", i);
 	return SpriteBatch::SpriteInfo();
-}
-
-/**
- * .
- * 
- * \return the vcector with all instantiated ObjectAnimations
- */
-std::vector <ObjectAnimation> GameModel::getAnimations()
-{
-	return Animations;
 }
 
 /**
@@ -220,38 +160,43 @@ int GameModel::findObject(std::string name)
 
 /**
  * .
- * 
- * \param name The name of the ObjectAnimation you are looking for
- * \return The position of the found ObjectAnimation in the vector Animations or -1
+ * brick not in list = true, brick already in list = false --> set back to original sprite
+ * \param id
+ * \return 
  */
-int GameModel::findAnimation(std::string name)
+bool GameModel::addReplacedBrick(int id)
 {
-	for (int i = 0; i < Animations.size(); i++) {
-		if (Animations[i].getName() == name) {
-			return i;
+	int i = 0;
+	for (GameObject o : replacedBricks) {
+		i++;
+		if (o.getID() == id) {
+			replacedBricks.erase(replacedBricks.begin()+i);
+			return false;
 		}
 	}
-	printf("Animation %s not found!!", name);
-	return -1;
+	replacedBricks.push_back(Objects[id]);
+	return true;
+}
+
+std::vector<GameObject> GameModel::getReplacedBricks()
+{
+	return replacedBricks;
+}
+
+
+
+GameObject* GameModel::getObjP(int id)
+{
+	return &Objects[id];
 }
 
 /**
  * Used for animation like digging
- * 
+ *
  * \param obj The GameObject which facing Positon should be changed
  * \param dir The Vector2i where the Object is facing now
  */
-void GameModel::changeObjectFacing(int obj,Vector2i dir)
+void GameModel::changeObjectFacing(int obj, Vector2i dir)
 {
 	Objects[obj].setFacing(dir);
-}
-
-/**
- * Used to animate a Gameobject by changing the counter returning the different indexes of the Spritesheet positions 
- * 
- * \param id Calls the function addCount of Object at given positon ID
- */
-void GameModel::changeAnimCounter(int id)
-{
-	Animations[id].addCount();
 }

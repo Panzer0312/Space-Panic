@@ -170,6 +170,7 @@
     <Image Include="Spritesheet_64_64_Flipped_v2.DDS" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Animations.txt" />
     <Text Include="Map1.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

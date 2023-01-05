@@ -13,6 +13,8 @@ GameObject::GameObject()
 	name = "";
 	animate = false;
 	facing = Vector2i(0,0);
+	counter,currAnim = 0;
+
 }
 
 /**
@@ -69,4 +71,19 @@ Vector2i GameObject::getFacing()
 void GameObject::setFacing(Vector2i dir)
 {
 	facing = dir;
+}
+
+void GameObject::changeCurrAnimName(std::string name) {
+	currAnimName = name;
+}
+
+std::string GameObject::getCurrAnimName() {
+	return currAnimName;
+}
+
+int* GameObject::getCurrAnim() {
+	return &currAnim;
+}
+int* GameObject::getCurrCounter() {
+	return &counter;
 }

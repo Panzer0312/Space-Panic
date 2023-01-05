@@ -29,9 +29,6 @@ public:
 	std::vector<SpriteBatch::SpriteInfo> getSprites();
 	/**  Returns the vector Objects with all instantiated GameObjects */
 	std::vector<GameObject> getObjects();
-	/** Returns a GameObject from Type objectType at a given Position */
-	int getObjectAtPos(objectType type, Vector2f pos);
-	int getCollisionAtPos(objectType type, Vector2f pos);
 	/** Returns the sprite at a given position in the vector Sprites */
 	SpriteBatch::SpriteInfo getSprite(int i);
 	/** Returns the vector with all instantiated ObjectAnimations */
@@ -39,23 +36,31 @@ public:
 	/** Searches the vector Objects after a given name */
 	int findObject(std::string name);
 	/** Searches the vector Animations after a given name */
-	int findAnimation(std::string name);
+	
+	bool addReplacedBrick(int id);
+
+	std::vector<GameObject> getReplacedBricks();
+
+	GameObject* getObjP(int id);
+
+//	int findAnimation(std::string name);
 	/** Changes the variable facing of a GameObject at a given position in vector Objects */
 	void changeObjectFacing(int obj,Vector2i dir);
 	/** Calls the function addCount of a given ObjectAnimation to further animate it*/
-	void changeAnimCounter(int id);
-
+//	void changeAnimCounter(int id);
+	
 private:
-	/** Stores all instantiated ObjectAnimations */
-	std::vector<ObjectAnimation> Animations;
+	
 	/** Stores all instantiated Sprites */
 	std::vector<SpriteBatch::SpriteInfo> Sprites;
 	/** Stores all instantiated Objects */
 	std::vector<GameObject> Objects;
+
+	std::vector<GameObject> replacedBricks;
+
 	/** Counter for how much Sprites are stored */
 	int spriteCount;
 	/** Counter for how much GameObjects are stored */
 	int objectsCount;
-	/** Counter for how much Animations are stored */
-	int animationsCount;
+
 };

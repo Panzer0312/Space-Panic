@@ -26,12 +26,20 @@ public:
 	/** sets the position where the Object is facing to */
 	void setFacing(Vector2i dir);
 
+	void changeCurrAnimName(std::string name);
+
+	std::string getCurrAnimName();
+
+	int* getCurrAnim();
+
+	int* getCurrCounter();
+
 private:
 	objectType type;
 	Vector2f pos;
 	float speed;
-	int spriteID;
-	std::string name;
+	int spriteID, counter, currAnim;
+	std::string name,currAnimName;
 	bool animate;
 	Vector2i facing;
 

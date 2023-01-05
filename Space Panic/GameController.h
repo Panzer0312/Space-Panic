@@ -16,18 +16,22 @@ public:
 private:
 	/** Starts the game loop */
 	void game();
+	void gravitation(GameObject* p);
 	/** Defines the keyboardinput and tries to move the player accordingly */
 	void keyboardInput(GLFWwindow* window);
+	int getObjectAtPos(objectType type, Vector2f pos);
+	int getCollisionAtPos(objectType type, Vector2f pos);
+	int findReplacedBrick(Vector2f pos);
 	/** Logic for Object movement */
-	void moveObject(Vector2i dir, std::string name, std::string animation);
-	/** Changes Sprite of a given GameObject based on the Animation reference   */
-	void animateObject(GameObject objID, std::string animation);
+	void moveObject(Vector2i dir, std::string name, std::string animation,bool force);
 	/** Instantiates a string with map-information at stage (defines y-axes) */
 	void loadLine(std::string in, int stage, int spacing);
 	/** Collision check if object is allowed to move in that direction */
 	bool checkWalk(Vector2f currPos, Vector2f nextPos, Vector2i dir, GameObject object);
 	/** Checks if enemy collides with player */
 	bool checkEnemyCollision(int player);
+
+	void animateObject(GameObject *object, std::string name);
 
 	GameModel* m;
 	GameView* v;
