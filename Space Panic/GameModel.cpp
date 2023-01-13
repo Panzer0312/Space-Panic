@@ -44,7 +44,17 @@ int GameModel::addObject(Vector2f pos, Vector2i spritesheetPos, int width, std::
 	int spriteID = addSprite(pos,spritesheetPos,width);
 	objectsCount++;
 	Objects.resize(objectsCount);
-	Objects[objectsCount-1] = GameObject(spriteID, name, pos, speed, type);
+	GameObject obj = GameObject(spriteID, name, pos, speed, type);
+	Objects[objectsCount - 1] = obj;
+	if (type == ENEMY) {
+		Enemies.push_back(obj);
+	}
+	else if (type == TIMER) {
+		timer.push_back(obj);
+	}
+	else if (type == LIFE) {
+		Lifes.push_back(obj);
+	}
 	return objectsCount - 1;
 }
 
@@ -103,6 +113,10 @@ void GameModel::deleteObject(int objectPos) {
 	Objects.erase(Objects.begin() + objectPos);
 	objectsCount--;
 	Objects.resize(objectsCount);
+}
+
+void GameModel::deleteEnemy(int enemyPos) {
+	Enemies.erase(Enemies.begin() + enemyPos);
 }
 
 /**
@@ -168,11 +182,11 @@ bool GameModel::addReplacedBrick(int id)
 {
 	int i = 0;
 	for (GameObject o : replacedBricks) {
-		i++;
 		if (o.getID() == id) {
 			replacedBricks.erase(replacedBricks.begin()+i);
 			return false;
 		}
+		i++;
 	}
 	replacedBricks.push_back(Objects[id]);
 	return true;
@@ -183,11 +197,37 @@ std::vector<GameObject> GameModel::getReplacedBricks()
 	return replacedBricks;
 }
 
-
+std::vector<GameObject> GameModel::getEnemies()
+{
+	return Enemies;
+}
 
 GameObject* GameModel::getObjP(int id)
 {
 	return &Objects[id];
+}
+
+int GameModel::timerCount() {
+	return timer.size()-1;
+}
+
+GameObject* GameModel::getNextTimer() {
+	return &timer[0];
+}
+
+bool GameModel::removeNextTimer() {
+	if (timer.size() > 0) {
+		timer.erase(timer.begin());
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+GameObject* GameModel::getLife(int pos)
+{
+	return &Lifes[pos];
 }
 
 /**
@@ -199,4 +239,16 @@ GameObject* GameModel::getObjP(int id)
 void GameModel::changeObjectFacing(int obj, Vector2i dir)
 {
 	Objects[obj].setFacing(dir);
+}
+
+void GameModel::deleteAll()
+{
+	Objects.clear();
+	Enemies.clear();
+	replacedBricks.clear();
+	Sprites.clear();
+	timer.clear();
+	Lifes.clear();
+	spriteCount = 0;
+	objectsCount = 0;
 }

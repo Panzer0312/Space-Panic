@@ -3,7 +3,12 @@
 /** object Types to differenciate the GameObjects */
 enum objectType
 {
-    ENEMY, PLAYER, BRICK, LADDER
+    ENEMY, PLAYER, BRICK, LADDER, TIMER, LIFE
+};
+
+enum enemyDecision
+{
+    LADDERUP,LADDERDOWN,LEFT,RIGHT
 };
 
 /** Vector for 2D float operations */

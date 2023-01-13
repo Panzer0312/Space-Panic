@@ -25,6 +25,7 @@ public:
 	void deleteSprite(int sprite);
 	/** Deletes an object from the vector Objects */
 	void deleteObject(int objectPos);
+	void deleteEnemy(int enemyPos);
 	/** Returns the vector Sprites with all instantiated Sprites*/
 	std::vector<SpriteBatch::SpriteInfo> getSprites();
 	/**  Returns the vector Objects with all instantiated GameObjects */
@@ -41,23 +42,35 @@ public:
 
 	std::vector<GameObject> getReplacedBricks();
 
+	std::vector<GameObject> getEnemies();
+
 	GameObject* getObjP(int id);
+
+	int timerCount();
+
+	GameObject* getNextTimer();
+
+	bool removeNextTimer();
+
+	GameObject* getLife(int pos);
 
 //	int findAnimation(std::string name);
 	/** Changes the variable facing of a GameObject at a given position in vector Objects */
 	void changeObjectFacing(int obj,Vector2i dir);
 	/** Calls the function addCount of a given ObjectAnimation to further animate it*/
 //	void changeAnimCounter(int id);
-	
+	void deleteAll();
+
 private:
 	
 	/** Stores all instantiated Sprites */
 	std::vector<SpriteBatch::SpriteInfo> Sprites;
 	/** Stores all instantiated Objects */
 	std::vector<GameObject> Objects;
-
+	std::vector<GameObject> Enemies;
 	std::vector<GameObject> replacedBricks;
-
+	std::vector<GameObject> timer;
+	std::vector<GameObject> Lifes;
 	/** Counter for how much Sprites are stored */
 	int spriteCount;
 	/** Counter for how much GameObjects are stored */

@@ -34,14 +34,34 @@ public:
 
 	int* getCurrCounter();
 
+	bool isFalling();
+	void setFalling(bool f);
+
+	enemyDecision getDecision();
+	void setDecision(enemyDecision decision);
+
+	void resetDecisionCounter();
+
+	int getDecisionCounter();
+
+	void setDecisionCounter(int newDecCount);
+
+	bool iskilled();
+
+	void setKilled(bool k);
+
+	int getPushUps();
+	void setPushUps(int i);
 private:
 	objectType type;
 	Vector2f pos;
 	float speed;
-	int spriteID, counter, currAnim;
+	int spriteID, counter, currAnim,decCount,pushUps;
 	std::string name,currAnimName;
-	bool animate;
+	bool animate,falling, killed;
 	Vector2i facing;
+	enemyDecision dec;
+
 
 };
 
