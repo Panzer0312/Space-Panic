@@ -17,5 +17,5 @@ int main(int argc, char* argv[])
     GameModel gm;
     GameView gv;
     GameController gc(&gm, &gv);
-    gc.init();
+    gc.Init();
 }

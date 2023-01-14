@@ -106,7 +106,6 @@ void GameView::RenderScene(std::vector<SpriteBatch::SpriteInfo> Sprites)
     glClearColor(0, 0, 0, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     Sprites.resize(500);
-    double CurTime = glfwGetTime();
     m_pSpriteBatch->Render(Sprites);
     m_texTech.Enable();
     glfwSwapBuffers(window);
@@ -134,7 +133,6 @@ void GameView::initAnimations(){
             info.push_back(token);
             line.erase(0, pos + 1);
         }
-        pos = 0;
         line = info[0];
         while ((pos = line.find("|")) != std::string::npos) {
             token = line.substr(0, pos);

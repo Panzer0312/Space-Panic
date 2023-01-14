@@ -17,14 +17,16 @@ public:
 	/** Renders a given Vector of Sprites */
 	void RenderScene(std::vector<SpriteBatch::SpriteInfo> Sprites);
 
-	void initAnimations();
-
-	int addAnimation(std::string name, float speed, std::vector<Vector2i> animSprites);
-
 	Vector2i nextAnimation(int*currAnim,int* counter, std::string name);
 
 	GLFWwindow* window;
 	std::vector<ObjectAnimation> Animations;
 	int animationsCount;
+
+private:
+
+	void initAnimations();
+	int addAnimation(std::string name, float speed, std::vector<Vector2i> animSprites);
+
 };
 

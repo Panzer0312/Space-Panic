@@ -43,7 +43,7 @@ GameController::GameController(GameModel *model,GameView *view)
  * 
  * \return View got initiaized sucessfull?
  */
-int GameController::init() {
+int GameController::Init() {
 	int i = v->initializeView();
 	air = maxAir;
 	srand(time(NULL));
@@ -51,14 +51,21 @@ int GameController::init() {
 	printf("initializing player");
 	initVisualizedTimer();
 	visualizePlayerLifes(startingPlayerLifes);
-	loadMap(gLevel);
+	LoadMap(gLevel);
 	//start game loop
-	game();
+	Game();
 	return i;
 }
 
+GameModel* GameController::GetModel() {
+	return m;
+}
 
-void GameController::loadMap(int gameLevel) {
+GameView* GameController::GetView() {
+	return v;
+}
+
+void GameController::LoadMap(int gameLevel) {
 	printf("loading map...");
 	std::ifstream mapFile(map1);
 	std::string content, line, subLine;
@@ -77,7 +84,7 @@ void GameController::loadMap(int gameLevel) {
 			line.erase(0, pos + delimiter.length());
 		}
 		printf("\n%s , %i", subLine.c_str(), subLine.length());
-		loadLine(subLine, i, 79);
+		LoadLine(subLine, i, 79);
 	}
 	for (int i = 0; i < mapLines.size(); i++) {
 		line = mapLines[i];
@@ -86,7 +93,7 @@ void GameController::loadMap(int gameLevel) {
 			subLine = line.substr(0, pos);
 			line.erase(0, pos + delimiter.length());
 		}
-		loadEnemies(subLine, i, 79);
+		LoadEnemies(subLine, i, 79);
 	}
 	printf("loading complete...");
 
@@ -96,7 +103,7 @@ void GameController::loadMap(int gameLevel) {
  * .
  *  Game Loop to get Input and Render everything
  */
-void GameController::game() {
+void GameController::Game() {
 	int enemyMovementCounter = 0;
 	Player = m->findObject("player");
 	PlayerPointer = m->getObjP(Player);
@@ -124,7 +131,7 @@ void GameController::game() {
 				//printf("%s", PlayerPointer->getName().c_str());
 			}
 
-			if (checkEnemyCollision(Player)) {
+			if (CheckEnemyCollision(Player)) {
 				//kill player -> reset stage
 				addLevel(false);
 			}
@@ -133,10 +140,10 @@ void GameController::game() {
 				if (redPlayer) {
 					animName = "Red_" + animName;
 				}	
-				moveObject(Vector2i(0, -1), "player", animName, true);
+				MoveObject(Vector2i(0, -1), "player", animName, true);
 			}
 			else {
-				keyboardInput(v->window);
+				KeyboardInput(v->window);
 			}
 			int pPpos = PlayerPointer->getPos().y;
 			if (pPpos % 160 == 0 && PlayerPointer->isFalling()) {
@@ -156,10 +163,10 @@ void GameController::game() {
 					animateObject(PlayerPointer, animName);
 				}
 			}
-			gravitation(PlayerPointer);
+			Gravitation(PlayerPointer);
 
 			if (enemyMovementCounter >= 2) {
-				moveEnemies(PlayerPointer->getPos());
+				MoveEnemies(PlayerPointer->getPos());
 				enemyMovementCounter = 0;
 			}
 			else {
@@ -176,11 +183,11 @@ void GameController::game() {
 	exit(0);
 }
 
-void GameController::gravitation(GameObject* p) {
+void GameController::Gravitation(GameObject* p) {
 	Vector2f currPos = p->getPos();
 
 	if (currPos.y > 1) {
-		int i = findReplacedBrick(currPos);
+		int i = FindReplacedBrick(currPos);
 		if (i != -1) {
 			//printf("on replaced brick");
 			if (!p->isFalling()) {
@@ -232,7 +239,7 @@ enemyDecision GameController::calcEnemyDecision(enemyDecision curr, Vector2f fro
 		return LADDERUP;
 		break;
 	case LADDERDOWN:
-		nextPosDown = findObjectPosUnder(BRICK, from, Vector2i(25, 25));
+		nextPosDown = FindObjectPosUnder(BRICK, from, Vector2i(25, 25));
 		if (nextPosDown != -1) {
 			return randomiseChoice({ LEFT,RIGHT}, -1);
 		}
@@ -247,7 +254,7 @@ enemyDecision GameController::calcEnemyDecision(enemyDecision curr, Vector2f fro
 		break;
 
 	default:
-		nextPosDown = findObjectPosUnder(BRICK, from,Vector2i(15,35));
+		nextPosDown = FindObjectPosUnder(BRICK, from,Vector2i(15,35));
 		nextLadderposUp = findObjectPosOver(LADDER, from);
 		//left/right walking and then found ladder
 		std::vector<enemyDecision> choices = {LEFT,RIGHT};
@@ -341,8 +348,7 @@ Vector2i GameController::translateEnemyDec(enemyDecision dec) {
 }
 
 
-void GameController::moveEnemies(Vector2f to) {
-	int i = 0;
+void GameController::MoveEnemies(Vector2f to) {
 	int movingEnemies = 0;
 	for (GameObject object : m->getEnemies()) {
 		std::string animName = "Enemy_Walk";
@@ -353,13 +359,12 @@ void GameController::moveEnemies(Vector2f to) {
 			int dec = o->getDecisionCounter() + 1;
 			o->setDecisionCounter(dec);
 
-			Vector2i dir = Vector2i(0, 0);
 			Vector2f currPos = o->getPos();
 			enemyDecision currDec = o->getDecision();
 
 			//printf("\nTEST %f,%f", currPos.x, currPos.y);
 
-			int space = findReplacedBrick(currPos);
+			int space = FindReplacedBrick(currPos);
 			if (space != -1) {
 				//at space pos
 				animName = "Enemy_PushUp";
@@ -423,8 +428,8 @@ void GameController::moveEnemies(Vector2f to) {
 
 			//Hier fehlt wenn gegner im Loch dann darf nächster gegner nicht auch noch rein!! 
 
-			enemyDecision newDec = currDec;
-			int l = getObjectAtPos(LADDER, currPos);
+			enemyDecision newDec;
+			int l = GetObjectAtPos(LADDER, currPos);
 			if (l != -1) {
 				//printf("\nl!=-1");
 				if (dec > shortDec) {
@@ -465,10 +470,9 @@ void GameController::moveEnemies(Vector2f to) {
 			//printf("\ndecision %i,%i", translateEnemyDec(currDec).x, translateEnemyDec(currDec).y);
 			o->setDecision(currDec);
 			if (!pauseMove) {
-				moveObject(translateEnemyDec(currDec), o->getName(), animName + o->getName().at(5), false);
+				MoveObject(translateEnemyDec(currDec), o->getName(), animName + o->getName().at(5), false);
 			}
 		}
-		i++;
 	}
 	if (movingEnemies == 0) {
 		printf("\n YOU WON THIS MAP");
@@ -510,7 +514,7 @@ void GameController::addLevel(bool next) {
 			else {
 				visualizePlayerLifes(currPlayerLifes);
 			}
-			loadMap(gLevel);
+			LoadMap(gLevel);
 			Player = m->findObject("player");
 			PlayerPointer = m->getObjP(Player);
 			//printf("\n%s", PlayerPointer->getName().c_str());
@@ -566,7 +570,7 @@ void GameController::addLevel(bool next) {
  * \param name Name of the Object
  * \param animation Animation to play while moving the Object
  */
-bool GameController::moveObject(Vector2i dir, std::string name, std::string animation,bool force)
+bool GameController::MoveObject(Vector2i dir, std::string name, std::string animation,bool force)
 {
 	int objID = m->findObject(name);
 	GameObject *obj = m->getObjP(objID);
@@ -580,9 +584,9 @@ bool GameController::moveObject(Vector2i dir, std::string name, std::string anim
 
 	if (newPos < boundaries && newPos.x >=0 && newPos.y >= 0){
 		if (!force) {
-			if (checkWalk(currPos, newPos, dir, *obj)) {
+			if (CheckWalk(currPos, newPos, dir, *obj)) {
 				if (dir.x == 0 && (int(currPos.y)%160 >155 || int(currPos.y) % 160 < 15)) {
-					int id = getObjectAtPos(LADDER, newPos);
+					int id = GetObjectAtPos(LADDER, newPos);
 					m->changeObjPos(objID, Vector2f(m->getObjP(id)->getPos().x-15,newPos.y));
 				}
 				else {
@@ -609,20 +613,19 @@ bool GameController::moveObject(Vector2i dir, std::string name, std::string anim
  * \param stage on which y position (y * 26) to place the objects
  * \param spacing How much space should be left between the GameObjects
  */
-void GameController::loadLine(std::string in, int stage, int spacing) {
+void GameController::LoadLine(std::string in, int stage, int spacing) {
 	//classic = 5 stages with 24 tiles
 	int x = 0;	
+	GameObject* object;
 	for (char c : in) {
 		switch (c) {
 		case 'b':
 			//brick
 			if (x % 2) {
-				int i = m->addObject(Vector2f(x*spacing, y_Spacing *stage- y_correction), Vector2i(15, 1), 108, "brick1" + std::to_string(x),0,BRICK);
-				GameObject* object = m->getObjP(i); 
+				m->addObject(Vector2f(x*spacing, y_Spacing *stage- y_correction), Vector2i(15, 1), 108, "brick1" + std::to_string(x),0,BRICK);
 			}
 			else {
-				int i =	m->addObject(Vector2f(x*spacing, y_Spacing *stage- y_correction), Vector2i(14, 1), 108, "brick2" + std::to_string(x), 0, BRICK);
-				GameObject* object = m->getObjP(i);
+				m->addObject(Vector2f(x*spacing, y_Spacing *stage- y_correction), Vector2i(14, 1), 108, "brick2" + std::to_string(x), 0, BRICK);
 			}
 			break;
 		case 'l':
@@ -635,13 +638,13 @@ void GameController::loadLine(std::string in, int stage, int spacing) {
 				int t = 0;
 				if (x % 2) {
 					t = m->addObject(Vector2f(x * spacing, y_Spacing * stage - y_correction), Vector2i(15, 1), 108, "brick1" + std::to_string(x), 0, BRICK);
-					GameObject* object = m->getObjP(t);
+					object = m->getObjP(t);
 					animateObject(object, "Brick_1_Change");
 					//printf("\nreplaced brick at: %f,%f\n", object->getPos().x, object->getPos().y);
 				}
 				else {
 					t = m->addObject(Vector2f(x * spacing, y_Spacing * stage - y_correction), Vector2i(14, 1), 108, "brick2" + std::to_string(x), 0, BRICK);
-					GameObject* object = m->getObjP(t);
+					object = m->getObjP(t);
 					animateObject(object, "Brick_2_Change");
 					//printf("\nreplaced brick at: %f,%f\n", object->getPos().x, object->getPos().y);
 				}
@@ -655,12 +658,12 @@ void GameController::loadLine(std::string in, int stage, int spacing) {
 
 }
 
-void GameController::loadEnemies(std::string line, int stage, int spacing) {
+void GameController::LoadEnemies(std::string line, int stage, int spacing) {
 	int x = 0;
 	for (char c : line) {
 		//enemy
 		if (c == 'e') {
-			printf("\nLOADING ENEMY\n");
+			printf("\nLOADING ENEMY");
 			int i = rand()%2;
 			if (i == 0) {
 				m->addObject(Vector2f(x * spacing, y_Spacing * stage), Vector2i(0, 1), 120, "enemy1" + std::to_string(x), 15, ENEMY);
@@ -687,22 +690,22 @@ void GameController::loadEnemies(std::string line, int stage, int spacing) {
  * \param object The GameObject which should be moved
  * \return The Object is able to move
  */
-bool GameController::checkWalk(Vector2f currPos, Vector2f nextPos,Vector2i dir, GameObject object) {
+bool GameController::CheckWalk(Vector2f currPos, Vector2f nextPos,Vector2i dir, GameObject object) {
 	bool out = false;
 
 	if (dir == Vector2i(0, 1)) {//standing in front of ladder for y movement
-		int id = getObjectAtPos(LADDER, nextPos);
+		int id = GetObjectAtPos(LADDER, nextPos);
 		if (id != -1) {
 			out = true;
 		}
 	}else if (dir == Vector2i(0, -1)) {
-		int id = getObjectAtPos(LADDER, nextPos);
-		int test = getObjectAtPos(BRICK, nextPos -Vector2f(5,5)); //to correct slight offset of getObjectAtPos
+		int id = GetObjectAtPos(LADDER, nextPos);
+		int test = GetObjectAtPos(BRICK, nextPos -Vector2f(5,5)); //to correct slight offset of getObjectAtPos
 		if (id != -1 && test == -1) {
 			out = true;
 		}
 	}else{	//standing on brick or y <= 1 for x movement
-		int id = getObjectAtPos(LADDER, currPos);
+		int id = GetObjectAtPos(LADDER, currPos);
 		int diff = int(nextPos.y) % 160;
 		int times = nextPos.y / 160;
 		if (id != -1) {
@@ -722,9 +725,9 @@ bool GameController::checkWalk(Vector2f currPos, Vector2f nextPos,Vector2i dir, 
 	return out;
 }
 
-bool GameController::checkEnemyCollision(int player) {
+bool GameController::CheckEnemyCollision(int player) {
 	Vector2f pos = m->getObjects()[player].getPos();
-	int i = getCollisionAtPos(ENEMY, pos);
+	int i = GetCollisionAtPos(ENEMY, pos);
 	if (i != -1) {
 		//printf("\ncollided with enemy!!!");
 		return true;
@@ -778,13 +781,13 @@ void GameController::digging(bool continuing) {
 			int objID = m->findObject("player");
 			GameObject* obj = m->getObjP(objID);
 			//printf("\n\nDIGGING BLOCk at pos: (%f,%f)", obj->getPos().x, obj->getPos().y );
-			int brickUnderPos = findReplacedBrick(obj->getPos()+obj->getFacing()*35);
+			int brickUnderPos = FindReplacedBrick(obj->getPos()+obj->getFacing()*35);
 			if (brickUnderPos != -1) {
 				GameObject* brick = m->getObjP(brickUnderPos);
 				dig(brick);
 			}
 			else {
-				brickUnderPos = findObjectPosUnder(BRICK,obj->getPos() + obj->getFacing() * 45, Vector2i(35, 35));
+				brickUnderPos = FindObjectPosUnder(BRICK,obj->getPos() + obj->getFacing() * 45, Vector2i(35, 35));
 				if (brickUnderPos != -1) {
    					GameObject* brick = m->getObjP(brickUnderPos);
 					dig(brick);
@@ -805,7 +808,7 @@ void GameController::digging(bool continuing) {
  * Player Input
  * \param window From which Window should be the Input
  */
-void GameController::keyboardInput(GLFWwindow* window)
+void GameController::KeyboardInput(GLFWwindow* window)
 {
 	std::string playerAnim;
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
@@ -815,7 +818,7 @@ void GameController::keyboardInput(GLFWwindow* window)
 			playerAnim = "Red_" + playerAnim;
 		}
 
-		moveObject(Vector2i(0, 1),"player", playerAnim,false);
+		MoveObject(Vector2i(0, 1),"player", playerAnim,false);
 		digging(false);
 	}
 	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
@@ -825,7 +828,7 @@ void GameController::keyboardInput(GLFWwindow* window)
 			playerAnim = "Red_" + playerAnim;
 		}
 
-		moveObject(Vector2i(-1, 0), "player", playerAnim,false);
+		MoveObject(Vector2i(-1, 0), "player", playerAnim,false);
 		digging(false);
 	}
 	else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
@@ -835,7 +838,7 @@ void GameController::keyboardInput(GLFWwindow* window)
 			playerAnim = "Red_" + playerAnim;
 		}
 
-		moveObject(Vector2i(0, -1), "player", playerAnim, false);
+		MoveObject(Vector2i(0, -1), "player", playerAnim, false);
 		digging(false);
 	}
 	else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
@@ -845,7 +848,7 @@ void GameController::keyboardInput(GLFWwindow* window)
 			playerAnim = "Red_" + playerAnim;
 		}
 
-		moveObject(Vector2i(1, 0), "player", playerAnim, false);
+		MoveObject(Vector2i(1, 0), "player", playerAnim, false);
 		digging(false);
 	}
 	else if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
@@ -888,7 +891,7 @@ void GameController::keyboardInput(GLFWwindow* window)
  * \param pos Position where the GameObject in Objects has to be
  * \return The ID of the found GameObject or -1
  */
-int GameController::getObjectAtPos(objectType type, Vector2f pos) {
+int GameController::GetObjectAtPos(objectType type, Vector2f pos) {
 	
 	for (GameObject o : m->getObjects()) {
 		if (o.getType() == type) {
@@ -903,7 +906,7 @@ int GameController::getObjectAtPos(objectType type, Vector2f pos) {
 	return  -1;
 }
 
-int GameController::getCollisionAtPos(objectType type, Vector2f pos) {
+int GameController::GetCollisionAtPos(objectType type, Vector2f pos) {
 	for (GameObject o : m->getObjects()) {
 		if (o.getType() == type) {
 			if (o.getPos() + Vector2f(80, 1) > pos && o.getPos() - Vector2f(80, 1) < pos) {
@@ -915,7 +918,7 @@ int GameController::getCollisionAtPos(objectType type, Vector2f pos) {
 	return  -1;
 }
 
-int GameController::findReplacedBrick(Vector2f pos)
+int GameController::FindReplacedBrick(Vector2f pos)
 {
 	for (GameObject o : m->getReplacedBricks()) {
 		if (pos.y - 55 <= o.getPos().y&& pos.y+15>= o.getPos().y) {
@@ -927,7 +930,7 @@ int GameController::findReplacedBrick(Vector2f pos)
 	return -1;
 }
 
-int GameController::findObjectPosUnder(objectType type,Vector2f pos,Vector2i bounds) {
+int GameController::FindObjectPosUnder(objectType type,Vector2f pos,Vector2i bounds) {
 	for (GameObject o : m->getObjects()) {
 		if (o.getType() == type) {
 			if (pos.y - 50 <= o.getPos().y && pos.y+5 >= o.getPos().y) {

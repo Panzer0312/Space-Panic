@@ -13,8 +13,6 @@ public:
 	int addSprite(Vector2f pos, Vector2i spritesheetPos, int width);
 	/** Instantiates a GameObject with also calling addSprite and adds it to the GameObject vector (Objects) */
 	int addObject(Vector2f pos, Vector2i spritesheetPos, int width, std::string name, int speed, objectType type);
-	/** Instantiates a ObjectAnimation and adding it to the ObjectAnimation vector (Animations) */
-	int addAnimation(std::string name, float speed, std::vector<Vector2i> animSprites);
 	/** Changes the position of a sprite in Sprites to move it on the screen*/
 	void changeSpritePos(int sprite, Vector2f pos);
 	/** Changes the appearance of an instantiated Sprite in the vector Sprites */
@@ -32,8 +30,6 @@ public:
 	std::vector<GameObject> getObjects();
 	/** Returns the sprite at a given position in the vector Sprites */
 	SpriteBatch::SpriteInfo getSprite(int i);
-	/** Returns the vector with all instantiated ObjectAnimations */
-	std::vector <ObjectAnimation> getAnimations();
 	/** Searches the vector Objects after a given name */
 	int findObject(std::string name);
 	/** Searches the vector Animations after a given name */

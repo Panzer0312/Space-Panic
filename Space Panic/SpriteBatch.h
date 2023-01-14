@@ -19,8 +19,6 @@ public:
     SpriteBatch(const char* pFilename, unsigned int NumSpritesX, unsigned int NumSpritesY, unsigned int WindowWidth, unsigned int WindowHeight);
     /** Render given Sprites from Spritesheet */
     void Render(const std::vector<SpriteInfo>& sprites);
-    /** Renders the whole spritesheet */
-    void RenderAll();
 
 private:
     /** Intializes the Spritesheet */

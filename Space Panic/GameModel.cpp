@@ -168,7 +168,7 @@ int GameModel::findObject(std::string name)
 			return i;
 		}
 	}
-	printf("Object %s not found!!", name);
+	printf("Object %s not found!!", name.c_str());
 	return -1;
 }
 

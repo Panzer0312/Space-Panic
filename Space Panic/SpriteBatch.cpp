@@ -135,35 +135,3 @@ void SpriteBatch::Render(const std::vector<SpriteInfo>& sprites)
     m_pSpriteSheet->Bind(GL_TEXTURE0);
     m_pQuads->Render((int)sprites.size());
 }
-
-/**
- * .
- * Renders whole Spritesheet without initializing any GameObjects etc.
- */
-void SpriteBatch::RenderAll()
-{
-    m_spriteTech.Enable();
-
-    for (unsigned int h = 0; h < (unsigned int)m_numSpritesY; h++) {
-        for (unsigned int w = 0; w < (unsigned int)m_numSpritesX; w++) {
-            unsigned int TileIndex = h * (unsigned int)m_numSpritesX + w;
-
-            float PosX = w * m_tileWidthInPixels;
-            float PosY = h * m_tileHeightInPixels;
-
-            float NDCX, NDCY;
-            ScreenPosToNDC(PosX, PosY, NDCX, NDCY);
-
-            float UBase = w * m_texUSize;
-            float VBase = h * m_texVSize;
-
-            m_spriteTech.SetQuad(TileIndex,
-                NDCX, NDCY, m_tileWidthNDC, m_tileHeightNDC,
-                UBase, VBase, m_texUSize, m_texVSize);
-        }
-    }
-
-    m_spriteTech.UpdateProgram();
-    m_pSpriteSheet->Bind(GL_TEXTURE0);
-    m_pQuads->Render();
-}

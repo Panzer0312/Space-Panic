@@ -11,9 +11,9 @@ GameObject::GameObject()
 	speed = -1;
 	spriteID = -1;
 	name = "";
-	animate,falling = false;
+	animate = false,falling = false;
 	facing = Vector2i(0,0);
-	counter,currAnim, pushUps = 0;
+	counter = 0,currAnim = 0, pushUps = 0;
 	dec = RIGHT;
 	killed = false;
 }
@@ -33,7 +33,7 @@ GameObject::GameObject(int objSpriteID, std::string objName, Vector2f objPos, fl
 	pos = objPos;
 	speed = objSpeed;
 	type = objType;
-	counter, currAnim, pushUps = 0, decCount = 0;
+	counter = 0, currAnim = 0, pushUps = 0, decCount = 0;
 	falling = false;
 	dec = RIGHT;
 	killed = false;
