@@ -7,7 +7,7 @@ int Player;
 GameObject * PlayerPointer;
 
 int playTime, playTimeCounter,air,maxTimers,currPlayerLifes,playerDeaths = 0;
-int maxAir = 100;
+int maxAir = 180;
 
 
 bool wait,redPlayer = false;
@@ -109,7 +109,7 @@ void GameController::game() {
 				playTime++;
 				air--;
 				updateTimer();
-				printf("\n%i", playTime);
+				//printf("\n%i", playTime);
 				playTimeCounter = 0;
 			}
 			if (air <= 0) {
@@ -120,8 +120,8 @@ void GameController::game() {
 			if (Player == NULL|| PlayerPointer == NULL) {
 				Player = m->findObject("player");
 				PlayerPointer = m->getObjP(Player);
-				printf("Test");
-				printf("%s", PlayerPointer->getName().c_str());
+				//printf("Test");
+				//printf("%s", PlayerPointer->getName().c_str());
 			}
 
 			if (checkEnemyCollision(Player)) {
@@ -182,7 +182,7 @@ void GameController::gravitation(GameObject* p) {
 	if (currPos.y > 1) {
 		int i = findReplacedBrick(currPos);
 		if (i != -1) {
-			printf("on replaced brick");
+			//printf("on replaced brick");
 			if (!p->isFalling()) {
 				player_falling_Face = p->getFacing();
 				float bPos = m->getObjP(i)->getPos().x;
@@ -252,12 +252,12 @@ enemyDecision GameController::calcEnemyDecision(enemyDecision curr, Vector2f fro
 		//left/right walking and then found ladder
 		std::vector<enemyDecision> choices = {LEFT,RIGHT};
 		if (nextPosDown == -1 && from.y >1) {
-			printf("\nLadderD");
+			//printf("\nLadderD");
 			choices.push_back(LADDERDOWN);
 		}
 		if (nextLadderposUp != -1) {
 			if (from.y / 160 < 5) {
-				printf("\nLadderU");
+				//printf("\nLadderU");
 				choices.push_back(LADDERUP);
 			}
 		}
@@ -298,7 +298,7 @@ void GameController::initVisualizedTimer() {
 		i++;
 	}
 	maxTimers = i;
-	printf("\nTimer Count : %i", m->timerCount());
+	//printf("\nTimer Count : %i", m->timerCount());
 }
 
 void GameController::updateTimer() {
@@ -312,7 +312,7 @@ void GameController::updateTimer() {
 		int timerInt = timer->getID();
 		if (timer->getName().at(5) == '2') {
 			redPlayer = true;
-			printf("RED");
+			//printf("RED");
 		}
 		m->changeSpriteSheet(timerInt, Vector2i(2, 0));
 		m->removeNextTimer();
@@ -367,7 +367,7 @@ void GameController::moveEnemies(Vector2f to) {
 				pauseMove = true;
 				//printf("%i pu", o->getPushUps());
 				if (o->getPushUps() >= 20) {
-					printf("\nPUSHING");
+					//printf("\nPUSHING");
 					animateObject(o, animName + o->getName().at(5));
 				}
 				else {
@@ -403,7 +403,7 @@ void GameController::moveEnemies(Vector2f to) {
 			else {
 				if (o->isFalling()) {
 					//Kill enemy
-					printf("\nenemy got killed\n");
+					//printf("\nenemy got killed\n");
 					o->setKilled(true);
 					killedEnemiesCounter++;
 					m->changeObjPos(o->getID(),boundaries + Vector2f(100,100));
@@ -426,7 +426,7 @@ void GameController::moveEnemies(Vector2f to) {
 			enemyDecision newDec = currDec;
 			int l = getObjectAtPos(LADDER, currPos);
 			if (l != -1) {
-				printf("\nl!=-1");
+				//printf("\nl!=-1");
 				if (dec > shortDec) {
 					//on Ladder/ standing in front of ladder
 					//printf("\enemy found ladder");
@@ -459,7 +459,7 @@ void GameController::moveEnemies(Vector2f to) {
 
 			}
 			else {
-				printf("\nL==-1");
+				//printf("\nL==-1");
 			}
 
 			//printf("\ndecision %i,%i", translateEnemyDec(currDec).x, translateEnemyDec(currDec).y);
@@ -513,7 +513,7 @@ void GameController::addLevel(bool next) {
 			loadMap(gLevel);
 			Player = m->findObject("player");
 			PlayerPointer = m->getObjP(Player);
-			printf("\n%s", PlayerPointer->getName().c_str());
+			//printf("\n%s", PlayerPointer->getName().c_str());
 			wait = false;
 			//m->changeSpriteSheet(Player, Vector2i(0, 3));
 		}
@@ -637,13 +637,13 @@ void GameController::loadLine(std::string in, int stage, int spacing) {
 					t = m->addObject(Vector2f(x * spacing, y_Spacing * stage - y_correction), Vector2i(15, 1), 108, "brick1" + std::to_string(x), 0, BRICK);
 					GameObject* object = m->getObjP(t);
 					animateObject(object, "Brick_1_Change");
-					printf("\nreplaced brick at: %f,%f\n", object->getPos().x, object->getPos().y);
+					//printf("\nreplaced brick at: %f,%f\n", object->getPos().x, object->getPos().y);
 				}
 				else {
 					t = m->addObject(Vector2f(x * spacing, y_Spacing * stage - y_correction), Vector2i(14, 1), 108, "brick2" + std::to_string(x), 0, BRICK);
 					GameObject* object = m->getObjP(t);
 					animateObject(object, "Brick_2_Change");
-					printf("\nreplaced brick at: %f,%f\n", object->getPos().x, object->getPos().y);
+					//printf("\nreplaced brick at: %f,%f\n", object->getPos().x, object->getPos().y);
 				}
 				m->addReplacedBrick(t);
 			}
@@ -726,7 +726,7 @@ bool GameController::checkEnemyCollision(int player) {
 	Vector2f pos = m->getObjects()[player].getPos();
 	int i = getCollisionAtPos(ENEMY, pos);
 	if (i != -1) {
-		printf("\ncollided with enemy!!!");
+		//printf("\ncollided with enemy!!!");
 		return true;
 	}
 	return false;
@@ -755,7 +755,7 @@ void GameController::animateObject(GameObject *object, std::string name) {
 
 void GameController::dig(GameObject* brick) {
 	char anim = brick->getName().at(5);
-	printf("%c",anim);
+	//printf("%c",anim);
 	if (anim == '1') {
 		animateObject(brick, "Brick_1_Change");
 	}
@@ -777,7 +777,7 @@ void GameController::digging(bool continuing) {
 
 			int objID = m->findObject("player");
 			GameObject* obj = m->getObjP(objID);
-			printf("\n\nDIGGING BLOCk at pos: (%f,%f)", obj->getPos().x, obj->getPos().y );
+			//printf("\n\nDIGGING BLOCk at pos: (%f,%f)", obj->getPos().x, obj->getPos().y );
 			int brickUnderPos = findReplacedBrick(obj->getPos()+obj->getFacing()*35);
 			if (brickUnderPos != -1) {
 				GameObject* brick = m->getObjP(brickUnderPos);
@@ -790,7 +790,7 @@ void GameController::digging(bool continuing) {
 					dig(brick);
 				}
 				else {
-					printf("\nnot over a brick\n");
+					//printf("\nnot over a brick\n");
 				}
 			}
 		}
@@ -849,7 +849,7 @@ void GameController::keyboardInput(GLFWwindow* window)
 		digging(false);
 	}
 	else if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-		std::cout << "SPACE" << std::endl;
+		//std::cout << "SPACE" << std::endl;
 		int objID = m->findObject("player");
 		GameObject *obj = m->getObjP(objID);
 		if (obj->getFacing() == Vector2i(-1, 0)) {

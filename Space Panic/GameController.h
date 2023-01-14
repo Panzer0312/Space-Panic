@@ -1,9 +1,6 @@
 #include "GameModel.h"
 #include "GameView.h"
 #include <iostream>
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
 //A game class for everything logic related
 class GameController
 {

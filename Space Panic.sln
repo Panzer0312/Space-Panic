@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Space Panic", "Space Panic\Space Panic.vcxproj", "{21EA5D7D-0E9A-4225-A692-AD95B181313E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GoogleTests", "GoogleTests\GoogleTests.vcxproj", "{DF7427F1-4EF6-4FD0-9748-ED0206117ACF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{21EA5D7D-0E9A-4225-A692-AD95B181313E}.Release|x64.Build.0 = Release|x64
 		{21EA5D7D-0E9A-4225-A692-AD95B181313E}.Release|x86.ActiveCfg = Release|Win32
 		{21EA5D7D-0E9A-4225-A692-AD95B181313E}.Release|x86.Build.0 = Release|Win32
+		{DF7427F1-4EF6-4FD0-9748-ED0206117ACF}.Debug|x64.ActiveCfg = Debug|x64
+		{DF7427F1-4EF6-4FD0-9748-ED0206117ACF}.Debug|x64.Build.0 = Debug|x64
+		{DF7427F1-4EF6-4FD0-9748-ED0206117ACF}.Debug|x86.ActiveCfg = Debug|Win32
+		{DF7427F1-4EF6-4FD0-9748-ED0206117ACF}.Debug|x86.Build.0 = Debug|Win32
+		{DF7427F1-4EF6-4FD0-9748-ED0206117ACF}.Release|x64.ActiveCfg = Release|x64
+		{DF7427F1-4EF6-4FD0-9748-ED0206117ACF}.Release|x64.Build.0 = Release|x64
+		{DF7427F1-4EF6-4FD0-9748-ED0206117ACF}.Release|x86.ActiveCfg = Release|Win32
+		{DF7427F1-4EF6-4FD0-9748-ED0206117ACF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
