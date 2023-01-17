@@ -3,7 +3,8 @@
 #define WINDOW_WIDTH  1920
 #define WINDOW_HEIGHT 1080
 
-//changes the window resolution if a new monitor is dis/connected
+
+/** Changes the window resolution if a new monitor is dis/connected */
 void monitor_callback(GLFWmonitor* monitor, int event);
 
 // The Width of the screen
@@ -14,10 +15,10 @@ const unsigned int SCREEN_HEIGHT = 804;
 SpriteTechnique m_texTech;
 Texture* m_pTexture = NULL;
 SpriteBatch* m_pSpriteBatch = NULL;
-long long m_prevTime = 0;
 
-//SpriteSheet
+/** SpriteSheet horizontal textures count*/
 unsigned int NumSpritesX = 16;
+/** SpriteSheet vertical textures count*/
 unsigned int NumSpritesY = 4;
 
 std::string animationsFile = "Animations.txt";
@@ -34,8 +35,8 @@ GameView::GameView()
 
 /**
  * .
- * creates a window and inits OpenGL libraries. 
- * \return sucess
+ * Creates a window and inits OpenGL libraries. 
+ * \return sucess 0 on success
  */
 int GameView::initializeView() {
     //init glfw library
@@ -111,7 +112,10 @@ void GameView::RenderScene(std::vector<SpriteBatch::SpriteInfo> Sprites)
     glfwSwapBuffers(window);
     glfwPollEvents();
 }
-
+/**
+ * .
+ * 
+ */
 void GameView::initAnimations(){
     //Vector2i|Vector2i|....|Vector2i#TimeToNextAnimation#AnimationName
     //BSP: 14,1|2,0#20#Brick_2_Change
@@ -163,7 +167,14 @@ int GameView::addAnimation(std::string name, float speed, std::vector<Vector2i> 
     Animations[animationsCount - 1] = ObjectAnimation(name, speed, animSprites);
     return animationsCount - 1;
 }
-
+/**
+ * .
+ * 
+ * \param currAnim The counter which texture is currently displayed during the animation
+ * \param counter The counter when the texture of the animation should change next
+ * \param name The name of the animation
+ * \return The next texture of the animation
+ */
 Vector2i GameView::nextAnimation(int*currAnim,int*counter, std::string name)
 {
     Vector2i temp;

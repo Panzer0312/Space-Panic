@@ -38,107 +38,108 @@ GameObject::GameObject(int objSpriteID, std::string objName, Vector2f objPos, fl
 	dec = RIGHT;
 	killed = false;
 }
-/** setter method */
+/** Setter method */
 void GameObject::setPos(Vector2f position) {
 	pos = position;
 }
-/** getter method */
+/** Getter method */
 int GameObject::getID()
 {
 	return spriteID;
 }
-/** getter method */
+/** Getter method */
 Vector2f GameObject::getPos()
 {
 	return pos;
 }
-/** getter method */
+/** Getter method */
 objectType GameObject::getType()
 {
 	return type;
 }
-/** getter method */
+/** Getter method */
 float GameObject::getSpeed()
 {
 	return speed;
 }
-/** getter method */
+/** Getter method */
 std::string GameObject::getName()
 {
 	return name;
 }
-/** getter method */
+/** Getter method */
 Vector2i GameObject::getFacing()
 {
 	return facing;
 }
-/** setter method */
+/** Setter method */
 void GameObject::setFacing(Vector2i dir)
 {
 	facing = dir;
 }
-
+/** Setter method */
 void GameObject::changeCurrAnimName(std::string name) {
 	currAnimName = name;
 }
-
+/** Getter method */
 std::string GameObject::getCurrAnimName() {
 	return currAnimName;
 }
-
+/** Getter method */
 int* GameObject::getCurrAnim() {
 	return &currAnim;
 }
+/** Getter method */
 int* GameObject::getCurrCounter() {
 	return &counter;
 }
-
+/** Getter method */
 bool GameObject::isFalling()
 {
 	return falling;
 }
-
+/** Setter method */
 void GameObject::setFalling(bool f)
 {
 	falling = f;
 }
-
+/** Getter method */
 enemyDecision GameObject::getDecision()
 {
 	return dec;
 }
-
+/** Setter method */
 void GameObject::setDecision(enemyDecision decision)
 {
 	dec = decision;
 }
-
+/** Sets the decision counter to 0*/
 void GameObject::resetDecisionCounter(){
 	decCount = 0;
 }
-
+/** Getter method */
 int GameObject::getDecisionCounter(){
 	return decCount;
 }
-
+/** Setter method */
 void GameObject::setDecisionCounter(int newDecCount) {
 	decCount = newDecCount;
 }
-
+/** Getter method */
 bool GameObject::iskilled()
 {
 	return killed;
 }
-
+/** Setter method */
 void GameObject::setKilled(bool k)
 {
 	killed = k;
 }
-
+/** Getter method */
 int GameObject::getPushUps(){
 	return pushUps;
 }
-
+/** Setter method */
 void GameObject::setPushUps(int i)
 {
 	pushUps = i;

@@ -1,12 +1,25 @@
 #pragma once
 #include "GameObject.h"
 #include <vector>
-#include "SpriteBatch.h"
-#include "ObjectAnimation.h"
 //A game class for everything storage related
 class GameModel
 {
 public:
+
+	/** Structure for saving Texture information in GameModel --> GameController retrieves them and sends them to GameView to be drawn on screen*/
+	struct SpriteInformation {
+		/** X Coordinate of Texture on screen */
+		unsigned int PixelX = 0;
+		/** Y Coordinate of Texture on screen */
+		unsigned int PixelY = 0;
+		/** Sprite location in the sprite sheet - row */
+		unsigned int SpriteRow = 0;
+		/** Sprite location in the sprite sheet - col  */
+		unsigned int SpriteCol = 0;
+		/** How tall the sprite should be drawn */
+		unsigned int SpriteWidth = 0;
+	};
+
 	/** Instantiates the GameModel and sets all its counter to 0*/
 	GameModel();
 	/** Adds a sprite to the vector with all sprites (Sprites) that will be drawn to the screen */
@@ -25,47 +38,46 @@ public:
 	void deleteObject(int objectPos);
 	void deleteEnemy(int enemyPos);
 	/** Returns the vector Sprites with all instantiated Sprites*/
-	std::vector<SpriteBatch::SpriteInfo> getSprites();
+	std::vector<SpriteInformation> getSprites();
 	/**  Returns the vector Objects with all instantiated GameObjects */
 	std::vector<GameObject> getObjects();
 	/** Returns the sprite at a given position in the vector Sprites */
-	SpriteBatch::SpriteInfo getSprite(int i);
+	SpriteInformation getSprite(int i);
 	/** Searches the vector Objects after a given name */
 	int findObject(std::string name);
-	/** Searches the vector Animations after a given name */
-	
+	/** Adds a brick GameObject if it doesn't exist in the replacedBrick vector yet otherwise deletes it*/
 	bool addReplacedBrick(int id);
-
+	/** Returns replacedBricks vector */
 	std::vector<GameObject> getReplacedBricks();
-
+	/** Returns Enemies vector*/
 	std::vector<GameObject> getEnemies();
-
+	/** Returns a GameObject pointer from the given ID (Searches the Objects vector)*/
 	GameObject* getObjP(int id);
-
+	/** Returns the last index of the timer vector */
 	int timerCount();
-
+	/** Returns the GameObject pointer of the first GameObject in the timer vector */
 	GameObject* getNextTimer();
-
+	/** Deletes the first GameObject in the timer vector, returns true at sucess */
 	bool removeNextTimer();
-
+	/** Returns the GameObject pointer of the GameObject at the given position in the Lifes vector*/
 	GameObject* getLife(int pos);
-
-//	int findAnimation(std::string name);
 	/** Changes the variable facing of a GameObject at a given position in vector Objects */
 	void changeObjectFacing(int obj,Vector2i dir);
-	/** Calls the function addCount of a given ObjectAnimation to further animate it*/
-//	void changeAnimCounter(int id);
+	/** Clears every vector used in GameModel and resets the counter */
 	void deleteAll();
 
 private:
-	
 	/** Stores all instantiated Sprites */
-	std::vector<SpriteBatch::SpriteInfo> Sprites;
+	std::vector<SpriteInformation> Sprites;
 	/** Stores all instantiated Objects */
 	std::vector<GameObject> Objects;
+	/** Stores all instantiated Aliens */
 	std::vector<GameObject> Enemies;
+	/** Stores all replaced bricks for efficiency */
 	std::vector<GameObject> replacedBricks;
+	/** Stores all instantiated timer objects (the yellow/red bar at the top) */
 	std::vector<GameObject> timer;
+	/** Stores all player lifes for visualization*/
 	std::vector<GameObject> Lifes;
 	/** Counter for how much Sprites are stored */
 	int spriteCount;

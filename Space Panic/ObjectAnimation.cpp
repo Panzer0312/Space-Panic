@@ -25,11 +25,6 @@ ObjectAnimation::ObjectAnimation(std::string animName, int animSpeed,std::vector
 	animations = animationsVector;
 }
 
-/**
- * .
- * 
- * \return Name of Animation
- */
 std::string ObjectAnimation::getName()
 {
 	return name;

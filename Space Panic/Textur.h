@@ -14,7 +14,7 @@ public:
     void Load(const std::string& Filename);
     /** Must be called at least once for the specific texture unit */
     void Bind(GLenum TextureUnit);
-    /** writes TextureSizes to given variables*/
+    /** Writes TextureSizes to given variables*/
     void GetImageSize(int& ImageWidth, int& ImageHeight)
     {
         ImageWidth = m_imageWidth;

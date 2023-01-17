@@ -37,7 +37,7 @@ int GameModel::addSprite(Vector2f pos, Vector2i spritesheetPos, int width)
  * \param width Sets the Size of the Sprite
  * \param name Name of the Object to find it through findObject()
  * \param speed How fast the Object should be moved 
- * \param type The objectType (BRICK,ENEMY,LADDER,PLAYER)
+ * \param type The objectType (BRICK,ENEMY,LADDER,PLAYER|TIMER|LIFE)
  * \return 
  */
 int GameModel::addObject(Vector2f pos, Vector2i spritesheetPos, int width, std::string name, int speed, objectType type) {
@@ -115,6 +115,11 @@ void GameModel::deleteObject(int objectPos) {
 	Objects.resize(objectsCount);
 }
 
+/**
+ * .
+ * 
+ * \param enemyPos The specific position of the alien GameObject in the Enemies vector
+ */
 void GameModel::deleteEnemy(int enemyPos) {
 	Enemies.erase(Enemies.begin() + enemyPos);
 }
@@ -124,7 +129,7 @@ void GameModel::deleteEnemy(int enemyPos) {
  * 
  * \return All instantiated Sprites in the Vector
  */
-std::vector<SpriteBatch::SpriteInfo> GameModel::getSprites()
+std::vector<GameModel::SpriteInformation> GameModel::getSprites()
 {
 	return Sprites;
 }
@@ -146,13 +151,13 @@ std::vector<GameObject> GameModel::getObjects()
  * \param i Sprite in Sprites at given position
  * \return the found sprite or a dummy Sprite
  */
-SpriteBatch::SpriteInfo GameModel::getSprite(int i)
+GameModel::SpriteInformation GameModel::getSprite(int i)
 {
 	if (i < Sprites.size()) {
 		return Sprites[i];
 	}
 	printf("Sprite %i not found!!", i);
-	return SpriteBatch::SpriteInfo();
+	return GameModel::SpriteInformation();
 }
 
 /**
@@ -192,29 +197,58 @@ bool GameModel::addReplacedBrick(int id)
 	return true;
 }
 
+/**
+ * .
+ * 
+ * \return replacedBricks vector
+ */
 std::vector<GameObject> GameModel::getReplacedBricks()
 {
 	return replacedBricks;
 }
-
+/**
+ * .
+ * 
+ * \return Enemies vector
+ */
 std::vector<GameObject> GameModel::getEnemies()
 {
 	return Enemies;
 }
-
+/**
+ * .
+ * 
+ * \param id ID of the GamObject --> The position of the GameObject in the Objects vector
+ * \return GameObject pointer of the found GameObject 
+ */
 GameObject* GameModel::getObjP(int id)
 {
 	return &Objects[id];
 }
 
+/**
+ * .
+ * 
+ * \return The last index of the timer vector 
+ */
 int GameModel::timerCount() {
 	return timer.size()-1;
 }
 
+/**
+ * .
+ * 
+ * \return The first GameObject (Type == TIMER) in timer vector
+ */
 GameObject* GameModel::getNextTimer() {
 	return &timer[0];
 }
 
+/**
+ * .
+ * 
+ * \return success in removing the next timer GameObject
+ */
 bool GameModel::removeNextTimer() {
 	if (timer.size() > 0) {
 		timer.erase(timer.begin());
@@ -225,6 +259,12 @@ bool GameModel::removeNextTimer() {
 	}
 }
 
+/**
+ * .
+ * 
+ * \param pos The position of the searched GameObject in the Lifes vector
+ * \return The GameObject (Type == LIFE) at the position in the Lifes vector
+ */
 GameObject* GameModel::getLife(int pos)
 {
 	return &Lifes[pos];
@@ -241,6 +281,10 @@ void GameModel::changeObjectFacing(int obj, Vector2i dir)
 	Objects[obj].setFacing(dir);
 }
 
+/**
+ * .
+ * For restarting or changing a game level
+ */
 void GameModel::deleteAll()
 {
 	Objects.clear();

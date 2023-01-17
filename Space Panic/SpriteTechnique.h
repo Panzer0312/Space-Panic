@@ -11,9 +11,9 @@ public:
     SpriteTechnique();
     /** Initialize the Shaders */
     virtual bool Init();
-    /** binds texture unit with data buffer */
+    /** Binds texture unit with data buffer */
     void SetTextureUnit(unsigned int TextureUnit);
-    /** update Quad Info */
+    /** Update Quad Info */
     void SetQuad(int Index,
         float NDCX, float NDCY, float Width, float Height,    // tile base position and dimensions
         float u, float v, float TexWidth, float TexHeight);   // texture coordinates

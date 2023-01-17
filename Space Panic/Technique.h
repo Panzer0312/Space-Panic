@@ -5,15 +5,15 @@
 class Technique
 {
 public:
-    /** constructor */
+    /** Constructor */
     Technique();
-    /** destructor */
+    /** Destructor */
     virtual ~Technique();
     /** Initialize Shaderprogram */
     virtual bool Init();
     /** Tell OpenGL to use Shaderprogram */
     void Enable();
-    /** return the shaderProgram*/
+    /** Return the shaderProgram*/
     GLuint GetProgram() const { return m_shaderProg; }
 
 protected:
@@ -21,7 +21,7 @@ protected:
     bool Finalize();
     /** Function to initialize different Shader */
     bool initShader(GLenum ShaderType, const char* code);
-    /** uniform location as a variable within a program object */
+    /** Uniform location as a variable within a program object */
     GLint GetUniformLocation(const char* pUniformName);
 
     GLuint m_shaderProg = 0;

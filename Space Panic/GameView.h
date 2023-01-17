@@ -16,16 +16,20 @@ public:
 	int initializeView();
 	/** Renders a given Vector of Sprites */
 	void RenderScene(std::vector<SpriteBatch::SpriteInfo> Sprites);
-
+	/** Returns the next ObjectAnimation Vector2i for a Texture on the spritesheet based on a specific counter and name */
 	Vector2i nextAnimation(int*currAnim,int* counter, std::string name);
 
+	/** The game window */
 	GLFWwindow* window;
+	/** A vector with all possible ObjectAnimations instantiated from a given text file */
 	std::vector<ObjectAnimation> Animations;
+	/** The size of the Animations vector */
 	int animationsCount;
 
 private:
-
+	/** Instantiates all animations from a given text file */
 	void initAnimations();
+	/** Helper function for initAnimations to add an Animation to the Animations vector*/
 	int addAnimation(std::string name, float speed, std::vector<Vector2i> animSprites);
 
 };

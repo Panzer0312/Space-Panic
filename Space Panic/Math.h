@@ -1,11 +1,11 @@
 #pragma once
 
-/** object Types to differenciate the GameObjects */
+/** Object Types to differenciate between the GameObjects */
 enum objectType
 {
     ENEMY, PLAYER, BRICK, LADDER, TIMER, LIFE
 };
-
+/** The possibilities an alien is allowed to make */
 enum enemyDecision
 {
     LADDERUP,LADDERDOWN,LEFT,RIGHT
@@ -14,47 +14,41 @@ enum enemyDecision
 /** Vector for 2D float operations */
 struct Vector2f
 {
-    union {
-        float x;
-        float u;
-    };
-
-    union {
-        float y;
-        float v;
-    };
+    float x, y;
 
     Vector2f()
     {
         x = 0;
         y = 0;
     }
-
+    /**
+     * .
+     * Constructor of this Vector
+     * \param _x New integer x value of the Vector2f
+     * \param _y New integer y value of the Vector2f
+     */
     Vector2f(float _x, float _y)
     {
         x = _x;
         y = _y;
     }
 };
-/** Vector for 2D int operations */
+/** Vector for 2D integer operations */
 struct Vector2i
 {
-    union {
-        int x;
-        int u;
-    };
-
-    union {
-        int y;
-        int v;
-    };
+    int x, y;
 
     Vector2i()
     {
         x = 0;
         y = 0;
     }
-
+    /**
+     * .
+     * Constructor of this Vector
+     * \param _x New integer x value of the Vector2i
+     * \param _y New integer y value of the Vector2i
+     */
     Vector2i(int _x, int _y)
     {
         x = _x;
@@ -63,35 +57,35 @@ struct Vector2i
 };
 
 
-/** Multiplication of a float Vector */
+/** Multiplication of a Vector2f with a float number  */
 inline Vector2f operator*(const Vector2f& l, float f)
 {
     Vector2f Ret(l.x * f, l.y * f);
 
     return Ret;
 }
-/** Addition of two float Vector */
+/** Addition of two Vector2f*/
 inline Vector2f operator+(const Vector2f& l, const Vector2f& f)
 {
     Vector2f Ret(l.x + f.x, l.y + f.y);
 
     return Ret;
 }
-/** Subtraction of two float Vector */
+/** Subtraction of two Vector2f*/
 inline Vector2f operator-(const Vector2f& l, const Vector2f& f)
 {
     Vector2f Ret(l.x - f.x, l.y - f.y);
 
     return Ret;
 }
-/** Division of a float Vector */
+/** Division of a Vector2f and a float number */
 inline Vector2f operator/(const Vector2f& l, const float i)
 {
     Vector2f Ret(l.x / float(i), l.y / float(i ));
 
     return Ret;
 }
-/** Greater than operation of two float Vectors */
+/** Greater than operation of two Vector2f */
 inline bool operator>(const Vector2f& l, const Vector2f& f)
 {
     bool out = false;
@@ -101,7 +95,7 @@ inline bool operator>(const Vector2f& l, const Vector2f& f)
 
     return out;
 }
-/** Less than operation of two float Vectors */
+/** Less than operation of two Vector2f */
 inline bool operator<(const Vector2f& l, const Vector2f& f)
 {
     bool out = false;
@@ -110,7 +104,7 @@ inline bool operator<(const Vector2f& l, const Vector2f& f)
     }
     return out;
 }
-/** Equal operation of two float Vectors */
+/** Equal operation of two Vector2f */
 inline bool operator==(const Vector2f& l, const Vector2f& f)
 {
     bool out = false;
@@ -120,7 +114,7 @@ inline bool operator==(const Vector2f& l, const Vector2f& f)
 
     return out;
 }
-/** Equal operation of two int Vectors */
+/** Equal operation of two Vector2i */
 inline bool operator==(const Vector2i& l, const Vector2i& f)
 {
     bool out = false;
@@ -130,21 +124,21 @@ inline bool operator==(const Vector2i& l, const Vector2i& f)
 
     return out;
 }
-/** Addition of two int Vector */
+/** Addition of a Vector2i and a Vector2f*/
 inline Vector2f operator+(const Vector2f& l, const Vector2i& f)
 {
     Vector2f Ret(l.x + f.x, l.y + f.y);
 
     return Ret;
 }
-/** Addition of one float with one int Vector */
+/** Addition of two Vector2i */
 inline Vector2i operator+(const Vector2i& l, const Vector2i& f)
 {
     Vector2i Ret(l.x + f.x, l.y + f.y);
 
     return Ret;
 }
-/** Multiplication of an int Vector */
+/** Multiplication of an Vector2i with a integer number */
 inline Vector2i operator*(const Vector2i& l, int f)
 {
     Vector2i Ret(l.x * f, l.y * f);

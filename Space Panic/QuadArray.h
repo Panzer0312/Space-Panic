@@ -14,7 +14,7 @@ public:
 private:
     /** Creates a new vertexBuffer Object */
     void CreateVertexBuffer();
-    /** creates a new QuadIDBoffer Object */
+    /** Creates a new QuadIDBoffer Object */
     void CreateQuadIDBuffer();
 
     enum BUFFER_TYPE {

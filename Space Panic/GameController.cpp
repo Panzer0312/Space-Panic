@@ -1,34 +1,35 @@
 #include "GameController.h"
 #include <fstream>
+/** X&Y Coordinates match window size --> To check if a GameObject is able to move or would vanish behind window borders*/
 const Vector2f boundaries = Vector2f(1800, 1000);
+/** Name of Map File */
 std::string map1 = "Map1.txt";
-
+/** Player position in Model Vector */
 int Player;
+/** Pointer to Player GameObject */
 GameObject * PlayerPointer;
-
-int playTime, playTimeCounter,air,maxTimers,currPlayerLifes,playerDeaths = 0;
+/** Some Variables to track Game Play */
+int playTime, playTimeCounter,air,maxTimers, killedEnemiesCounter, dig_Timer,currPlayerLifes,playerDeaths = 0;
+/** Timer before Player dies */
 int maxAir = 180;
-
-
+/** wait = stop GamePlay, redPlayer = Player near Death */
 bool wait,redPlayer = false;
-
+/** Wariable to set distance between different sprites in y axis during level instantiation */
 int y_Spacing = 32;
+/** Wariable to set distance between different sprites in y axis during level instantiation */
 int y_correction = 13;
-int dig_Timer = 0;
+/** Time the player has to dig before brick vanishes */
 int max_dig_Timer = 60;
-
+/** Time the Enemy has to wait before it is able to make next decision */
 int shortDec = 2;
-int maxDecToNextDec = 15;
-
-int killedEnemiesCounter = 0;
+/** Starting player lifes after each Level change, == 0 -> Player lost */
 int startingPlayerLifes = 3;
-
+/** Starting level */
 int gLevel = 1;
-
+/** Variable where player facing is saved in during gravitation --> after falling, the player faces to where he went before */
 Vector2i player_falling_Face;
 /**
  * .
- * 
  * \param model Model to save every Game Information
  * \param view View to render Model inforamtion and change it with the implemented Controller Logic
  */
@@ -40,8 +41,7 @@ GameController::GameController(GameModel *model,GameView *view)
 
 /**
  * .
- * 
- * \return View got initiaized sucessfull?
+ * \return View got initiaized sucessfully?
  */
 int GameController::Init() {
 	int i = v->initializeView();
@@ -57,14 +57,19 @@ int GameController::Init() {
 	return i;
 }
 
+/** For testing purposes, returns the current GameModel Pointer */
 GameModel* GameController::GetModel() {
 	return m;
 }
-
+/** For testing purposes, returns the current GameView Pointer */
 GameView* GameController::GetView() {
 	return v;
 }
 
+/**
+ * .
+ * \param gameLevel Level to instantiate (currently between 1-4)
+ */
 void GameController::LoadMap(int gameLevel) {
 	printf("loading map...");
 	std::ifstream mapFile(map1);
@@ -101,7 +106,8 @@ void GameController::LoadMap(int gameLevel) {
 
 /**
  * .
- *  Game Loop to get Input and Render everything
+ *  (collision, enemy movement etc.)
+ *  Here the Controller gets the Player Input, retrieves all GameObjects and sends them to the View to render them
  */
 void GameController::Game() {
 	int enemyMovementCounter = 0;
@@ -172,7 +178,7 @@ void GameController::Game() {
 			else {
 				enemyMovementCounter++;
 			}
-			v->RenderScene(m->getSprites());
+			v->RenderScene(changeModelSpritesToViewSprites(m->getSprites()));
 		}
 		else {
 			Player = NULL;
@@ -183,6 +189,29 @@ void GameController::Game() {
 	exit(0);
 }
 
+/**
+ * .
+ * \param modelSprites The sprites from GameModel
+ * \return The Sprites to draw in GameView 
+ */
+std::vector<SpriteBatch::SpriteInfo> GameController::changeModelSpritesToViewSprites(std::vector<GameModel::SpriteInformation> modelSprites) {
+	std::vector<SpriteBatch::SpriteInfo> out;
+	for (GameModel::SpriteInformation mS : modelSprites) {
+		SpriteBatch::SpriteInfo info;
+		info.PixelX = mS.PixelX;
+		info.PixelY = mS.PixelY;
+		info.SpriteCol = mS.SpriteCol; //x
+		info.SpriteRow = mS.SpriteRow; //y
+		info.SpriteWidth = mS.SpriteWidth;
+		out.push_back(info);
+	}
+	return out;
+}
+
+/**
+ * . 
+ * \param p The GameObject to apply gravitation on (player)
+*/
 void GameController::Gravitation(GameObject* p) {
 	Vector2f currPos = p->getPos();
 
@@ -207,6 +236,12 @@ void GameController::Gravitation(GameObject* p) {
 	}
 }
 
+/**
+ * .
+ * \param choices Possible decisions enemy is allowed to do
+ * \param forcedRandomChoice The choice in choices vector enemy could do to move near the player position
+ * \return EnemyDecion --> where the enemy tries to move next
+ */
 enemyDecision GameController::randomiseChoice(std::vector<enemyDecision> choices, int forcedRandomChoice) {
 	int rand = std::rand() % choices.size();
 	int rand2 = std::rand() % choices.size();
@@ -221,7 +256,13 @@ enemyDecision GameController::randomiseChoice(std::vector<enemyDecision> choices
 
 }
 
-
+/**
+ * .
+ * \param curr The Current enemy decision
+ * \param from The Enemy position
+ * \param to The Player position
+ * \return The next enemy decision
+ */
 enemyDecision GameController::calcEnemyDecision(enemyDecision curr, Vector2f from, Vector2f to) {
 	int diff = int(from.y) % 160;
 	int rand = std::rand();
@@ -292,7 +333,9 @@ enemyDecision GameController::calcEnemyDecision(enemyDecision curr, Vector2f fro
 	return RIGHT;
 
 }
-
+/**
+ * .
+ */
 void GameController::initVisualizedTimer() {
 	int i = 0;
 	for (int x = 300; x < boundaries.x - 300;x= x +20) {
@@ -307,7 +350,9 @@ void GameController::initVisualizedTimer() {
 	maxTimers = i;
 	//printf("\nTimer Count : %i", m->timerCount());
 }
-
+/**
+ * .
+ */
 void GameController::updateTimer() {
 	int currTimers = m->timerCount();
 	float ratio = maxTimers/(float)maxAir;
@@ -327,7 +372,11 @@ void GameController::updateTimer() {
 	
 }
 
-
+/**
+ * .
+ * \param dec The decision the alien has done
+ * \return Vector in which direction the alien will be moving in
+ */
 Vector2i GameController::translateEnemyDec(enemyDecision dec) {
 	Vector2i dir;
 	switch (dec) {
@@ -347,7 +396,10 @@ Vector2i GameController::translateEnemyDec(enemyDecision dec) {
 	return dir;
 }
 
-
+/**
+ * .
+ * \param to The player position
+ */
 void GameController::MoveEnemies(Vector2f to) {
 	int movingEnemies = 0;
 	for (GameObject object : m->getEnemies()) {
@@ -480,7 +532,10 @@ void GameController::MoveEnemies(Vector2f to) {
 	}
 }
 
-
+/**
+ * .
+ * \param Lifes the current player lifes
+ */
 void GameController::visualizePlayerLifes(int lifes) {
 	currPlayerLifes = lifes;
 	for (int i = 0; i < lifes; i++) {
@@ -490,7 +545,10 @@ void GameController::visualizePlayerLifes(int lifes) {
 	}
 }
 
-
+/**
+ * .
+ * \param next If true then load next level else restart current level 
+ */
 void GameController::addLevel(bool next) {
 	wait = true;
 	Player = NULL;
@@ -565,10 +623,11 @@ void GameController::addLevel(bool next) {
 
 /**
  * .
- * 
  * \param dir Direction to move to
  * \param name Name of the Object
  * \param animation Animation to play while moving the Object
+ * \param force If true, the object is allowed to move freely without constraints of ladders/bricks
+ * \return Object position has changed or not
  */
 bool GameController::MoveObject(Vector2i dir, std::string name, std::string animation,bool force)
 {
@@ -608,9 +667,8 @@ bool GameController::MoveObject(Vector2i dir, std::string name, std::string anim
 
 /**
  * .
- * 
  * \param in String to instantiate GameObjects from
- * \param stage on which y position (y * 26) to place the objects
+ * \param stage On which y position (y * 26) to place the objects
  * \param spacing How much space should be left between the GameObjects
  */
 void GameController::LoadLine(std::string in, int stage, int spacing) {
@@ -658,6 +716,12 @@ void GameController::LoadLine(std::string in, int stage, int spacing) {
 
 }
 
+/**
+ * .
+ * \param line String of a level stage
+ * \param stage The specific stage 
+ * \param spacing The amount of how far the aliens should be drawn away from each other
+ */
 void GameController::LoadEnemies(std::string line, int stage, int spacing) {
 	int x = 0;
 	for (char c : line) {
@@ -683,7 +747,6 @@ void GameController::LoadEnemies(std::string line, int stage, int spacing) {
 
 /**
  * .
- * 
  * \param currPos Current Postion of the GameObject
  * \param nextPos Position where the Object should be moved to
  * \param dir Direction in which the Object should be moved to
@@ -725,6 +788,11 @@ bool GameController::CheckWalk(Vector2f currPos, Vector2f nextPos,Vector2i dir, 
 	return out;
 }
 
+/**
+ * .
+ * \param player The player object ID
+ * \return Is true if player is inside an alien position 
+ */
 bool GameController::CheckEnemyCollision(int player) {
 	Vector2f pos = m->getObjects()[player].getPos();
 	int i = GetCollisionAtPos(ENEMY, pos);
@@ -735,6 +803,11 @@ bool GameController::CheckEnemyCollision(int player) {
 	return false;
 }
 
+/**
+ * .
+ * \param object The GameObject Pointer to animate
+ * \param name The name of the animation
+ */
 void GameController::animateObject(GameObject *object, std::string name) {
 	if (object->getCurrAnimName().compare(name) > 0 || object->getCurrAnimName().compare(name) < 0) {
 		*object->getCurrCounter() = 0;
@@ -756,6 +829,10 @@ void GameController::animateObject(GameObject *object, std::string name) {
 
 }
 
+/**
+ * .
+ * \param The specific brick GameObject 
+ */
 void GameController::dig(GameObject* brick) {
 	char anim = brick->getName().at(5);
 	//printf("%c",anim);
@@ -768,7 +845,10 @@ void GameController::dig(GameObject* brick) {
 	m->addReplacedBrick(brick->getID());
 }
 
-
+/**
+ * .
+ * \param continuing If the player continues to press nothing other than the digging key
+ */
 void GameController::digging(bool continuing) {
 	if (continuing) {
 		if (dig_Timer < max_dig_Timer) {
@@ -805,8 +885,7 @@ void GameController::digging(bool continuing) {
 
 /**
  * .
- * Player Input
- * \param window From which Window should be the Input
+ * \param window From which window the input should be
  */
 void GameController::KeyboardInput(GLFWwindow* window)
 {
@@ -886,9 +965,8 @@ void GameController::KeyboardInput(GLFWwindow* window)
 
 /**
  * .
- *
  * \param type Which type the Object to return has to be
- * \param pos Position where the GameObject in Objects has to be
+ * \param pos Position where the GameObject in the GameModel's objects vector has to be
  * \return The ID of the found GameObject or -1
  */
 int GameController::GetObjectAtPos(objectType type, Vector2f pos) {
@@ -906,11 +984,16 @@ int GameController::GetObjectAtPos(objectType type, Vector2f pos) {
 	return  -1;
 }
 
+/**
+ * .
+ * \param type Which type the Object to return has to be
+ * \param pos Position where the GameObject in the GameModel's objects vector has to be
+ * \return The ID of the found GameObject or -1
+ */
 int GameController::GetCollisionAtPos(objectType type, Vector2f pos) {
 	for (GameObject o : m->getObjects()) {
 		if (o.getType() == type) {
 			if (o.getPos() + Vector2f(80, 1) > pos && o.getPos() - Vector2f(80, 1) < pos) {
-				//printf("\ncollided at %f , %f", o.getPos().x, o.getPos().y);
 				return o.getID();
 			}
 		}
@@ -918,6 +1001,11 @@ int GameController::GetCollisionAtPos(objectType type, Vector2f pos) {
 	return  -1;
 }
 
+/**
+ * .
+ * \param pos Position where the GameObject in the GameModel's replacedBricks vector has to be
+ * \return The ID of the found GameObject or -1
+ */
 int GameController::FindReplacedBrick(Vector2f pos)
 {
 	for (GameObject o : m->getReplacedBricks()) {
@@ -930,6 +1018,13 @@ int GameController::FindReplacedBrick(Vector2f pos)
 	return -1;
 }
 
+/**
+ * .
+ * \param type Which type the Object to return has to be
+ * \param pos Position where the GameObject in the GameModel's objects vector has to be
+ * \param bounds The bounds in which the GameObject to be
+ * \return The ID of the found GameObject or -1
+ */
 int GameController::FindObjectPosUnder(objectType type,Vector2f pos,Vector2i bounds) {
 	for (GameObject o : m->getObjects()) {
 		if (o.getType() == type) {
@@ -943,6 +1038,12 @@ int GameController::FindObjectPosUnder(objectType type,Vector2f pos,Vector2i bou
 	return -1;
 }
 
+/**
+ * .
+ * \param type Which type the Object to return has to be
+ * \param pos Position where the GameObject in the GameModel's objects vector has to be
+ * \return The ID of the found GameObject or -1
+ */
 int GameController::findObjectPosOver(objectType type, Vector2f pos) {
 	for (GameObject o : m->getObjects()) {
 		if (o.getType() == type) {
