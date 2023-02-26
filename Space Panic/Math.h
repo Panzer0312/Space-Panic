@@ -1,14 +1,26 @@
 #pragma once
 
 /** Object Types to differenciate between the GameObjects */
-enum objectType
+enum ObjectType
 {
     ENEMY, PLAYER, BRICK, LADDER, TIMER, LIFE
 };
 /** The possibilities an alien is allowed to make */
-enum enemyDecision
+enum ControlledObjectDecision
 {
-    LADDERUP,LADDERDOWN,LEFT,RIGHT
+    NOTHING,LADDERUP,LADDERDOWN,LEFT,RIGHT,DIGLEFT,DIGRIGHT
+};
+
+enum EnemyType {
+    NORMENEMY, BIGENEMY
+};
+enum BrickType {
+    BRICK0, BRICK1
+};
+
+struct ObjectProps {
+    int id;
+    char type;
 };
 
 /** Vector for 2D float operations */

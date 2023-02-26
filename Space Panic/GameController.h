@@ -15,7 +15,7 @@ public:
 	GameView* GetView();
 
 private:
-	/** Starts the game loop */
+	/** Starts the game loop (called after init())*/ //DA MEHR DOKU 
 	void Game();
 	/** Core function to move each alien GameObject */
 	void MoveEnemies(Vector2f to);
@@ -46,7 +46,7 @@ private:
 	/** Animate any given GameObject */
 	void animateObject(GameObject *object, std::string name);
 	/** Determines what decision an enemy is capable to do based on its position */
-	enemyDecision calcEnemyDecision(enemyDecision curr,Vector2f from, Vector2f to);
+	cotrolledObjectDecision calcEnemyDecision(cotrolledObjectDecision curr,Vector2f from, Vector2f to);
 	/** Loads the next level or restarts the current level */
 	void addLevel(bool next);
 	/** Calculates the sprites of the oxygen timer visualization */
@@ -54,19 +54,19 @@ private:
 	/** Adds the player life sprites in the top left corner */
 	void initVisualizedTimer();
 	/** Translates a given EnemyDecision into Vector2i direction */
-	Vector2i translateEnemyDec(enemyDecision dec);
+	Vector2i translateEnemyDec(cotrolledObjectDecision dec);
 	/** Creates semi-random movement with more possibility of moving to choices["forcedRandomChoice"] if not == -1 */
-	enemyDecision randomiseChoice(std::vector<enemyDecision> choices, int forcedRandomChoice);
+	cotrolledObjectDecision randomiseChoice(std::vector<cotrolledObjectDecision> choices, int forcedRandomChoice);
 	/** Returns a found object at the given position */
-	int GetObjectAtPos(objectType type, Vector2f pos);
+	int GetObjectAtPos(ObjectType type, Vector2f pos);
 	/** Returns a object the given position overlaps with */
-	int GetCollisionAtPos(objectType type, Vector2f pos);
+	int GetCollisionAtPos(ObjectType type, Vector2f pos);
 	/** Returns a Brick that has been dug out at the given position if it exists*/
 	int FindReplacedBrick(Vector2f pos);
 	/** Returns a found object under the given position */
-	int FindObjectPosUnder(objectType type, Vector2f pos, Vector2i bounds);
+	int FindObjectPosUnder(ObjectType type, Vector2f pos, Vector2i bounds);
 	/** Returns a found object over the given position */
-	int findObjectPosOver(objectType type, Vector2f pos);
+	int findObjectPosOver(ObjectType type, Vector2f pos);
 
 	/** The GameModel object pointer the GameController got instantiated with*/
 	GameModel* m;

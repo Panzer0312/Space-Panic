@@ -3,9 +3,9 @@
 /**
  * .
  * Constructor and initiator
- * \param pFilename Spritesheet dir
- * \param NumSpritesX Count of Sprites in x axes
- * \param NumSpritesY Count of Sprites in y axes
+ * \param pFilename Spritesheet path
+ * \param NumSpritesX Count of different Textures in x axes
+ * \param NumSpritesY Count of different Textures in y axes
  * \param WindowWidth Width of the window
  * \param WindowHeight Height of the window
  */
@@ -30,7 +30,7 @@ SpriteBatch::SpriteBatch(const char* pFilename, unsigned int NumSpritesX, unsign
 
 /**
  * .
- * Creates Texture from input pFilename
+ * Instantiates the Spritesheet from the input pFilename
  */
 void SpriteBatch::InitSpriteSheet()
 {
@@ -43,7 +43,7 @@ void SpriteBatch::InitSpriteSheet()
 
 /**
  * .
- * Initiates SpriteTexhnique and enables it
+ * Initiates SpriteTexhnique used to instantiate the vertex/fragment shaders and enables it
  */
 void SpriteBatch::InitSpriteTech()
 {
@@ -58,7 +58,7 @@ void SpriteBatch::InitSpriteTech()
 
 /**
  * .
- * Calculate the Indexes of each Sprite in Spritesheet 
+ * Some calculation for access to the different textures on the initialized spritesheet 
  */
 void SpriteBatch::CalcSpriteInfo()
 {
@@ -95,7 +95,7 @@ void SpriteBatch::CalcSpriteInfo()
     m_tileHeightNDC = m_ndcPixelY * m_tileHeightInPixels;
 }
 
-/** Screen coords to Normalized Device Coordinates (Texture coords) */
+/** Screen coords to Texture coords (Normalized Device Coordinates) */
 void SpriteBatch::ScreenPosToNDC(float mouse_x, float mouse_y, float& ndc_x, float& ndc_y)
 {
     ndc_x = (2.0f * mouse_x) / m_windowWidth - 1.0f;

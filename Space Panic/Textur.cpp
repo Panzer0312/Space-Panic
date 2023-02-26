@@ -28,7 +28,7 @@ bool Texture::Load()
 
     fp = fopen(m_fileName.c_str(), "rb");
     if (fp == NULL) {
-        printf("%s could not be opened x\n", m_fileName.c_str());getchar();
+        printf("%s could not be opened x\n", m_fileName.c_str()),getchar();
         return false;
     }
     /* verify that file has type DDS */

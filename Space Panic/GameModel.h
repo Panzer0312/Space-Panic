@@ -1,11 +1,15 @@
 #pragma once
-#include "GameObject.h"
 #include <vector>
+#include "EnemyObject.h"
+#include "TimerObject.h"
+#include "BrickObject.h"
+#include "LadderObject.h"
+#include "PlayerObject.h"
 //A game class for everything storage related
 class GameModel
 {
 public:
-
+	//!!!!!
 	/** Structure for saving Texture information in GameModel --> GameController retrieves them and sends them to GameView to be drawn on screen*/
 	struct SpriteInformation {
 		/** X Coordinate of Texture on screen */
@@ -22,37 +26,34 @@ public:
 
 	/** Instantiates the GameModel and sets all its counter to 0*/
 	GameModel();
-	/** Adds a sprite to the vector with all sprites (Sprites) that will be drawn to the screen */
-	int addSprite(Vector2f pos, Vector2i spritesheetPos, int width);
+	ObjectProps StringToProps(std::string s);
+
 	/** Instantiates a GameObject with also calling addSprite and adds it to the GameObject vector (Objects) */
-	int addObject(Vector2f pos, Vector2i spritesheetPos, int width, std::string name, int speed, objectType type);
-	/** Changes the position of a sprite in Sprites to move it on the screen*/
-	void changeSpritePos(int sprite, Vector2f pos);
-	/** Changes the appearance of an instantiated Sprite in the vector Sprites */
-	void changeSpriteSheet(int sprite, Vector2i pos);
+	
+	void addBrickObject(Vector2f pos, Vector2i spritesheetPos, int width, std::string name, ObjectType type, BrickType bType);
+	void addLadderObject(Vector2f pos, Vector2i spritesheetPos, int width, std::string name, ObjectType type);
+	void addTimerObject(Vector2f pos, Vector2i spritesheetPos, int width, std::string name, ObjectType type);
+	void addEnemyObject(Vector2f pos, Vector2i spritesheetPos, int width, std::string name, ObjectType type, EnemyType eType, float speed);
+	void addPlayerObject(Vector2f pos, Vector2i spritesheetPos, int width, std::string name, ObjectType type, float speed);
+
 	/** Changes the position of a object in Objects and the associated Sprite in Sprites to move it on the screen */
-	void changeObjPos(int object, Vector2f pos);
-	/** Deletes a sprite from the vector Sprites */
-	void deleteSprite(int sprite);
+	void changeObjPos(std::string objectID, Vector2f pos);
 	/** Deletes an object from the vector Objects */
-	void deleteObject(int objectPos);
-	void deleteEnemy(int enemyPos);
-	/** Returns the vector Sprites with all instantiated Sprites*/
-	std::vector<SpriteInformation> getSprites();
+	void deleteObject(int objectPos, std::string objectID);
+
+	std::vector<BrickObject> getBricks();
 	/**  Returns the vector Objects with all instantiated GameObjects */
-	std::vector<GameObject> getObjects();
-	/** Returns the sprite at a given position in the vector Sprites */
-	SpriteInformation getSprite(int i);
+	PlayerObject* getPlayer();
+	/** Returns replacedBricks vector */
+	std::vector<BrickObject> getReplacedBricks();
+	/** Returns Enemies vector*/
+	std::vector<EnemyObject> getEnemies();
+	/** Returns a GameObject pointer from the given ID (Searches the Objects vector)*/
+	GameObject* getObjP(int id);
 	/** Searches the vector Objects after a given name */
 	int findObject(std::string name);
 	/** Adds a brick GameObject if it doesn't exist in the replacedBrick vector yet otherwise deletes it*/
 	bool addReplacedBrick(int id);
-	/** Returns replacedBricks vector */
-	std::vector<GameObject> getReplacedBricks();
-	/** Returns Enemies vector*/
-	std::vector<GameObject> getEnemies();
-	/** Returns a GameObject pointer from the given ID (Searches the Objects vector)*/
-	GameObject* getObjP(int id);
 	/** Returns the last index of the timer vector */
 	int timerCount();
 	/** Returns the GameObject pointer of the first GameObject in the timer vector */
@@ -62,26 +63,42 @@ public:
 	/** Returns the GameObject pointer of the GameObject at the given position in the Lifes vector*/
 	GameObject* getLife(int pos);
 	/** Changes the variable facing of a GameObject at a given position in vector Objects */
-	void changeObjectFacing(int obj,Vector2i dir);
+	void changePlayerFacing(int obj,Vector2i dir);
+	void changeEnemyFacing(int obj, Vector2i dir);
 	/** Clears every vector used in GameModel and resets the counter */
 	void deleteAll();
 
+
+	/** Returns the sprite at a given position in the vector Sprites */
+	//SpriteInformation getSprite(int i);
+	//void deleteEnemy(int enemyPos);
+	/** Returns the vector Sprites with all instantiated Sprites*/
+	//std::vector<SpriteInformation> getSprites();
+	/** Deletes a sprite from the vector Sprites */
+	//void deleteSprite(int sprite);
+	/** Changes the position of a sprite in Sprites to move it on the screen*/
+	//void changeSpritePos(int sprite, Vector2f pos);
+	/** Changes the appearance of an instantiated Sprite in the vector Sprites */
+	//void changeSpriteSheet(int sprite, Vector2i pos);
+	/** Adds a sprite to the vector with all sprites (Sprites) that will be drawn to the screen */
+	//int addSprite(Vector2f pos, Vector2i spritesheetPos, int width);
 private:
 	/** Stores all instantiated Sprites */
-	std::vector<SpriteInformation> Sprites;
+	//std::vector<SpriteInformation> Sprites;
 	/** Stores all instantiated Objects */
-	std::vector<GameObject> Objects;
+	//std::vector<GameObject> Objects;
+	PlayerObject* Player;
+
 	/** Stores all instantiated Aliens */
-	std::vector<GameObject> Enemies;
+	std::vector<EnemyObject> Enemies;
+
+	std::vector<BrickObject> Bricks;
 	/** Stores all replaced bricks for efficiency */
-	std::vector<GameObject> replacedBricks;
+	std::vector<BrickObject> ReplacedBricks;
+	std::vector<LadderObject> Ladders;
 	/** Stores all instantiated timer objects (the yellow/red bar at the top) */
-	std::vector<GameObject> timer;
+	std::vector<TimerObject> Timer;
 	/** Stores all player lifes for visualization*/
 	std::vector<GameObject> Lifes;
-	/** Counter for how much Sprites are stored */
-	int spriteCount;
-	/** Counter for how much GameObjects are stored */
-	int objectsCount;
 
 };

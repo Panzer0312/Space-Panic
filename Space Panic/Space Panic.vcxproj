@@ -155,30 +155,42 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BrickObject.cpp" />
+    <ClCompile Include="ControllableObject.cpp" />
+    <ClCompile Include="EnemyObject.cpp" />
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="GameModel.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameView.cpp" />
+    <ClCompile Include="LadderObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ObjectAnimation.cpp" />
+    <ClCompile Include="PlayerObject.cpp" />
     <ClCompile Include="QuadArray.cpp" />
     <ClCompile Include="SpriteBatch.cpp" />
     <ClCompile Include="SpriteTechnique.cpp" />
     <ClCompile Include="Technique.cpp" />
     <ClCompile Include="Textur.cpp" />
+    <ClCompile Include="TimerObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BrickObject.h" />
+    <ClInclude Include="ControllableObject.h" />
+    <ClInclude Include="EnemyObject.h" />
     <ClInclude Include="GameController.h" />
     <ClInclude Include="GameModel.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameView.h" />
+    <ClInclude Include="LadderObject.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="ObjectAnimation.h" />
+    <ClInclude Include="PlayerObject.h" />
     <ClInclude Include="QuadArray.h" />
     <ClInclude Include="SpriteBatch.h" />
     <ClInclude Include="SpriteTechnique.h" />
     <ClInclude Include="Technique.h" />
     <ClInclude Include="Textur.h" />
+    <ClInclude Include="TimerObject.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Spritesheet_64_64.DDS" />
@@ -188,6 +200,7 @@
   <ItemGroup>
     <Text Include="Animations.txt" />
     <Text Include="Map1.txt" />
+    <Text Include="TestMap1.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -57,6 +57,24 @@
     <ClCompile Include="ObjectAnimation.cpp">
       <Filter>Quelldateien\View</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerObject.cpp">
+      <Filter>Quelldateien\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyObject.cpp">
+      <Filter>Quelldateien\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickObject.cpp">
+      <Filter>Quelldateien\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="TimerObject.cpp">
+      <Filter>Quelldateien\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="ControllableObject.cpp">
+      <Filter>Quelldateien\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="LadderObject.cpp">
+      <Filter>Quelldateien\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameController.h">
@@ -92,6 +110,24 @@
     <ClInclude Include="ObjectAnimation.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerObject.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyObject.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickObject.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerObject.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ControllableObject.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="LadderObject.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Spritesheet_64_64.DDS">
@@ -109,6 +145,9 @@
       <Filter>Ressourcendateien</Filter>
     </Text>
     <Text Include="Animations.txt">
+      <Filter>Ressourcendateien</Filter>
+    </Text>
+    <Text Include="TestMap1.txt">
       <Filter>Ressourcendateien</Filter>
     </Text>
   </ItemGroup>

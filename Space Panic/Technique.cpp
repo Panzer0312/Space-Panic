@@ -4,7 +4,7 @@
 #include "Technique.h"
 /**
  * .
- * Constructor for a new Technique
+ * Constructor for a new Technique  with functions to create and compile shaders
  */
 Technique::Technique()
 {
@@ -115,7 +115,7 @@ bool Technique::Finalize()
 
 /**
  * .
- * Tell OpenGL to use Shaderprogram
+ * Tell OpenGL to use this Shaderprogram
  */
 void Technique::Enable()
 {
@@ -126,7 +126,7 @@ void Technique::Enable()
  * .
  *  
  * \param pUniformName
- * \return uniform location as a variable within a program object
+ * \return int location of the shaderProgam object
  */
 GLint Technique::GetUniformLocation(const char* pUniformName)
 {

@@ -162,3 +162,10 @@ public:
 		EXPECT_EQ(1, 1);
 	}
 
+/*	TEST_F(ControllerTest, testView) {
+		int t = v.initializeView();
+
+		EXPECT_EQ(t, 0);
+	}
+	
+	*/

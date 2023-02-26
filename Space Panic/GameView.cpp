@@ -11,16 +11,18 @@ void monitor_callback(GLFWmonitor* monitor, int event);
 const unsigned int SCREEN_WIDTH = 804;
 // The height of the screen
 const unsigned int SCREEN_HEIGHT = 804;
-
+/** Responsible for shaders */
 SpriteTechnique m_texTech;
+/** Responsible for instantiating the spritesheet Texture */
 Texture* m_pTexture = NULL;
+/** Combines the SriteTechnique and the spritesheet Texture and does some usefull calculates  */
 SpriteBatch* m_pSpriteBatch = NULL;
 
 /** SpriteSheet horizontal textures count*/
 unsigned int NumSpritesX = 16;
 /** SpriteSheet vertical textures count*/
 unsigned int NumSpritesY = 4;
-
+/** The file containing the needed ObjectAnimations */
 std::string animationsFile = "Animations.txt";
 
 /**

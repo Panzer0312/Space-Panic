@@ -3,8 +3,9 @@
 #include <iostream>
 #include "Technique.h"
 #define SPRITE_BUFFER_BINDING 0
-
+/** Shader for coordinate manipulation */
 const char* vShaderC;
+/** Shader for color manipulation */
 const char* fShaderC;
 /**
  * .
@@ -14,7 +15,7 @@ SpriteTechnique::SpriteTechnique()
 {
 }
 /**
- * Initializes the Shaders.
+ * Initializes the Shaders from a String and compiles it.
  * 
  * \return sucess
  */

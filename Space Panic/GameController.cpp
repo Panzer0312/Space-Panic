@@ -4,6 +4,7 @@
 const Vector2f boundaries = Vector2f(1800, 1000);
 /** Name of Map File */
 std::string map1 = "Map1.txt";
+std::string testMap = "TestMap1.txt";
 /** Player position in Model Vector */
 int Player;
 /** Pointer to Player GameObject */
@@ -26,8 +27,11 @@ int shortDec = 2;
 int startingPlayerLifes = 3;
 /** Starting level */
 int gLevel = 1;
+/** How many level exist */
+int levelCount = 4;
 /** Variable where player facing is saved in during gravitation --> after falling, the player faces to where he went before */
 Vector2i player_falling_Face;
+
 /**
  * .
  * \param model Model to save every Game Information
@@ -242,7 +246,7 @@ void GameController::Gravitation(GameObject* p) {
  * \param forcedRandomChoice The choice in choices vector enemy could do to move near the player position
  * \return EnemyDecion --> where the enemy tries to move next
  */
-enemyDecision GameController::randomiseChoice(std::vector<enemyDecision> choices, int forcedRandomChoice) {
+ObjectDecision GameController::randomiseChoice(std::vector<ObjectDecision> choices, int forcedRandomChoice) {
 	int rand = std::rand() % choices.size();
 	int rand2 = std::rand() % choices.size();
 	int rand3 = std::rand() % choices.size();
@@ -263,7 +267,7 @@ enemyDecision GameController::randomiseChoice(std::vector<enemyDecision> choices
  * \param to The Player position
  * \return The next enemy decision
  */
-enemyDecision GameController::calcEnemyDecision(enemyDecision curr, Vector2f from, Vector2f to) {
+ObjectDecision GameController::calcEnemyDecision(ObjectDecision curr, Vector2f from, Vector2f to) {
 	int diff = int(from.y) % 160;
 	int rand = std::rand();
 	int nextLadderposUp, nextPosDown;
@@ -298,7 +302,7 @@ enemyDecision GameController::calcEnemyDecision(enemyDecision curr, Vector2f fro
 		nextPosDown = FindObjectPosUnder(BRICK, from,Vector2i(15,35));
 		nextLadderposUp = findObjectPosOver(LADDER, from);
 		//left/right walking and then found ladder
-		std::vector<enemyDecision> choices = {LEFT,RIGHT};
+		std::vector<ObjectDecision> choices = {LEFT,RIGHT};
 		if (nextPosDown == -1 && from.y >1) {
 			//printf("\nLadderD");
 			choices.push_back(LADDERDOWN);
@@ -377,7 +381,7 @@ void GameController::updateTimer() {
  * \param dec The decision the alien has done
  * \return Vector in which direction the alien will be moving in
  */
-Vector2i GameController::translateEnemyDec(enemyDecision dec) {
+Vector2i GameController::translateEnemyDec(ObjectDecision dec) {
 	Vector2i dir;
 	switch (dec) {
 	case LADDERUP:
@@ -412,7 +416,7 @@ void GameController::MoveEnemies(Vector2f to) {
 			o->setDecisionCounter(dec);
 
 			Vector2f currPos = o->getPos();
-			enemyDecision currDec = o->getDecision();
+			ObjectDecision currDec = o->getDecision();
 
 			//printf("\nTEST %f,%f", currPos.x, currPos.y);
 
@@ -433,7 +437,7 @@ void GameController::MoveEnemies(Vector2f to) {
 				}
 
 				if (!o->isFalling()) {
-					m->changeObjPos(o->getID(), m->getObjects()[space].getPos() - Vector2f(8, 12));
+					m->changeObjPos(o->IDAsString(), m->getObjects()[space].getPos() - Vector2f(8, 12));
 					o->setFalling(true);
 				}
 				else {
@@ -451,7 +455,7 @@ void GameController::MoveEnemies(Vector2f to) {
 							currDec = LEFT;
 						}
 						o->setDecision(currDec);
-						m->changeObjPos(o->getID(), Vector2f(currPos.x + face, times * 160));
+						m->changeObjPos(o->IDAsString(), Vector2f(currPos.x + face, times * 160));
 						o->setPushUps(0);
 					}
 				}
@@ -463,7 +467,7 @@ void GameController::MoveEnemies(Vector2f to) {
 					//printf("\nenemy got killed\n");
 					o->setKilled(true);
 					killedEnemiesCounter++;
-					m->changeObjPos(o->getID(),boundaries + Vector2f(100,100));
+					m->changeObjPos(o->IDAsString(),boundaries + Vector2f(100,100));
 				}
 			}
 			if (currPos.x + 16 > boundaries.x) {
@@ -480,7 +484,7 @@ void GameController::MoveEnemies(Vector2f to) {
 
 			//Hier fehlt wenn gegner im Loch dann darf nächster gegner nicht auch noch rein!! 
 
-			enemyDecision newDec;
+			ObjectDecision newDec;
 			int l = GetObjectAtPos(LADDER, currPos);
 			if (l != -1) {
 				//printf("\nl!=-1");
@@ -500,7 +504,7 @@ void GameController::MoveEnemies(Vector2f to) {
 								temp = Vector2f(currPos.x, times * 160);
 							}
 
-							m->changeObjPos(o->getID(), temp);
+							m->changeObjPos(o->IDAsString(), temp);
 							pauseMove = true;
 						}
 						else {
@@ -562,7 +566,7 @@ void GameController::addLevel(bool next) {
 		currPlayerLifes--;
 	}
 
-	if (gLevel < 5) {
+	if (gLevel <= levelCount) {
 		if (currPlayerLifes > 0) {
 			air = maxAir;
 			initVisualizedTimer();
@@ -636,7 +640,7 @@ bool GameController::MoveObject(Vector2i dir, std::string name, std::string anim
 	int speed = obj->getSpeed();
 	Vector2f currPos = obj->getPos();
 	Vector2f newPos = currPos + dir*speed;
-	m->changeObjectFacing(objID, dir);
+	m->changePlayerFacing(objID, dir);
 
 
 	animateObject(obj, animation);
@@ -969,7 +973,7 @@ void GameController::KeyboardInput(GLFWwindow* window)
  * \param pos Position where the GameObject in the GameModel's objects vector has to be
  * \return The ID of the found GameObject or -1
  */
-int GameController::GetObjectAtPos(objectType type, Vector2f pos) {
+int GameController::GetObjectAtPos(ObjectType type, Vector2f pos) {
 	
 	for (GameObject o : m->getObjects()) {
 		if (o.getType() == type) {
@@ -990,7 +994,7 @@ int GameController::GetObjectAtPos(objectType type, Vector2f pos) {
  * \param pos Position where the GameObject in the GameModel's objects vector has to be
  * \return The ID of the found GameObject or -1
  */
-int GameController::GetCollisionAtPos(objectType type, Vector2f pos) {
+int GameController::GetCollisionAtPos(ObjectType type, Vector2f pos) {
 	for (GameObject o : m->getObjects()) {
 		if (o.getType() == type) {
 			if (o.getPos() + Vector2f(80, 1) > pos && o.getPos() - Vector2f(80, 1) < pos) {
@@ -1025,7 +1029,7 @@ int GameController::FindReplacedBrick(Vector2f pos)
  * \param bounds The bounds in which the GameObject to be
  * \return The ID of the found GameObject or -1
  */
-int GameController::FindObjectPosUnder(objectType type,Vector2f pos,Vector2i bounds) {
+int GameController::FindObjectPosUnder(ObjectType type,Vector2f pos,Vector2i bounds) {
 	for (GameObject o : m->getObjects()) {
 		if (o.getType() == type) {
 			if (pos.y - 50 <= o.getPos().y && pos.y+5 >= o.getPos().y) {
@@ -1044,7 +1048,7 @@ int GameController::FindObjectPosUnder(objectType type,Vector2f pos,Vector2i bou
  * \param pos Position where the GameObject in the GameModel's objects vector has to be
  * \return The ID of the found GameObject or -1
  */
-int GameController::findObjectPosOver(objectType type, Vector2f pos) {
+int GameController::findObjectPosOver(ObjectType type, Vector2f pos) {
 	for (GameObject o : m->getObjects()) {
 		if (o.getType() == type) {
 			if (pos.y + 25 <= o.getPos().y && pos.y+80 >= o.getPos().y) {
