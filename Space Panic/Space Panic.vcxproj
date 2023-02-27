@@ -71,19 +71,19 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+    <EnableClangTidyCodeAnalysis>false</EnableClangTidyCodeAnalysis>
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+    <EnableClangTidyCodeAnalysis>false</EnableClangTidyCodeAnalysis>
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+    <EnableClangTidyCodeAnalysis>false</EnableClangTidyCodeAnalysis>
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+    <EnableClangTidyCodeAnalysis>false</EnableClangTidyCodeAnalysis>
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -163,6 +163,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameView.cpp" />
     <ClCompile Include="LadderObject.cpp" />
+    <ClCompile Include="LifeObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ObjectAnimation.cpp" />
     <ClCompile Include="PlayerObject.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameView.h" />
     <ClInclude Include="LadderObject.h" />
+    <ClInclude Include="LifeObject.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="ObjectAnimation.h" />
     <ClInclude Include="PlayerObject.h" />

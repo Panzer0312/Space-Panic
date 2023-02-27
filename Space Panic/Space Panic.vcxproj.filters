@@ -75,6 +75,9 @@
     <ClCompile Include="LadderObject.cpp">
       <Filter>Quelldateien\Model</Filter>
     </ClCompile>
+    <ClCompile Include="LifeObject.cpp">
+      <Filter>Quelldateien\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameController.h">
@@ -126,6 +129,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="LadderObject.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeObject.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

@@ -24,8 +24,8 @@ Vector2i ControllableObject::getFacing()
 }
 
 
-ControllableObject::ControllableObject(int objSpriteID, std::string objName, Vector2f objPos, ObjectType objType, float objSpeed):
-	GameObject(objSpriteID, objName, objPos, objType)
+ControllableObject::ControllableObject(int objSpriteID, std::string objName, Vector2f objPos, ObjectType objType, float objSpeed, int objWidth):
+	GameObject(objSpriteID, objName, objPos, objType, objWidth)
 {
 	falling = false;
 	killed = false;

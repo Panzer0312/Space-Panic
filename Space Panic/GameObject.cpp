@@ -2,27 +2,6 @@
 
 GameObject::~GameObject() {}
 
-
-/**
- * .
- * Dummy constructor
- */
-/*
-GameObject::GameObject()
-{
-	type = BRICK;
-	pos = Vector2f(0,0);
-	speed = -1;
-	spriteID = -1;
-	name = "";
-	animate = false,falling = false;
-	facing = Vector2i(0,0);
-	counter = 0,currAnim = 0, pushUps = 0;
-	dec = RIGHT;
-	killed = false;
-}
-*/
-
 /**
  * .
  *
@@ -32,11 +11,21 @@ GameObject::GameObject()
  * \param objSpeed Speed with which Object will be moved
  * \param objType Type of a GameObject to differentiate those in the Model's vector Objects
  */
-GameObject::GameObject(int objSpriteID, std::string objName, Vector2f objPos,ObjectType objType) {
+GameObject::GameObject(int objSpriteID, std::string objName, Vector2f objPos,ObjectType objType, int objWidth) {
 	ID = objSpriteID;
 	name = objName;
 	pos = objPos;
 	type = objType;
+	width = objWidth;
+	state = ALIVE;
+}
+
+void GameObject::setState(GameObjectState s) {
+	state = s;
+}
+
+GameObjectState GameObject::getState() {
+	return state;
 }
 
 /** Setter method */
@@ -48,18 +37,17 @@ int GameObject::getID()
 {
 	return ID;
 }
-Vector2f GameObject::getSize()
+int GameObject::getWidth()
 {
-	return size;
+	return width;
 }
-std::string GameObject::IDAsString()
+ObjectProps GameObject::getObjectProps()
 {
-	std::string out ="";
-	return out;
+	return props;
 }
-void GameObject::setSize(Vector2f s)
+void GameObject::setWidth(int w)
 {
-	size = s;
+	width = w;
 }
 /** Getter method */
 Vector2f GameObject::getPos()
@@ -78,26 +66,21 @@ std::string GameObject::getName()
 	return name;
 }
 
-bool GameObject::getDrawing()
+
+DrawingObjectProps GameObject::getDrawingObjectProps()
 {
-	return drawing;
+	return DrawingObjectProps();
 }
 
-void GameObject::setDrawing(bool b)
+bool GameObject::hasCollision(int enemyWidth, Vector2f enemyPos)
 {
-	drawing = b;
-}
-
-bool GameObject::hasCollision(Vector2f enemyBounds, Vector2f enemyPos)
-{
-	Vector2f selfTopLeft = Vector2f(pos.x,pos.y+size.y);
-	Vector2f selfBottomRight = Vector2f(pos.x+size.x,pos.y);
-	Vector2f enemyTopLeft = Vector2f(enemyPos.x+ enemyBounds.x, enemyPos.y);
-	Vector2f enemyBottomRight = Vector2f(enemyPos.x, enemyPos.y + enemyBounds.y);
+	Vector2f selfTopLeft = Vector2f(pos.x,pos.y+ width);
+	Vector2f selfBottomRight = Vector2f(pos.x+ width,pos.y);
+	Vector2f enemyTopLeft = Vector2f(enemyPos.x+ enemyWidth, enemyPos.y);
+	Vector2f enemyBottomRight = Vector2f(enemyPos.x, enemyPos.y + enemyWidth);
 	if (selfTopLeft.x<enemyBottomRight.x && selfBottomRight.x > enemyTopLeft.x && selfTopLeft.y < enemyBottomRight.y && selfBottomRight.y > enemyTopLeft.y) {
 		return true;
 	}
 	return false;
 }
-
 

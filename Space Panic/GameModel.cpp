@@ -1,5 +1,4 @@
 #include "GameModel.h"
-
 /**
  * . 
  * 
@@ -21,25 +20,46 @@ ObjectProps GameModel::StringToProps(std::string s) {
 	return o;
 }
 
-/**
- * \param pos Position where the Sprite will be drawn at
- * \param spritesheetPos Index which sprite from Spritesheet should be drawn
- * \param width Size of the Sprite
- * \return 
- */
-/*
-int GameModel::addSprite(Vector2f pos, Vector2i spritesheetPos, int width)
-{
-	spriteCount++;
-	Sprites.resize(spriteCount);
-	Sprites[spriteCount - 1].PixelX = pos.x;
-	Sprites[spriteCount - 1].PixelY = pos.y;
-	Sprites[spriteCount - 1].SpriteCol = spritesheetPos.x; //x
-	Sprites[spriteCount - 1].SpriteRow = spritesheetPos.y; //y
-	Sprites[spriteCount - 1].SpriteWidth = width;
-	return spriteCount - 1;
+
+std::vector<DrawingObjectProps> GameModel::getDrawingInformation() {
+	std::vector<DrawingObjectProps> objects;
+	for (BrickObject b : Bricks) {
+		DrawingObjectProps temp = b.getDrawingObjectProps();
+		if (temp.drawing) {
+			objects.push_back(temp);
+		}
+	}
+	for (LadderObject l : Ladders) {
+		DrawingObjectProps temp = l.getDrawingObjectProps();
+		if (temp.drawing) {
+			objects.push_back(temp);
+		}
+	}
+	for (EnemyObject b : Enemies) {
+		DrawingObjectProps temp = b.getDrawingObjectProps();
+		if (temp.drawing) {
+			objects.push_back(temp);
+		}
+	}
+	DrawingObjectProps pDrawingProps = Player->getDrawingObjectProps();
+	if (pDrawingProps.drawing) {
+		objects.push_back(pDrawingProps);
+	}
+	for (TimerObject t : Timer) {
+		DrawingObjectProps temp = t.getDrawingObjectProps();
+		if (temp.drawing) {
+			objects.push_back(temp);
+		}
+	}
+	for (LifeObject h : Lifes) {
+		DrawingObjectProps temp = h.getDrawingObjectProps();
+		if (temp.drawing) {
+			objects.push_back(temp);
+		}
+	}
+	return objects;
 }
-*/
+
 /**
  * .
  * 
@@ -51,56 +71,36 @@ int GameModel::addSprite(Vector2f pos, Vector2i spritesheetPos, int width)
  * \param type The objectType (BRICK,ENEMY,LADDER,PLAYER|TIMER|LIFE)
  * \return 
  */
-void GameModel::addBrickObject(Vector2f pos, Vector2i spritesheetPos, int width, std::string name, ObjectType type, BrickType bType) {
-	BrickObject obj = BrickObject(Bricks.size(), name, pos, type, bType);
+void GameModel::addBrickObject(Vector2f pos, int width, std::string name, ObjectType type, BrickType bType) {
+	BrickObject obj = BrickObject(Bricks.size(), name, pos, type, bType, width);
 	Bricks.push_back(obj);
 }
 
-void GameModel::addLadderObject(Vector2f pos, Vector2i spritesheetPos, int width, std::string name, ObjectType type) {
-	LadderObject obj = LadderObject(Ladders.size(), name, pos, type);
+void GameModel::addLadderObject(Vector2f pos,int width, std::string name, ObjectType type) {
+	LadderObject obj = LadderObject(Ladders.size(), name, pos, type, width);
 	Ladders.push_back(obj);
 }
 
-void GameModel::addTimerObject(Vector2f pos, Vector2i spritesheetPos, int width, std::string name, ObjectType type) {
-	TimerObject obj = TimerObject(Timer.size(), name, pos, type);
+void GameModel::addLifeObject(Vector2f pos, int width, std::string name, ObjectType type) {
+	LifeObject obj = LifeObject(Lifes.size(), name, pos, type, width);
+	Lifes.push_back(obj);
+}
+
+void GameModel::addTimerObject(Vector2f pos, int width, std::string name, ObjectType type) {
+	TimerObject obj = TimerObject(Timer.size(), name, pos, type, width);
 	Timer.push_back(obj);
 }
 
-void GameModel::addEnemyObject(Vector2f pos, Vector2i spritesheetPos, int width, std::string name, ObjectType type, EnemyType eType, float speed) {
-	EnemyObject obj = EnemyObject(Enemies.size(), name, pos, type,eType,speed);
+void GameModel::addEnemyObject(Vector2f pos, int width, std::string name, ObjectType type, EnemyType eType, float speed) {
+	EnemyObject obj = EnemyObject(Enemies.size(), name, pos, type,eType,speed, width);
 	Enemies.push_back(obj);
 }
 
-void GameModel::addPlayerObject(Vector2f pos, Vector2i spritesheetPos, int width, std::string name, ObjectType type, float speed) {
-	PlayerObject obj = PlayerObject(0, name, pos, type, speed);
+void GameModel::addPlayerObject(Vector2f pos, int width, std::string name, ObjectType type, float speed) {
+	PlayerObject obj = PlayerObject(0, name, pos, type, speed, width);
 	Player = &obj;
 }
 
-
-/**
- * .
- * 
- * \param sprite Specific Sprite in the Sprites vector
- * \param pos Vector2f where the specific Sprite should be moved to
- */
-/*
-void GameModel::changeSpritePos(int sprite, Vector2f pos) {
-	Sprites[sprite].PixelX = pos.x;
-	Sprites[sprite].PixelY = pos.y;
-}
-*/
-/**
- * .
- * 
- * \param sprite Specific Sprite in the Sprites vector
- * \param pos Vector2i index to which other Sprite on the Spritesheet the Sprite should be changed
- */
-/*
-void GameModel::changeSpriteSheet(int sprite, Vector2i pos) {
-	Sprites[sprite].SpriteCol = pos.x;
-	Sprites[sprite].SpriteRow = pos.y;
-}
-*/
 /**
  * .
  * 
@@ -118,20 +118,11 @@ void GameModel::changeObjPos(std::string objectID,Vector2f pos) {
 		Player->setPos(pos);
 	case 'E':
 		Enemies[o.id].setPos(pos);
+	case 'H':
+		Lifes[o.id].setPos(pos);
 	}
 }
 
-/**
- * .
- * 
- * \param sprite Deletes the specific Sprite in Sprites at the given position, sets the Sprite counter to spriteCount-1 and resizes the Vector
- */
-/*void GameModel::deleteSprite(int sprite) {
-	Sprites.erase(Sprites.begin() + sprite);
-	spriteCount--;
-	Sprites.resize(spriteCount);
-}
-*/
 /**
  * .
  * 
@@ -150,19 +141,11 @@ void GameModel::deleteObject(int objectPos, std::string objectID) {
 		Player = NULL;
 	case 'E':
 		Enemies.erase(Enemies.begin() + objectPos);
+	case 'H':
+		Lifes.erase(Lifes.begin() + objectPos);
 	}
 }
 
-/**
- * .
- * 
- * \return All instantiated Sprites in the Vector
- */
-/*std::vector<GameModel::SpriteInformation> GameModel::getSprites()
-{
-	return Sprites;
-}
-*/
 /**
  * .
  * 
@@ -190,41 +173,13 @@ std::vector<BrickObject> GameModel::getReplacedBricks()
  *
  * \return Enemies vector
  */
-std::vector<EnemyObject> GameModel::getEnemies()
+std::vector<EnemyObject>* GameModel::getEnemies()
 {
-	return Enemies;
+	return &Enemies;
 }
 
-/**
- * .
- * 
- * \param i Sprite in Sprites at given position
- * \return the found sprite or a dummy Sprite
- */
-/** GameModel::SpriteInformation GameModel::getSprite(int i)
-{
-	if (i < Sprites.size()) {
-		return Sprites[i];
-	}
-	printf("Sprite %i not found!!", i);
-	return GameModel::SpriteInformation();
-}
-*/
-/**
- * .
- * 
- * \param name The name of the GameObject you are looking for
- * \return The position of the found GameObject in the vector Objects or -1
- */
-int GameModel::findObject(std::string name)
-{
-	for (int i = 0; i < Objects.size();i++ ) {
-		if (Objects[i].getName() == name) {
-			return i;
-		}
-	}
-	printf("Object %s not found!!", name.c_str());
-	return -1;
+std::vector<LifeObject> GameModel::getLifes() {
+	return Lifes;
 }
 
 /**
@@ -236,14 +191,14 @@ int GameModel::findObject(std::string name)
 bool GameModel::addReplacedBrick(int id)
 {
 	int i = 0;
-	for (GameObject o : ReplacedBricks) {
+	for (BrickObject o : ReplacedBricks) {
 		if (o.getID() == id) {
 			ReplacedBricks.erase(ReplacedBricks.begin()+i);
 			return false;
 		}
 		i++;
 	}
-	ReplacedBricks.push_back(Objects[id]);
+	ReplacedBricks.push_back(Bricks[id]);
 	return true;
 }
 
@@ -253,9 +208,22 @@ bool GameModel::addReplacedBrick(int id)
  * \param id ID of the GamObject --> The position of the GameObject in the Objects vector
  * \return GameObject pointer of the found GameObject 
  */
-GameObject* GameModel::getObjP(int id)
+GameObject* GameModel::getObjP(std::string ID)
 {
-	return &Objects[id];
+	ObjectProps o = StringToProps(ID);
+	switch (o.type) {
+	case 'B':
+		return &Bricks[o.id];
+	case 'L':
+		return &Ladders[o.id];
+	case 'P':
+		return Player;
+	case 'E':
+		return &Enemies[o.id];
+	case 'H':
+		return &Lifes[o.id];
+	}
+	return nullptr;
 }
 
 /**
@@ -332,12 +300,116 @@ void GameModel::changeEnemyFacing(int obj, Vector2i dir)
 void GameModel::deleteAll()
 {
 	//Objects.clear();
+	//Sprites.clear();
 	Enemies.clear();
 	ReplacedBricks.clear();
-	//Sprites.clear();
 	Timer.clear();
 	Lifes.clear();
 	Bricks.clear();
 	Ladders.clear();
 }
 
+//Maybe not needed anymore
+/**
+ * .
+ *
+ * \param name The name of the GameObject you are looking for
+ * \return The position of the found GameObject in the vector Objects or -1
+ */
+ /** int GameModel::findObject(std::string name)
+ {
+	 for (int i = 0; i < Objects.size();i++ ) {
+		 if (Objects[i].getName() == name) {
+			 return i;
+		 }
+	 }
+	 printf("Object %s not found!!", name.c_str());
+	 return -1;
+ }
+ */
+
+/**
+ * .
+ *
+ * \param sprite Deletes the specific Sprite in Sprites at the given position, sets the Sprite counter to spriteCount-1 and resizes the Vector
+ */
+ /*void GameModel::deleteSprite(int sprite) {
+	 Sprites.erase(Sprites.begin() + sprite);
+	 spriteCount--;
+	 Sprites.resize(spriteCount);
+ }
+ */
+
+ /**
+  * .
+  *
+  * \param i Sprite in Sprites at given position
+  * \return the found sprite or a dummy Sprite
+  */
+  /** GameModel::SpriteInformation GameModel::getSprite(int i)
+  {
+	  if (i < Sprites.size()) {
+		  return Sprites[i];
+	  }
+	  printf("Sprite %i not found!!", i);
+	  return GameModel::SpriteInformation();
+  }
+  */
+
+  /**
+   * .
+   *
+   * \return All instantiated Sprites in the Vector
+   */
+   /*std::vector<GameModel::SpriteInformation> GameModel::getSprites()
+   {
+	   return Sprites;
+   }
+   */
+
+
+   /**
+	* .
+	*
+	* \param sprite Specific Sprite in the Sprites vector
+	* \param pos Vector2f where the specific Sprite should be moved to
+	*/
+	/*
+	void GameModel::changeSpritePos(int sprite, Vector2f pos) {
+		Sprites[sprite].PixelX = pos.x;
+		Sprites[sprite].PixelY = pos.y;
+	}
+	*/
+	/**
+	 * .
+	 *
+	 * \param sprite Specific Sprite in the Sprites vector
+	 * \param pos Vector2i index to which other Sprite on the Spritesheet the Sprite should be changed
+	 */
+	 /*
+	 void GameModel::changeSpriteSheet(int sprite, Vector2i pos) {
+		 Sprites[sprite].SpriteCol = pos.x;
+		 Sprites[sprite].SpriteRow = pos.y;
+	 }
+	 */
+
+
+	 /**
+	  * \param pos Position where the Sprite will be drawn at
+	  * \param spritesheetPos Index which sprite from Spritesheet should be drawn
+	  * \param width Size of the Sprite
+	  * \return
+	  */
+	  /*
+	  int GameModel::addSprite(Vector2f pos, Vector2i spritesheetPos, int width)
+	  {
+		  spriteCount++;
+		  Sprites.resize(spriteCount);
+		  Sprites[spriteCount - 1].PixelX = pos.x;
+		  Sprites[spriteCount - 1].PixelY = pos.y;
+		  Sprites[spriteCount - 1].SpriteCol = spritesheetPos.x; //x
+		  Sprites[spriteCount - 1].SpriteRow = spritesheetPos.y; //y
+		  Sprites[spriteCount - 1].SpriteWidth = width;
+		  return spriteCount - 1;
+	  }
+	  */

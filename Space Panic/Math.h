@@ -1,5 +1,4 @@
 #pragma once
-
 /** Object Types to differenciate between the GameObjects */
 enum ObjectType
 {
@@ -18,9 +17,56 @@ enum BrickType {
     BRICK0, BRICK1
 };
 
+enum GameObjectState {
+    ALIVE, VISABLE,VANISHED, DEAD
+};
+
 struct ObjectProps {
     int id;
     char type;
+    char closerType;
+    ObjectProps(int _id, char _type, char _closerType) {
+        id = _id;
+        type = _type;
+        closerType = _closerType;
+    }
+    ObjectProps() {
+        id = 0;
+        type = '-';
+        closerType = '-';
+    }
+};
+
+struct DrawingObjectProps {
+    ObjectProps objP;
+    bool drawing;
+    ControlledObjectDecision dec;
+    Vector2f position;
+    int scale;
+    GameObjectState state;
+    DrawingObjectProps(ObjectProps _objP, bool _drawing, ControlledObjectDecision _dec, Vector2f _position, int _scale, GameObjectState _state) {
+        objP = _objP;
+        drawing = _drawing;
+        dec = _dec;
+        position = _position;
+        scale = _scale;
+        state = _state;
+    }
+    DrawingObjectProps(ObjectProps _objP, bool _drawing,Vector2f _position, int _scale, GameObjectState _state) {
+        objP = _objP;
+        drawing = _drawing;
+        position = _position;
+        scale = _scale;
+        state = _state;
+    }
+    DrawingObjectProps() {
+        objP = ObjectProps();
+        drawing = false;
+        dec = NOTHING;
+        position = Vector2f(0, 0);
+        scale = 0;
+        state = ALIVE;
+    }
 };
 
 /** Vector for 2D float operations */

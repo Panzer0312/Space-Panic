@@ -6,9 +6,9 @@ const Vector2f boundaries = Vector2f(1800, 1000);
 std::string map1 = "Map1.txt";
 std::string testMap = "TestMap1.txt";
 /** Player position in Model Vector */
-int Player;
+//int Player;
 /** Pointer to Player GameObject */
-GameObject * PlayerPointer;
+//GameObject * PlayerPointer;
 /** Some Variables to track Game Play */
 int playTime, playTimeCounter,air,maxTimers, killedEnemiesCounter, dig_Timer,currPlayerLifes,playerDeaths = 0;
 /** Timer before Player dies */
@@ -115,8 +115,8 @@ void GameController::LoadMap(int gameLevel) {
  */
 void GameController::Game() {
 	int enemyMovementCounter = 0;
-	Player = m->findObject("player");
-	PlayerPointer = m->getObjP(Player);
+	//Player = m->findObject("player");
+	//PlayerPointer = m->getObjP(Player);
 	std::string animName;
 	printf("starting gameLoop");
 	while (!glfwWindowShouldClose(v->window)) {

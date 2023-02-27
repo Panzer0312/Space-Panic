@@ -4,7 +4,7 @@ class ControllableObject :
     public GameObject
 {
 public:
-    ControllableObject(int objSpriteID, std::string objName, Vector2f objPos, ObjectType objType, float objSpeed);
+    ControllableObject(int objSpriteID, std::string objName, Vector2f objPos, ObjectType objType, float objSpeed, int objWidth);
     virtual ~ControllableObject() = 0;
     bool isFalling();
     void setFalling(bool f);
