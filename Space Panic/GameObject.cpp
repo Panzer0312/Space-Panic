@@ -5,82 +5,81 @@ GameObject::~GameObject() {}
 /**
  * .
  *
- * \param objSpriteID ID of the associated Sprite to the GameObject
+ * \param objID ID of the associated Sprite to the GameObject
  * \param objName Name of the GameObject to find it easier in Objects vector in GameModel
  * \param objPos Position where the Sprite of the GameObject is drawn
  * \param objSpeed Speed with which Object will be moved
  * \param objType Type of a GameObject to differentiate those in the Model's vector Objects
  */
-GameObject::GameObject(int objSpriteID, std::string objName, Vector2f objPos,ObjectType objType, int objWidth) {
-	ID = objSpriteID;
-	name = objName;
-	pos = objPos;
-	type = objType;
-	width = objWidth;
-	state = ALIVE;
+GameObject::GameObject(int objID, Vector2f objPos, ObjectType objType,int objWidth) {
+	this->counter = 0;
+	this->ID = objID;
+	this->pos = objPos;
+	this->type = objType;
+	this->width = objWidth;
+	this->state = ALIVE;
+
 }
 
 void GameObject::setState(GameObjectState s) {
-	state = s;
+	this->state = s;
 }
 
 GameObjectState GameObject::getState() {
-	return state;
+	return this->state;
 }
 
 /** Setter method */
 void GameObject::setPos(Vector2f position) {
-	pos = position;
+	this->pos = position;
 }
 /** Getter method */
 int GameObject::getID()
 {
-	return ID;
+	return this->ID;
 }
 int GameObject::getWidth()
 {
-	return width;
+	return this->width;
 }
 ObjectProps GameObject::getObjectProps()
 {
-	return props;
+	return this->props;
 }
 void GameObject::setWidth(int w)
 {
-	width = w;
+	this->width = w;
 }
 /** Getter method */
 Vector2f GameObject::getPos()
 {
-	return pos;
+	return this->pos;
 }
 /** Getter method */
 ObjectType GameObject::getType()
 {
-	return type;
+	return this->type;
 }
 
-/** Getter method */
-std::string GameObject::getName()
-{
-	return name;
+void GameObject::addCounter() {
+		this->counter++;
 }
 
+void GameObject::lowerCounter() {
+	if (this->counter > 0){
+		this->counter--;
+	}
+}
 
+int GameObject::getCounter() {
+	return this->counter;
+}
+
+void GameObject::resetCounter() {
+	this->counter = 0;
+}
 DrawingObjectProps GameObject::getDrawingObjectProps()
 {
 	return DrawingObjectProps();
-}
-
-bool GameObject::hasCollision(int enemyWidth, Vector2f enemyPos)
-{
-	Vector2f selfTopLeft = Vector2f(pos.x,pos.y+ width);
-	Vector2f selfBottomRight = Vector2f(pos.x+ width,pos.y);
-	Vector2f enemyTopLeft = Vector2f(enemyPos.x+ enemyWidth, enemyPos.y);
-	Vector2f enemyBottomRight = Vector2f(enemyPos.x, enemyPos.y + enemyWidth);
-	if (selfTopLeft.x<enemyBottomRight.x && selfBottomRight.x > enemyTopLeft.x && selfTopLeft.y < enemyBottomRight.y && selfBottomRight.y > enemyTopLeft.y) {
-		return true;
-	}
-	return false;
 }
 

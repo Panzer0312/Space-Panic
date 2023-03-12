@@ -3,6 +3,9 @@
 #define WINDOW_WIDTH  1920
 #define WINDOW_HEIGHT 1080
 
+//TODO:
+//implement getTextureFromInfo
+
 
 /** Changes the window resolution if a new monitor is dis/connected */
 void monitor_callback(GLFWmonitor* monitor, int event);
@@ -68,7 +71,7 @@ int GameView::initializeView() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    m_pSpriteBatch = new SpriteBatch("Spritesheet_64_64_Flipped_v2.DDS", NumSpritesX, NumSpritesY, WINDOW_WIDTH, WINDOW_HEIGHT);
+    m_pSpriteBatch = new SpriteBatch("Spritesheet_64_64_Flipped_v3.DDS", NumSpritesX, NumSpritesY, WINDOW_WIDTH, WINDOW_HEIGHT);
     if (!m_texTech.Init()) {
         printf("initializing the texture technique\n");
         exit(1);
@@ -104,16 +107,148 @@ void monitor_callback(GLFWmonitor* monitor, int event)
  * 
  * \param Sprites Vector of Sprites to render
  */
-void GameView::RenderScene(std::vector<SpriteBatch::SpriteInfo> Sprites)
+void GameView::RenderScene(std::vector<DrawingObjectProps> Objects)
 {
     glClearColor(0, 0, 0, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    Sprites.resize(500);
-    m_pSpriteBatch->Render(Sprites);
+
+    std::vector<SpriteBatch::SpriteInfo> sprites;
+    for (const auto& item : Objects) {
+        sprites.push_back(changeObjectToSprite(item));
+    }
+
+
+    m_pSpriteBatch->Render(sprites);
     m_texTech.Enable();
     glfwSwapBuffers(window);
     glfwPollEvents();
 }
+
+SpriteBatch::SpriteInfo GameView::changeObjectToSprite(DrawingObjectProps in) {
+    SpriteBatch::SpriteInfo out;
+    out.PixelX = in.position.x;
+    out.PixelY = in.position.y;
+    out.SpriteWidth = in.scale;
+    Vector2i texture = getTextureFromInfo(in.state,in.objP, in.dec, in.counter);
+
+    out.SpriteCol = texture.x;
+    out.SpriteRow = texture.y;
+
+
+    return out;
+}
+
+/**
+ * .!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * 
+ * \param state
+ * \param props
+ * \return 
+ */
+
+Vector2i GameView::getTextureFromInfo(GameObjectState state, ObjectProps props, ControlledObjectDecision dec, int counter) {
+    ObjectAnimation out;
+    switch (props.type) {
+    case BRICK:
+        if (state == VANISHED) {
+            return Vector2i(2, 0);
+        }
+        out = getBrickAnimation(props);
+        break;
+    case LADDER:
+        return Vector2i(0, 0);
+        break;
+    case PLAYER:
+        out = getPlayerAnimationFromDecision(state, props, dec);
+        break;
+    case TIMER:
+        if (state != VANISHED) {
+            if (props.closerType == 0) {
+                return Vector2i(3, 0);
+            }
+            return Vector2i(4, 0);
+        }
+        break;
+    case LIFE:
+        if (state != VANISHED) {
+            return  Vector2i(1, 0);
+        }
+        break;
+    case ENEMY:
+
+        if (state == VANISHED) {
+            return Vector2i(2, 0);
+        }
+        out = getEnemyAnimationFromDecision(state, props, dec);
+        break;
+    }
+      
+    return out.getNextAnimation(counter);
+ }
+
+
+ObjectAnimation GameView::getPlayerAnimationFromDecision(GameObjectState state, ObjectProps props, ControlledObjectDecision dec) {
+    std::string direction = "";
+    std::string stateString = "";
+    if (state == AIRLESS) { stateString = "Red_"; }
+        switch (dec) {
+        case(NOTHING)://maybe nothing animation with just 1 vector
+            direction = "Right";
+            return getAnimation(stateString + "Player_" + direction);
+        case(LADDERUP):
+            direction = "Up";
+            return getAnimation(stateString+ "Player_"+ direction);
+        case(LADDERDOWN):
+            direction = "Down";
+            return getAnimation(stateString + "Player_Up");
+        case(FALLING):
+            return getAnimation(stateString + "Player_Down");
+        case(LEFT):
+            direction = "Left";
+            return getAnimation(stateString + "Player_" + direction);
+        case(RIGHT):
+            direction = "Right";
+            return getAnimation(stateString + "Player_" + direction);
+        case(DIGLEFT):
+            return getAnimation(state + "Player_Shovel_Left");
+        case(DIGRIGHT):
+            return getAnimation(state + "Player_Shovel_Right");
+        }
+        return Animations[0];
+}
+
+ObjectAnimation GameView::getBrickAnimation(ObjectProps props) {
+    std::string type;
+    if (props.closerType == 0) {
+        type = '1';
+    }
+    else {
+        type = '2';
+    }
+    return getAnimation("Brick_" + type + "_Change");
+
+}
+
+
+ObjectAnimation GameView::getEnemyAnimationFromDecision(GameObjectState state, ObjectProps props, ControlledObjectDecision dec) {
+    std::string type;
+    if (props.closerType == 0) {
+        type = '1';
+    }
+    else {
+        type = '2';
+    }
+    if (dec == HANGING) {
+        return getAnimation("Enemy_Hanging" + type);
+    }
+    else if (dec == PUSHUP) {
+        return getAnimation("EnemyPushUp" + type);
+    }
+
+    return getAnimation("Enemy_Walk"+ type);
+}
+
+
 /**
  * .
  * 
@@ -154,6 +289,15 @@ void GameView::initAnimations(){
 
 }
 
+ObjectAnimation GameView::getAnimation(std::string name) {
+    for (ObjectAnimation item : Animations) {
+        if (item.getName() == name) {
+            return item;
+        }
+    }
+    return Animations[0];
+}
+
 /**
  * .
  *
@@ -177,6 +321,7 @@ int GameView::addAnimation(std::string name, float speed, std::vector<Vector2i> 
  * \param name The name of the animation
  * \return The next texture of the animation
  */
+/*
 Vector2i GameView::nextAnimation(int*currAnim,int*counter, std::string name)
 {
     Vector2i temp;
@@ -189,3 +334,4 @@ Vector2i GameView::nextAnimation(int*currAnim,int*counter, std::string name)
     printf("\nAnimation %s not found!!", name.c_str());
     return temp;
 }
+*/

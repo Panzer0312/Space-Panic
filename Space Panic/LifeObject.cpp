@@ -1,13 +1,13 @@
 #include "LifeObject.h"
 
-LifeObject::LifeObject(int objSpriteID, std::string objName, Vector2f objPos, ObjectType objType, int objWidth):
-	GameObject(objSpriteID, objName, objPos, objType, objWidth)
+LifeObject::LifeObject(int objID, Vector2f objPos, int objWidth):
+	GameObject(objID, objPos, LIFE, objWidth)
 	{
-		props.id = objSpriteID;
-		props.type = 'H';
+		this->props.id = objID;
+		this->props.type = LIFE;
 }
 
 DrawingObjectProps LifeObject::getDrawingObjectProps()
 {
-    return DrawingObjectProps(props, drawing, pos, width,state);
+    return DrawingObjectProps(this->props, this->pos, this->width, this->state, this->counter);
 }

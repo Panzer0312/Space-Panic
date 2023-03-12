@@ -1,14 +1,14 @@
 #include "LadderObject.h"
 
-LadderObject::LadderObject(int objSpriteID, std::string objName, Vector2f objPos, ObjectType objType, int objWidth):
-	GameObject(objSpriteID, objName, objPos, objType, objWidth)
+LadderObject::LadderObject(int objID, Vector2f objPos, int objWidth):
+	GameObject(objID, objPos, LADDER, objWidth)
 {
-	props.id = objSpriteID;
-	props.type = 'L';
+	this->props.id = objID;
+	this->props.type = LADDER;
 }
 
 DrawingObjectProps LadderObject::getDrawingObjectProps()
 {
-	return DrawingObjectProps(props, drawing, pos, width,state);
+	return DrawingObjectProps(this->props, this->pos, this->width, this->state, this->counter);
 }
 

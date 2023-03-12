@@ -4,7 +4,7 @@ class LifeObject :
     public GameObject
 {
 public:
-    LifeObject(int objSpriteID, std::string objName, Vector2f objPos, ObjectType objType, int objWidth);
+    LifeObject(int objSpriteID,Vector2f objPos, int objWidth);
     DrawingObjectProps getDrawingObjectProps();
 };
 

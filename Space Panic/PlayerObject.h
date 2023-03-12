@@ -4,6 +4,6 @@ class PlayerObject :
     public ControllableObject
 {
 public:
-    PlayerObject(int objSpriteID, std::string objName, Vector2f objPos, ObjectType objType, float objSpeed, int objWidth);
+    PlayerObject(int objSpriteID, Vector2f objPos, float objSpeed, int objWidth);
     DrawingObjectProps getDrawingObjectProps();
 };

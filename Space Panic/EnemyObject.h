@@ -5,7 +5,10 @@ class EnemyObject :
     public ControllableObject
 {
 public:
-    EnemyObject(int objSpriteID, std::string objName, Vector2f objPos, ObjectType objType,EnemyType eType, float objSpeed, int objWidth);
+    EnemyObject(int objSpriteID, Vector2f objPos, EnemyType eType, float objSpeed, int objWidth);
+    Vector2f getDiePos();
+    EnemyType getEnemyType();
+    void setDiePos(Vector2f pos);
     int getDecisionCounter();
     void setDecisionCounter(int newDecCount);
     void resetDecisionCounter();
@@ -15,5 +18,6 @@ public:
 private:
     int pushUps,decCount,fallenStages;
     EnemyType enemyType;
+    Vector2f diePos;
 };
 

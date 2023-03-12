@@ -1,14 +1,16 @@
 #include "TimerObject.h"
 
-TimerObject::TimerObject(int objSpriteID, std::string objName, Vector2f objPos, ObjectType objType, int objWidth):
-	GameObject(objSpriteID, objName, objPos, objType, objWidth)
+TimerObject::TimerObject(int objID, Vector2f objPos,TimerType tType, int objWidth):
+	GameObject(objID, objPos, TIMER, objWidth)
 {
-	props.id = objSpriteID;
-	props.type = 'T';
+	this->timerType = tType;
+	this->props.id = objID;
+	this->props.type = TIMER;
+	this->props.closerType = tType;
 }
 
 DrawingObjectProps TimerObject::getDrawingObjectProps()
 {
-	return DrawingObjectProps(props, drawing, pos, width,state);
+	return DrawingObjectProps(this->props, this->pos, this->width, this->state, this->counter);
 }
 

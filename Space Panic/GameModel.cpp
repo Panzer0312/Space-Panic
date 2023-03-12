@@ -9,7 +9,7 @@ GameModel::GameModel()
 {
 }
 
-
+/*
 ObjectProps GameModel::StringToProps(std::string s) {
 	ObjectProps o{};
 	o.type = s[0];
@@ -19,43 +19,31 @@ ObjectProps GameModel::StringToProps(std::string s) {
 	o.id = stoi(temp);
 	return o;
 }
-
+*/
 
 std::vector<DrawingObjectProps> GameModel::getDrawingInformation() {
 	std::vector<DrawingObjectProps> objects;
 	for (BrickObject b : Bricks) {
 		DrawingObjectProps temp = b.getDrawingObjectProps();
-		if (temp.drawing) {
-			objects.push_back(temp);
-		}
+		objects.push_back(*&temp);
 	}
 	for (LadderObject l : Ladders) {
 		DrawingObjectProps temp = l.getDrawingObjectProps();
-		if (temp.drawing) {
-			objects.push_back(temp);
-		}
+		objects.push_back(temp);
 	}
 	for (EnemyObject b : Enemies) {
 		DrawingObjectProps temp = b.getDrawingObjectProps();
-		if (temp.drawing) {
-			objects.push_back(temp);
-		}
+		objects.push_back(temp);
 	}
 	DrawingObjectProps pDrawingProps = Player->getDrawingObjectProps();
-	if (pDrawingProps.drawing) {
-		objects.push_back(pDrawingProps);
-	}
+	objects.push_back(pDrawingProps);
 	for (TimerObject t : Timer) {
 		DrawingObjectProps temp = t.getDrawingObjectProps();
-		if (temp.drawing) {
-			objects.push_back(temp);
-		}
+		objects.push_back(temp);
 	}
 	for (LifeObject h : Lifes) {
 		DrawingObjectProps temp = h.getDrawingObjectProps();
-		if (temp.drawing) {
-			objects.push_back(temp);
-		}
+		objects.push_back(temp);
 	}
 	return objects;
 }
@@ -71,34 +59,34 @@ std::vector<DrawingObjectProps> GameModel::getDrawingInformation() {
  * \param type The objectType (BRICK,ENEMY,LADDER,PLAYER|TIMER|LIFE)
  * \return 
  */
-void GameModel::addBrickObject(Vector2f pos, int width, std::string name, ObjectType type, BrickType bType) {
-	BrickObject obj = BrickObject(Bricks.size(), name, pos, type, bType, width);
-	Bricks.push_back(obj);
+void GameModel::addBrickObject(Vector2f pos, int width, BrickType bType) {
+	BrickObject *obj = new BrickObject(Bricks.size(), pos, bType, width);
+	obj->setState(VISABLE);
+	Bricks.push_back(*obj);
 }
 
-void GameModel::addLadderObject(Vector2f pos,int width, std::string name, ObjectType type) {
-	LadderObject obj = LadderObject(Ladders.size(), name, pos, type, width);
-	Ladders.push_back(obj);
+void GameModel::addLadderObject(Vector2f pos,int width) {
+	LadderObject* obj = new LadderObject(Ladders.size(), pos, width);
+	Ladders.push_back(*obj);
 }
 
-void GameModel::addLifeObject(Vector2f pos, int width, std::string name, ObjectType type) {
-	LifeObject obj = LifeObject(Lifes.size(), name, pos, type, width);
-	Lifes.push_back(obj);
+void GameModel::addLifeObject(Vector2f pos, int width) {
+	LifeObject* obj = new LifeObject(Lifes.size(),pos, width);
+	Lifes.push_back(*obj);
 }
 
-void GameModel::addTimerObject(Vector2f pos, int width, std::string name, ObjectType type) {
-	TimerObject obj = TimerObject(Timer.size(), name, pos, type, width);
-	Timer.push_back(obj);
+void GameModel::addTimerObject(Vector2f pos, int width, TimerType tType) {
+	TimerObject* obj = new TimerObject(Timer.size(),pos,tType, width);
+	Timer.push_back(*obj);
 }
 
-void GameModel::addEnemyObject(Vector2f pos, int width, std::string name, ObjectType type, EnemyType eType, float speed) {
-	EnemyObject obj = EnemyObject(Enemies.size(), name, pos, type,eType,speed, width);
-	Enemies.push_back(obj);
+void GameModel::addEnemyObject(Vector2f pos, int width, EnemyType eType, float speed) {
+	EnemyObject* obj = new EnemyObject(Enemies.size(), pos, eType,speed, width);
+	Enemies.push_back(*obj);
 }
 
-void GameModel::addPlayerObject(Vector2f pos, int width, std::string name, ObjectType type, float speed) {
-	PlayerObject obj = PlayerObject(0, name, pos, type, speed, width);
-	Player = &obj;
+void GameModel::addPlayerObject(Vector2f pos, int width, float speed) {
+	Player = new PlayerObject(0, pos, speed, width);
 }
 
 /**
@@ -107,19 +95,23 @@ void GameModel::addPlayerObject(Vector2f pos, int width, std::string name, Objec
  * \param object Specific GameObject in the Objects vector
  * \param pos Vector2f where the specific GameObject should be moved to
  */
-void GameModel::changeObjPos(std::string objectID,Vector2f pos) {
-	ObjectProps o = StringToProps(objectID);
+void GameModel::changeObjPos(ObjectProps o,Vector2f pos) {
 	switch (o.type) {
-	case 'B':
+	case BRICK:
 		Bricks[o.id].setPos(pos);
-	case 'L':
+		break;
+	case LADDER:
 		Ladders[o.id].setPos(pos);
-	case 'P':
+		break;
+	case PLAYER:
 		Player->setPos(pos);
-	case 'E':
+		break;
+	case ENEMY:
 		Enemies[o.id].setPos(pos);
-	case 'H':
+		break;
+	case LIFE:
 		Lifes[o.id].setPos(pos);
+		break;
 	}
 }
 
@@ -128,24 +120,29 @@ void GameModel::changeObjPos(std::string objectID,Vector2f pos) {
  * 
  * \param objectPos Deletes the specific Object in Objects at the given position, sets the Object counter to objectsCount-1 and resizes the Vector
  */
-void GameModel::deleteObject(int objectPos, std::string objectID) {
+/*void GameModel::deleteObject(int objectPos, std::string objectID) {
 	//deleteSprite(Objects[objectPos].getID());
 	//Objects.erase(Objects.begin() + objectPos);
 	ObjectProps o = StringToProps(objectID);
 	switch (o.type) {
 	case 'B':
 		Bricks.erase(Bricks.begin() + objectPos);
+		break;
 	case 'L':
 		Ladders.erase(Ladders.begin() + objectPos);
+		break;
 	case 'P':
 		Player = NULL;
+		break;
 	case 'E':
 		Enemies.erase(Enemies.begin() + objectPos);
+		break;
 	case 'H':
 		Lifes.erase(Lifes.begin() + objectPos);
+		break;
 	}
 }
-
+*/
 /**
  * .
  * 
@@ -182,6 +179,11 @@ std::vector<LifeObject> GameModel::getLifes() {
 	return Lifes;
 }
 
+std::vector<LadderObject> GameModel::getLadders()
+{
+	return Ladders;
+}
+
 /**
  * .
  * brick not in list = true, brick already in list = false --> set back to original sprite
@@ -193,13 +195,62 @@ bool GameModel::addReplacedBrick(int id)
 	int i = 0;
 	for (BrickObject o : ReplacedBricks) {
 		if (o.getID() == id) {
-			ReplacedBricks.erase(ReplacedBricks.begin()+i);
+			ReplacedBricks.erase(ReplacedBricks.begin() + i);
+			Bricks[id].setDugOut(false);
+			Bricks[id].setState(VISABLE);
+			Bricks[id].resetCounter();
 			return false;
 		}
 		i++;
 	}
+  	Bricks[id].setState(VANISHED);
+	Bricks[id].setDugOut(true);
+	Bricks[id].setOccupied(false,-1);
 	ReplacedBricks.push_back(Bricks[id]);
 	return true;
+}
+
+
+void GameModel::setReplacedBrickOccupied(int id, int enemyID){
+	std::vector<BrickObject> * rep = &ReplacedBricks;
+	for (auto b = rep->begin(); b != rep->end(); ++b) {
+		if (b->getID() == id) {
+			b->setOccupied(!b->isOccupied(),enemyID);
+		}
+	}
+}
+
+void GameModel::addBrickCounter(int id) {
+	if (Bricks[id].getState() == VISABLE) {
+		Bricks[id].setState(DIGSTART);
+	}
+	if (Bricks[id].getState() == DIGSTART && Bricks[id].getCounter() < 3) {
+		Bricks[id].addCounter();
+		//printf("added Counter to %i\n", Bricks[id].getCounter());
+	}
+}
+
+void GameModel::lowerBrickCounter(int id) {
+	if (Bricks[id].getState() == VANISHED) {
+		Bricks[id].setState(DIGSTART);
+	}
+	if (Bricks[id].getState() == DIGSTART && Bricks[id].getCounter() > 1) {
+		Bricks[id].lowerCounter();
+		//printf("lowered Counter to %i\n", Bricks[id].getCounter());
+	}
+}
+
+bool GameModel::isBrickDugOut(int id) {
+	return Bricks[id].isDugOut();
+}
+
+void GameModel::setEnemyDead(int id) {
+	Enemies[id].setState(DEAD);
+	Enemies[id].setKilled(true);
+}
+
+void GameModel::addEnemyCounter(int id) {
+	Enemies[id].addCounter();
 }
 
 /**
@@ -208,24 +259,30 @@ bool GameModel::addReplacedBrick(int id)
  * \param id ID of the GamObject --> The position of the GameObject in the Objects vector
  * \return GameObject pointer of the found GameObject 
  */
+/*
 GameObject* GameModel::getObjP(std::string ID)
 {
 	ObjectProps o = StringToProps(ID);
 	switch (o.type) {
 	case 'B':
 		return &Bricks[o.id];
+		break;
 	case 'L':
 		return &Ladders[o.id];
+		break;
 	case 'P':
 		return Player;
+		break;
 	case 'E':
 		return &Enemies[o.id];
+		break;
 	case 'H':
 		return &Lifes[o.id];
+		break;
 	}
 	return nullptr;
 }
-
+*/
 /**
  * .
  * 
@@ -240,7 +297,7 @@ int GameModel::timerCount() {
  * 
  * \return The first GameObject (Type == TIMER) in timer vector
  */
-GameObject* GameModel::getNextTimer() {
+TimerObject* GameModel::getNextTimer() {
 	return &Timer[0];
 }
 
@@ -270,28 +327,6 @@ GameObject* GameModel::getLife(int pos)
 	return &Lifes[pos];
 }
 
-/**
- * Used for animation like digging
- *
- * \param obj The GameObject which facing Positon should be changed
- * \param dir The Vector2i where the Object is facing now
- */
-void GameModel::changePlayerFacing(int obj, Vector2i dir)
-{
-	Player->setFacing(dir);
-}
-
-/**
- * Used for animation like digging
- *
- * \param obj The GameObject which facing Positon should be changed
- * \param dir The Vector2i where the Object is facing now
- */
-void GameModel::changeEnemyFacing(int obj, Vector2i dir)
-{
-	Enemies[obj].setFacing(dir);
-}
-
 
 /**
  * .
@@ -301,6 +336,7 @@ void GameModel::deleteAll()
 {
 	//Objects.clear();
 	//Sprites.clear();
+	Player = nullptr;
 	Enemies.clear();
 	ReplacedBricks.clear();
 	Timer.clear();

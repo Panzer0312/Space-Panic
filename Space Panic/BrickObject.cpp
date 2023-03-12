@@ -1,37 +1,48 @@
 #include "BrickObject.h"
 
-BrickObject::BrickObject(int objSpriteID, std::string objName, Vector2f objPos, ObjectType objType, BrickType bType, int objWidth):
-	GameObject(objSpriteID, objName, objPos, objType, objWidth)
+BrickObject::BrickObject(int objID, Vector2f objPos,BrickType bType, int objWidth):
+	GameObject(objID, objPos, BRICK, objWidth)
 {
-	occupied = false;
-	dugOut = false;
-	brickType = bType;
-	props.id = objSpriteID;
-	props.type = 'B';
-	props.closerType = bType;
+	this->occupied = false;
+	this->occupiedBy = -1;
+	this->dugOut = false;
+	this->brickType = bType;
+	this->props.id = objID;
+	this->props.type = BRICK;
+	this->props.closerType = bType;
 }
 
 void BrickObject::setDugOut(bool b)
 {
-	dugOut = b;
+	this->dugOut = b;
 }
 
-void BrickObject::setOccupied(bool b)
+void BrickObject::setOccupied(bool b, int enemyID)
 {
-	occupied = b;
+   	this->occupied = b;
+	this->occupiedBy = enemyID;
+}
+
+int BrickObject::getOccupiedBy() {
+	return this->occupiedBy;
 }
 
 bool BrickObject::isDugOut()
 {
-	return dugOut;
+	return this->dugOut;
 }
 
 bool BrickObject::isOccupied()
 {
-	return occupied;
+	return this->occupied;
 }
 
 DrawingObjectProps BrickObject::getDrawingObjectProps()
 {
-	return DrawingObjectProps(props,drawing,pos,width,state);
+	return DrawingObjectProps(this->props, this->pos, this->width, this->state, this->counter);
+}
+
+BrickType BrickObject::getBrickType()
+{
+	return this->brickType;
 }

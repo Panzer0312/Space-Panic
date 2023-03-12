@@ -198,6 +198,7 @@
     <Image Include="Spritesheet_64_64.DDS" />
     <Image Include="Spritesheet_64_64_Flipped.DDS" />
     <Image Include="Spritesheet_64_64_Flipped_v2.DDS" />
+    <Image Include="Spritesheet_64_64_Flipped_v3.DDS" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Animations.txt" />

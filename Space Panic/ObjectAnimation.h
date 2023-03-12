@@ -13,7 +13,7 @@ public:
 	/** Getter for Name to find in Animations vector in GameModel */
 	std::string getName();
 	/** Returns the Animation at currAnimCounter in Vector Animations*/
-	Vector2i getNextAnimation(int* currAnim,int* counter);
+	Vector2i getNextAnimation(int counter);
 private:
 	/** The name of the animation */
 	std::string name;

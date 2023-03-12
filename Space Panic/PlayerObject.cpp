@@ -1,13 +1,13 @@
 #include "PlayerObject.h"
 
-PlayerObject::PlayerObject(int objSpriteID, std::string objName, Vector2f objPos, ObjectType objType, float objSpeed, int objWidth):
-	ControllableObject(objSpriteID, objName, objPos, objType, objSpeed, objWidth)
+PlayerObject::PlayerObject(int objID, Vector2f objPos, float objSpeed, int objWidth):
+	ControllableObject(objID, objPos, objSpeed, objWidth, PLAYER)
 {
-	props.id = objSpriteID;
-	props.type = 'P';
+	this->props.id = objID;
+	this->props.type = PLAYER;
 }
 
 DrawingObjectProps PlayerObject::getDrawingObjectProps()
 {
-	return DrawingObjectProps(props, drawing,dec, pos, width,state);
+	return DrawingObjectProps(this->props, this->dec, this->pos, this->width, this->state, this->counter);
 }

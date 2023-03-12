@@ -36,8 +36,13 @@ std::string ObjectAnimation::getName()
  * 
  * \return Index of next Sprite to change into
  */
-Vector2i ObjectAnimation::getNextAnimation(int* currAnim,int* objCount)
+Vector2i ObjectAnimation::getNextAnimation(int objCount)
 {
+	return animations[objCount %(animations.size())];
+}
+
+/*
+* 
 	*objCount += 1;
 	if (*objCount >= speed) {
 		*currAnim += 1;
@@ -47,4 +52,9 @@ Vector2i ObjectAnimation::getNextAnimation(int* currAnim,int* objCount)
 		*objCount = 0;
 	}
 	return animations[*currAnim];
-}
+*/
+
+
+
+
+

@@ -15,9 +15,9 @@ public:
 	/** Creates everything within a new window */
 	int initializeView();
 	/** Renders a given Vector of Sprites */
-	void RenderScene(std::vector<SpriteBatch::SpriteInfo> Sprites);
+	void RenderScene(std::vector<DrawingObjectProps> Objects);
 	/** Returns the next ObjectAnimation Vector2i for a Texture on the spritesheet based on a specific counter and name */
-	Vector2i nextAnimation(int*currAnim,int* counter, std::string name);
+//	Vector2i nextAnimation(int*currAnim,int* counter, std::string name);
 
 	/** The game window */
 	GLFWwindow* window;
@@ -29,8 +29,14 @@ public:
 private:
 	/** Instantiates all animations from a given text file */
 	void initAnimations();
+	ObjectAnimation getAnimation(std::string name);
 	/** Helper function for initAnimations to add an Animation to the Animations vector*/
 	int addAnimation(std::string name, float speed, std::vector<Vector2i> animSprites);
 
+	SpriteBatch::SpriteInfo changeObjectToSprite(DrawingObjectProps in);
+	Vector2i getTextureFromInfo(GameObjectState state, ObjectProps props, ControlledObjectDecision dec, int counter);
+	ObjectAnimation getPlayerAnimationFromDecision(GameObjectState state, ObjectProps props, ControlledObjectDecision dec);
+	ObjectAnimation getBrickAnimation(ObjectProps props);
+	ObjectAnimation getEnemyAnimationFromDecision(GameObjectState state, ObjectProps props, ControlledObjectDecision dec);
 };
 

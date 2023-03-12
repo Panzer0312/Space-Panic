@@ -7,7 +7,7 @@ enum ObjectType
 /** The possibilities an alien is allowed to make */
 enum ControlledObjectDecision
 {
-    NOTHING,LADDERUP,LADDERDOWN,LEFT,RIGHT,DIGLEFT,DIGRIGHT
+    NOTHING,LADDERUP,LADDERDOWN,LEFT,RIGHT,DIGLEFT,DIGRIGHT,FALLING,HANGING,PUSHUP
 };
 
 enum EnemyType {
@@ -16,58 +16,30 @@ enum EnemyType {
 enum BrickType {
     BRICK0, BRICK1
 };
+enum TimerType {
+    TIMER0, TIMER1
+};
 
 enum GameObjectState {
-    ALIVE, VISABLE,VANISHED, DEAD
+    ALIVE,VISABLE,AIRLESS,VANISHED,DEAD,DIGSTART
 };
 
 struct ObjectProps {
     int id;
-    char type;
+    ObjectType type;
     char closerType;
-    ObjectProps(int _id, char _type, char _closerType) {
+    ObjectProps() {
+        id = 0;
+        type = BRICK;
+        closerType = '-';
+    }
+    ObjectProps(int _id, ObjectType _type, char _closerType) {
         id = _id;
         type = _type;
         closerType = _closerType;
     }
-    ObjectProps() {
-        id = 0;
-        type = '-';
-        closerType = '-';
-    }
 };
 
-struct DrawingObjectProps {
-    ObjectProps objP;
-    bool drawing;
-    ControlledObjectDecision dec;
-    Vector2f position;
-    int scale;
-    GameObjectState state;
-    DrawingObjectProps(ObjectProps _objP, bool _drawing, ControlledObjectDecision _dec, Vector2f _position, int _scale, GameObjectState _state) {
-        objP = _objP;
-        drawing = _drawing;
-        dec = _dec;
-        position = _position;
-        scale = _scale;
-        state = _state;
-    }
-    DrawingObjectProps(ObjectProps _objP, bool _drawing,Vector2f _position, int _scale, GameObjectState _state) {
-        objP = _objP;
-        drawing = _drawing;
-        position = _position;
-        scale = _scale;
-        state = _state;
-    }
-    DrawingObjectProps() {
-        objP = ObjectProps();
-        drawing = false;
-        dec = NOTHING;
-        position = Vector2f(0, 0);
-        scale = 0;
-        state = ALIVE;
-    }
-};
 
 /** Vector for 2D float operations */
 struct Vector2f
@@ -114,6 +86,40 @@ struct Vector2i
     }
 };
 
+struct DrawingObjectProps {
+    ObjectProps objP;
+    ControlledObjectDecision dec;
+    Vector2f position;
+    int scale;
+    GameObjectState state;
+    int counter;
+
+    DrawingObjectProps() {
+        objP = ObjectProps();
+        dec = NOTHING;
+        position = Vector2f(0, 0);
+        scale = 0;
+        state = ALIVE;
+        counter = 0;
+    }
+    DrawingObjectProps(ObjectProps _objP, ControlledObjectDecision _dec, Vector2f _position, int _scale, GameObjectState _state, int _counter) {
+        objP = _objP;
+        dec = _dec;
+        position = _position;
+        scale = _scale;
+        state = _state;
+        counter = _counter;
+    }
+    DrawingObjectProps(ObjectProps _objP,Vector2f _position, int _scale, GameObjectState _state, int _counter) {
+        dec = NOTHING;
+        objP = _objP;
+        position = _position;
+        scale = _scale;
+        state = _state;
+        counter = _counter;
+    }
+
+};
 
 /** Multiplication of a Vector2f with a float number  */
 inline Vector2f operator*(const Vector2f& l, float f)

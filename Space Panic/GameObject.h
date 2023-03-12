@@ -8,7 +8,7 @@ public:
 	virtual ~GameObject() = 0;
 
 	/** Contructor for a new GameObject */
-	GameObject(int objSpriteID, std::string objName, Vector2f objPos, ObjectType objType,int objWidth);
+	GameObject(int objSpriteID, Vector2f objPos, ObjectType objType, int objWidth);
 
 	void setState(GameObjectState s);
 
@@ -26,8 +26,12 @@ public:
 	Vector2f getPos();
 	/** Returns type of a GameObject to differentiate those in the GameModel's vector Objects */
 	ObjectType getType();
+	void addCounter();
+	void lowerCounter();
+	int getCounter();
+	void resetCounter();
 	/** Returns name of the specific GameObject */
-	std::string getName();
+	 //std::string getName();
 	virtual DrawingObjectProps getDrawingObjectProps();
 	/** Returns speed how fast the GameObject should be moved */
 	//float getSpeed();
@@ -52,17 +56,13 @@ public:
 	//int getPushUps();
 	//void setPushUps(int i);
 
-	bool hasCollision(int enemyWidth, Vector2f enemyPos);
-
 
 protected:
 	/** The Type of the GameObject (BRICK,ENEMY,LADDER,LIFE,TIMER) */
 	ObjectProps props;
 	ObjectType type;
 	Vector2f pos;
-	int ID, width;
-	std::string name;
-	bool drawing;
+	int ID, width,counter;
 	GameObjectState state;
 	//float speed;
 	//int pushUps;

@@ -1,61 +1,65 @@
-#include "ControllableObject.h"
+ #include "ControllableObject.h"
 
 
 ControllableObject::~ControllableObject() {}
 
 ControlledObjectDecision ControllableObject::getDecision()
 {
-	return dec;
+	return this->dec;
 }
 
 void ControllableObject::setDecision(ControlledObjectDecision decision)
 {
-	dec = decision;
+	if (this->dec != decision) {
+		resetCounter();
+	}
+
+	this->dec = decision;
 }
 
 void ControllableObject::setFacing(Vector2i f)
 {
-	facing = f;
+	this->facing = f;
 }
 
 Vector2i ControllableObject::getFacing()
 {
-	return facing;
+	return this->facing;
 }
 
 
-ControllableObject::ControllableObject(int objSpriteID, std::string objName, Vector2f objPos, ObjectType objType, float objSpeed, int objWidth):
-	GameObject(objSpriteID, objName, objPos, objType, objWidth)
+ControllableObject::ControllableObject(int objSpriteID, Vector2f objPos, float objSpeed, int objWidth, ObjectType t):
+	GameObject(objSpriteID, objPos, t, objWidth)
 {
-	falling = false;
-	killed = false;
-	speed = objSpeed;
-	dec = NOTHING;
+	this->falling = false;
+	this->killed = false;
+	this->speed = objSpeed;
+	this->dec = NOTHING;
 }
 
 /** Getter method */
 bool ControllableObject::isFalling()
 {
-	return falling;
+	return this->falling;
 }
 /** Setter method */
 void ControllableObject::setFalling(bool f)
 {
-	falling = f;
+	this->falling = f;
 }
 
 /** Getter method */
 bool ControllableObject::iskilled()
 {
-	return killed;
+	return this->killed;
 }
 /** Setter method */
 void ControllableObject::setKilled(bool k)
 {
-	killed = k;
+	this->killed = k;
 }
 
 float ControllableObject::getSpeed()
 {
-	return speed;
+	return this->speed;
 }

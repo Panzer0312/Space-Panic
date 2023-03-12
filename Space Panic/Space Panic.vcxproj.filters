@@ -145,6 +145,9 @@
     <Image Include="Spritesheet_64_64_Flipped_v2.DDS">
       <Filter>Ressourcendateien</Filter>
     </Image>
+    <Image Include="Spritesheet_64_64_Flipped_v3.DDS">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Map1.txt">

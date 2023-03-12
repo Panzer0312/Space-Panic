@@ -4,7 +4,7 @@ class LadderObject :
     public GameObject
 {
 public:
-    LadderObject(int objSpriteID, std::string objName, Vector2f objPos, ObjectType objType, int objWidth);
+    LadderObject(int objSpriteID, Vector2f objPos, int objWidth);
     DrawingObjectProps getDrawingObjectProps();
 };
 

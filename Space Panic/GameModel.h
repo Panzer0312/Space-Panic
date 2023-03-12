@@ -28,22 +28,22 @@ public:
 	*/
 	/** Instantiates the GameModel and sets all its counter to 0*/
 	GameModel();
-	ObjectProps StringToProps(std::string s);
+	//ObjectProps StringToProps(std::string s); //!!!!!!!!!
 
 	std::vector<DrawingObjectProps> getDrawingInformation();
 
 	/** Instantiates a GameObject with also calling addSprite and adds it to the GameObject vector (Objects) */
 	
-	void addBrickObject(Vector2f pos, int width, std::string name, ObjectType type, BrickType bType);
-	void addLadderObject(Vector2f pos, int width, std::string name, ObjectType type);
-	void addTimerObject(Vector2f pos, int width, std::string name, ObjectType type);
-	void addEnemyObject(Vector2f pos, int width, std::string name, ObjectType type, EnemyType eType, float speed);
-	void addPlayerObject(Vector2f pos, int width, std::string name, ObjectType type, float speed);
-	void addLifeObject(Vector2f pos, int width, std::string name, ObjectType type);
+	void addBrickObject(Vector2f pos, int width, BrickType bType);
+	void addLadderObject(Vector2f pos, int width);
+	void addTimerObject(Vector2f pos, int width, TimerType tType);
+	void addEnemyObject(Vector2f pos, int width, EnemyType eType, float speed);
+	void addPlayerObject(Vector2f pos, int width, float speed);
+	void addLifeObject(Vector2f pos, int width);
 	/** Changes the position of a object in Objects and the associated Sprite in Sprites to move it on the screen */
-	void changeObjPos(std::string objectID, Vector2f pos);
+	void changeObjPos(ObjectProps o, Vector2f pos);
 	/** Deletes an object from the vector Objects */
-	void deleteObject(int objectPos, std::string objectID);
+	//void deleteObject(int objectPos, std::string objectID);
 	std::vector<BrickObject> getBricks();
 	/**  Returns the vector Objects with all instantiated GameObjects */
 	PlayerObject* getPlayer();
@@ -52,8 +52,9 @@ public:
 	/** Returns Enemies vector*/
 	std::vector<EnemyObject>* getEnemies();
 	std::vector<LifeObject> getLifes();
+	std::vector<LadderObject> getLadders();
 	/** Returns a GameObject pointer from the given ID (Searches the Objects vector)*/
-	GameObject* getObjP(std::string ID);
+	//GameObject* getObjP(std::string ID);
 	/** Searches the vector Objects after a given name */
 	int findObject(std::string name);
 	/** Adds a brick GameObject if it doesn't exist in the replacedBrick vector yet otherwise deletes it*/
@@ -61,18 +62,19 @@ public:
 	/** Returns the last index of the timer vector */
 	int timerCount();
 	/** Returns the GameObject pointer of the first GameObject in the timer vector */
-	GameObject* getNextTimer();
+	TimerObject* getNextTimer();
 	/** Deletes the first GameObject in the timer vector, returns true at sucess */
 	bool removeNextTimer();
 	/** Returns the GameObject pointer of the GameObject at the given position in the Lifes vector*/
 	GameObject* getLife(int pos);
-	/** Changes the variable facing of a GameObject at a given position in vector Objects */
-	void changePlayerFacing(int obj,Vector2i dir);
-	void changeEnemyFacing(int obj, Vector2i dir);
 	/** Clears every vector used in GameModel and resets the counter */
 	void deleteAll();
-
-
+	void setReplacedBrickOccupied(int id, int enemyID);
+	void lowerBrickCounter(int id);
+	void addBrickCounter(int id);
+	void setEnemyDead(int id);
+	bool isBrickDugOut(int id);
+	void addEnemyCounter(int id);
 	/** Returns the sprite at a given position in the vector Sprites */
 	//SpriteInformation getSprite(int i);
 	//void deleteEnemy(int enemyPos);
