@@ -238,11 +238,12 @@ ObjectAnimation GameView::getEnemyAnimationFromDecision(GameObjectState state, O
     else {
         type = '2';
     }
+    printf("%i\n", dec);
     if (dec == HANGING) {
         return getAnimation("Enemy_Hanging" + type);
     }
     else if (dec == PUSHUP) {
-        return getAnimation("EnemyPushUp" + type);
+        return getAnimation("Enemy_PushUp" + type);
     }
 
     return getAnimation("Enemy_Walk"+ type);

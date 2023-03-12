@@ -199,6 +199,7 @@ bool GameModel::addReplacedBrick(int id)
 			Bricks[id].setDugOut(false);
 			Bricks[id].setState(VISABLE);
 			Bricks[id].resetCounter();
+			Bricks[id].setOccupied(false,-1);
 			return false;
 		}
 		i++;

@@ -411,25 +411,31 @@ void GameController::MoveEnemies(Vector2f to) {
 				//animName = "Enemy_PushUp";
 				//printf("\nIM FLYING!!!");
 				pauseMove = true;
-				if (!spaceToFall->isOccupied() || o->isFalling()) { //NEW SHIT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				if (!spaceToFall->isOccupied() || o->isFalling()) { 
+					int spaceToFallId = spaceToFall->getID();
+					Vector2f spaceToFallPos = spaceToFall->getPos();
 					//printf("%i pu", o->getPushUps());
 					//printf("brick id: %i", space->getID());
-					if (o->getPushUps() >= 20) {
+					if (o->getPushUps() >= 80) {
 						o->setDecision(PUSHUP);
-						m->changeObjPos(o->getObjectProps(), currPos + Vector2f(0, 5));
-						//printf("\nPUSHING");
-			//			animateObject(o, animName + o->getName().at(5));
+						m->changeObjPos(o->getObjectProps(), currPos + Vector2f(0, 4));
+						m->addEnemyCounter(o->getID());
 					}
-					else {
+					else if(o->isFalling()){
+						o->setPushUps(o->getPushUps()+1);
 						//animName = "Enemy_Hanging";
 			//			animateObject(o, animName + o->getName().at(5));
 					}
 
-					if (o->getDecision() != HANGING && !o->isFalling()) {
-						m->changeObjPos(o->getObjectProps(), spaceToFall->getPos() - Vector2f(8, 12));
-						o->setDecision(HANGING);
-						o->setFalling(true);
-						m->setReplacedBrickOccupied(spaceToFall->getID(), o->getID());
+					m->addEnemyCounter(o->getID());
+					if (o->getDecision() != HANGING && !o->isFalling() && o->getDecision() != PUSHUP) {
+						if (o->getFeltInBrickID() == spaceToFallId || o->getFeltInBrickID() == -1) {
+							m->changeObjPos(o->getObjectProps(), spaceToFallPos - Vector2f(8, 12));
+							o->setFeltInBrickID(spaceToFallId);
+							o->setDecision(HANGING);
+							o->setFalling(true);
+							m->setReplacedBrickOccupied(spaceToFallId, o->getID());
+						}
 					}
 					else {
 						int diff = (int(currPos.y) - 12) % 160;
@@ -446,9 +452,11 @@ void GameController::MoveEnemies(Vector2f to) {
 								currDec = LEFT;
 							}
 							o->setDecision(currDec);
-							m->changeObjPos(spaceToFall->getObjectProps(), Vector2f(currPos.x + face, times * 160));
+							BrickObject b = m->getBricks()[o->getFeltInBrickID()];
+							m->changeObjPos(o->getObjectProps(), Vector2f(currPos.x + face, times * 160));
+							o->setFeltInBrickID(-1);
 							o->setPushUps(0);
-							m->addReplacedBrick(spaceToFall->getID());
+							m->addReplacedBrick(b.getID());
 						}
 					}
 					o->resetDecisionCounter();
@@ -456,6 +464,7 @@ void GameController::MoveEnemies(Vector2f to) {
 				if (o->getState() == DEAD) {
 					//Kill enemy
 					//printf("\nenemy got killed\n");
+					o->setFeltInBrickID(-1);
 					o->setKilled(true);
 					killedEnemiesCounter++;
 					m->changeObjPos(o->getObjectProps(), boundaries + Vector2f(100, 100));
@@ -513,10 +522,7 @@ void GameController::MoveEnemies(Vector2f to) {
 				}
 
 			}
-			else {
-				//printf("\nL==-1");
-			}
-			if (o->getDecision() != HANGING || o->getState() != DEAD) {
+			if (o->getDecision() != HANGING && o->getDecision()!=PUSHUP) {
 				//printf("\ndecision %i,%i", translateEnemyDec(currDec).x, translateEnemyDec(currDec).y);
 				o->setDecision(currDec);
 
@@ -538,18 +544,22 @@ void GameController::MoveEnemies(Vector2f to) {
 			}
 			EnemyType eType = o->getEnemyType();
 			if (eType == BIGENEMY) {
-				b = FindBrick(pos, 8, false);
-				BrickObject* b2 = FindBrick(pos, 32, true);
-				if (!b2) {
-					if ((b && pos.y - o->getDiePos().y < 200) || pos.y <= 1) {
+				b = FindBrick(pos, 16, false);
+				BrickObject* b2 = FindBrick(pos-Vector2f(0,20), 128, true);
+				if (b2) { o->setIgnoreNextStage(true); }
+				if (!o->getIgnoreNextStage()) {
+					if ((b && pos.y - o->getDiePos().y < 200) || pos.y <= 10) {
 						o->setState(ALIVE);
 						o->setKilled(false);
+						o->setFalling(false);
+						o->setIgnoreNextStage(false);
+						o->setFeltInBrickID(-1);
 					}
 				}
 				
 			}
 
-			printf("pos: %f,%f of Die POS %f,%f\n" , pos.x, pos.y, o->getDiePos().x, o->getDiePos().y);
+			//printf("pos: %f,%f of Die POS %f,%f\n" , pos.x, pos.y, o->getDiePos().x, o->getDiePos().y);
 			if (GetCollisionAtPos(pos,o->getDiePos(),64,64)){
 				printf("Enemy Died\n");
 				o->setState(VANISHED);

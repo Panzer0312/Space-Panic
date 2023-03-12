@@ -13,7 +13,17 @@ EnemyObject::EnemyObject(int objID, Vector2f objPos, EnemyType eType, float objS
 	this->props.closerType = eType;
 	this->dec = rand() % 2 == 0 ? LEFT : RIGHT;
 	this->diePos = Vector2f(0, 0);
+	this->ignoreNextStage = false;
+	this->feltInBrickId = -1;
 }
+
+void EnemyObject::setIgnoreNextStage(bool b) {
+	this->ignoreNextStage = b;
+}
+bool EnemyObject::getIgnoreNextStage() {
+	return this->ignoreNextStage;
+}
+
 
 Vector2f EnemyObject::getDiePos() {
 	return this->diePos;
@@ -50,6 +60,16 @@ int EnemyObject::getPushUps()
 void EnemyObject::setPushUps(int i)
 {
 	this->pushUps = i;
+}
+
+int EnemyObject::getFeltInBrickID()
+{
+	return this->feltInBrickId;
+}
+
+void EnemyObject::setFeltInBrickID(int i)
+{
+	this->feltInBrickId = i;
 }
 
 DrawingObjectProps EnemyObject::getDrawingObjectProps()
